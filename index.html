@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css"/>
+    <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./index.css">
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="display-5">三国杀ol自定义95折充值</h1>
+      <span class="badge badge-danger">杀批！选择常见的元宝数额</span>
+      <div class="pay-list">
+        <button type="button" class="btn btn-warning">600</button>
+        <button type="button" class="btn btn-warning">1200</button>
+        <button type="button" class="btn btn-warning">3000</button>
+        <button type="button" class="btn btn-warning">6800</button>
+        <span class="rule">Example: 600/0.95=632</span>
+      </div>      
+      <form class="form-inline" id="recharge">
+        <div class="form-group mb-2">
+          <label class="sr-only" for="account">account</label>
+          <input type="text" class="form-control" id="account" placeholder="account"/>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+          <label  class="sr-only" for="yuanbao">元宝</label>
+          <input type="number" min="0" class="form-control" id="yuanbao" placeholder="单位为元宝"/>
+        </div>
+        <button type="submit" class="btn btn-outline-info mb-2">账号信息检测</button>
+      </form>
+      <!--  -->
+      <div class="alert alert-info" id="result">
+        <span>信息: </span>
+        <span id="res"></span>
+        <br>
+        <span>充值金额：</span>
+        <span id="amount">0</span>
+      </div>
+      
+      <div class="chargetype">
+        <button type="button" class="btn btn-primary" id="alipay">支付宝付款</button>
+        <!-- <button type="button" class="btn btn-success">微信</button> -->
+        <!-- <button type="button" class="btn btn-default">Default</button> -->
+        <!-- <button type="button" class="btn btn-info">Info</button> -->
+      </div>
+      <div class="code"></div>
+    </div>
+
+    <script type="text/javascript" src="./index.js"></script>
+  </body>
+</html>

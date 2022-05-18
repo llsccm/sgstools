@@ -1,0 +1,18 @@
+#recharge,
+#result,
+.code,
+.container,
+.pay-list {
+  margin-top: 20px;
+}
+.rule {
+  margin-left: 10px;
+}
+#result {
+  width: 50%;
+  height: 70px;
+}
+.btn:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
