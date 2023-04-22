@@ -1,5 +1,5 @@
-// let url ='https://saying.api.azwcl.com/saying/get'
-const url = 'https://payment.sanguosha.com/ol/qr_pay/alipay/qrcode/info'
+//支付宝接口
+// const url = 'https://payment.sanguosha.com/ol/qr_pay/alipay/qrcode/info'
 let options = {}
 options.headers = {
   'accept': '*/*',
@@ -13,26 +13,25 @@ options.headers = {
   'sec-fetch-site': 'cross-site',
 }
 options.referrerPolicy = 'strict-origin-when-cross-origin'
-//options.body = 'account=13640138515&yuanbao=3000&page_from=0&channelid=210000'
 options.method = 'POST'
 options.mode = 'cors'
 
 let flag = false
 let form = $('#recharge')
-let yuanbao
+let yuanbao = 0
 let account = localStorage.getItem('account')
 $('#account')[0].value = account
 
-function info(){
+function info() {
   account = $('#account')[0].value
   yuanbao = $('#yuanbao')[0].value
   localStorage.setItem('account', account)
 }
 async function callback(e) {
-  e.preventDefault()  
+  e.preventDefault()
   //let thUrl = `http://web.sanguosha.com/login/area.html?account=${account}`
   info()
-  let olUrl = `http://web.sanguosha.com/login/ol/nickname.html?account=${account}`
+  const olUrl = `http://web.sanguosha.com/login/ol/nickname.html?account=${account}`
   //let yuanbao = document.querySelector('#yuanbao').value
   const res = await fetch(olUrl)
   const data = await res.json()
@@ -50,7 +49,6 @@ async function callback(e) {
 
 form.on('submit', callback)
 
-
 $('.pay-list').on('click', function (e) {
   if (e.target.className.indexOf('btn') > -1) {
     let num = e.target.innerText
@@ -58,7 +56,7 @@ $('.pay-list').on('click', function (e) {
     $('#yuanbao')[0].value = Math.ceil(num / 0.95)
   }
 })
-
+//alipay
 $('#alipay').on('click', async function (e) {
   info()
   if (!flag) {
@@ -67,12 +65,34 @@ $('#alipay').on('click', async function (e) {
   }
   $('.code').empty()
   const qrcode = new Image()
+  const url = 'https://payment.sanguosha.com/ol/qr_pay/alipay/qrcode/info'
   options.body = `account=${account}&yuanbao=${yuanbao}&page_from=0&channelid=210000`
   const res = await fetch(url, options)
   const data = await res.json()
   //console.log(data)
   if (data.result === 'SUCCESS') {
     qrcode.src = data.qrcode_img_url
+    $('.code').append(qrcode)
+  }
+})
+//wxpay
+$('#wxpay').on('click', async function (e) {
+  info()
+  if (!flag) {
+    alert('请进行账号检测')
+    return
+  }
+  $('.code').empty()
+  const qrcode = new Image()
+  const url = `https://payment.sanguosha.com/ol/qr_pay/wechat/order/create?account=${account}&yuanbao=${yuanbao-1}&page_from=0&channelid=210000`
+  const res = await fetch(url)
+  const orderData = await res.json()
+  console.log(orderData)
+  if (orderData.code == 0) {
+    let { order_id } = orderData.data
+    const qrRes = await fetch(`https://payment.sanguosha.com/ol/qr_pay/wechat/qrcode/show?order_id=${order_id}&`)
+    const qrData = await qrRes.json()
+    qrcode.src = qrData.data.qr_image
     $('.code').append(qrcode)
   }
 })
