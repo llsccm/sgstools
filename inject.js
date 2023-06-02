@@ -4401,7 +4401,7 @@ function mainLogic(args) {
   var seatId = args['seatId']
   var SeatID = args['SeatID']
   var Round = args['Round']
-  var curUserID = args['curUserID']
+  curUserID = args['curUserID']
 
   //博图，用于检测什么适合清空博图花色
   if (className == 'GsCGamephaseNtf' && Round == 0 && (enableBoTu || enableLuanJi || enableQuanBian)) {
