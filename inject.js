@@ -2,7 +2,7 @@
 //UserScript
 window.WDVerSion = '1.0.0'
 var card = {}
-window.mySkin
+var mySkin
 var isSelectGeneral = false
 var GuoZhanGeneral = []
 var skinMap = {
