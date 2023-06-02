@@ -1,5 +1,5 @@
-'use strict'
 //UserScript
+'use strict'
 window.WDVerSion = '1.0.0'
 var card = {}
 var mySkin
@@ -2507,7 +2507,8 @@ let ding = []
 let di = []
 let seat = 0 //用于座位安排
 let isGameStart = false
-var div = window.div
+var div
+
 let cardTypeGuoZhanYingBian = {
   决斗: { cardNum: 2, cardType: 2 },
   闪电: { cardNum: 1, cardType: 2 },
@@ -3112,6 +3113,7 @@ function gameStart() {
   seat = 0 //用于座位安排
   isGameStart = false
   div = window.div
+
   cardTypeGuoZhanYingBian = {
     决斗: { cardNum: 2, cardType: 2 },
     闪电: { cardNum: 1, cardType: 2 },
@@ -3405,7 +3407,6 @@ function gameStart() {
     桃园: { cardNum: 1, cardType: 2 },
     万箭: { cardNum: 1, cardType: 2 }
   }
-
   cardTypeZhuGongSha = {
     桃: { cardType: 1, cardNum: 10 },
     酒: { cardType: 1, cardNum: 5 },
@@ -3452,6 +3453,7 @@ function gameStart() {
     紫骍: { cardType: 3, cardNum: 1 },
     木马: { cardType: 3, cardNum: 1 }
   }
+
   cardTypeButton = ''
   //for draggable iframe
   ;(x_pos = 0),
@@ -3499,9 +3501,6 @@ function gameStart() {
   knownShouPai = new Set()
 }
 
-// const subsetSum = (e, t, a = [], n = 0) => {
-//     calResult.length <= 2 && (n < t ? e.forEach((c, o) => subsetSum(e.slice(o + 1), t, a.concat([c]), n + c)) : n == t && calResult.push(a.join().split(",").map(Number)))
-// };
 function drawRemShouPai(remShouPai) {
   var knownCardsDiv = document.getElementById('iframe-source').contentWindow.document.getElementById('knownCards')
   var knownCardsInHandDiv = document.getElementById('iframe-source').contentWindow.document.getElementById('knownCardsInHand')
@@ -3621,7 +3620,7 @@ var MiZhuRes
 var pathArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 var pathSum
 var pathArrSet = new Set()
-// function mizhuCal(cards, index, res,sum) {
+
 function MiZhuCal(arr, n) {
   pathArrSet = new Set()
   MiZhuRes = []
@@ -3799,7 +3798,6 @@ function findCombos(arr) {
 function printCombination(arr, n, r) {
   // A temporary array to store all combination one by one
   var data = []
-
   // Print all combination using temporary array 'data'
   combinationUtil(arr, n, r, 0, data, 0)
 }
@@ -4899,6 +4897,7 @@ function mainLogic(args) {
     }
   }
 }
+
 function main() {
   console.info('inject file start!')
   let log = console.log
@@ -5097,34 +5096,6 @@ function drawShouPai(shoupai) {
   }
 }
 
-// function drawShouPai(shoupai){
-//     var toBeAdd;
-//     for(let i = 0; i< idOrderPre.length; i++){
-//         let seatID = (i+1).toString();
-//         toBeAdd = document.getElementById('iframe-source').contentWindow.document.getElementById(seatID);
-//         const shoupaiDIV = document.createElement('div');
-//         for(const s of shoupai[i]){
-//             if(s=='0'){continue;}
-//             var button = document.createElement('button');
-//             if(getCardNumAndSuit( s)["cardSuit"]=='♦'||getCardNumAndSuit( s)["cardSuit"]=='♥'){
-//                 button.className = "shoupaiR";//红色手牌
-//             }
-//             else{
-//                 button.className = "shoupai";
-//             }
-//             if(knownShouPai.has(s)){button.classList.add("knownShouPai");}
-//             let emoji = document.createElement('div');
-//             emoji.style = "font-size:5rem;width:100%;text-align:center;";
-//             emoji.innerText = getCardNumAndSuit(s)["cardNumAndSuit"];
-//             console.warn(emoji.innerHTML);
-//             //button.innerHTML = getCardNumAndSuit(s)["cardNumAndSuit"]+'<br>'+currentMode[s]["cardName"];
-//             button.innerHTML = emoji.innerHTML+'<br>'+currentMode[s]["cardName"];
-//             shoupaiDIV.append(button);
-//         }
-//         toBeAdd.innerHTML = shoupaiDIV.innerHTML;
-//     }
-// }
-
 function addSkinFrame() {
   let createSkinIframe = document.getElementById('createSkinIframe')
 
@@ -5242,6 +5213,7 @@ function updateSkinList(generalID) {
       }
     })
 }
+
 function updateSkinListGuoZhan(generalID1, generalID2) {
   document.getElementById('createSkinIframeSource').contentWindow.document.body.innerHTML = ''
   if (typeof skinMap[generalID1] != 'undefined') {
@@ -5283,16 +5255,19 @@ function updateSkinListGuoZhan(generalID1, generalID2) {
       }
     })
 }
+
 function resetOrderContainer() {
   for (let i = 0; i <= 7; i++) {
     document.getElementById('iframe-source').contentWindow.document.getElementsByClassName('orderContainer')[i].style.display = 'inline-block'
   }
 }
+
 function hideOrderContainer(size) {
   for (let i = 7; i >= size; i--) {
     document.getElementById('iframe-source').contentWindow.document.getElementsByClassName('orderContainer')[i].style.display = 'none'
   }
 }
+
 function imageExists(image_url) {
   var http = new XMLHttpRequest()
 
@@ -5301,6 +5276,7 @@ function imageExists(image_url) {
 
   return http.status != 404
 }
+
 function clickToChangeSkinAndCloseSkinFrame() {
   const boxes = document.getElementById('createSkinIframeSource').contentWindow.document.querySelectorAll('.skinList')
 
@@ -5481,618 +5457,616 @@ function initDragElement() {
     return null
   }
 }
-var html =
-  '<head> ' +
-  '        <meta charset=UTF-8> ' +
-  '        <style type=text/css> ' +
-  '            ::-webkit-scrollbar{width: 5px; height: 12px;} ' +
-  '            ::-webkit-scrollbar-track{border: 1px solid rgb(5,5,5);} ' +
-  '            ::-webkit-scrollbar-thumb{background: rgb(95,86,63);} ' +
-  '            ::-webkit-scrollbar-thumb:hover{background: rgb(44,44,44);} ' +
-  '            * { ' +
-  '                width: 205px; ' +
-  '                margin: 0; ' +
-  '                padding: 0; ' +
-  '                font-size:12px; ' +
-  '            } ' +
-  '            body { ' +
-  '                width: 205px; ' +
-  '                background: rgb(40, 40, 40); ' +
-  '                color: #f2de9c; ' +
-  '                display: flex; ' +
-  '                flex-direction: column; ' +
-  '                margin: 0px; ' +
-  '                user-select:none;' +
-  '            } ' +
-  '            .nav { ' +
-  '                width: 100%; ' +
-  '                background: rgb(40, 40, 40); ' +
-  '            } ' +
-  '            .nav1 { ' +
-  '                height: 20px; ' +
-  '                width: 100%; ' +
-  '                float: center; ' +
-  '                text-align: center; ' +
-  '                color: #f2de9c; ' +
-  '                background: rgb(40, 40, 40); ' +
-  '                margin-right: 15px; ' +
-  '                display: block; ' +
-  '            } ' +
-  '            .nav2 { ' +
-  '                height: 20px; ' +
-  '                width: 49%; ' +
-  '                float: right; ' +
-  '                text-align: center; ' +
-  '                color: #f2de9c; ' +
-  '                background: rgb(40, 40, 40); ' +
-  '                margin-left: 3px; ' +
-  '                border: 1px solid #f2de9c; ' +
-  '                display: block; ' +
-  '                border-radius: 5px; ' +
-  '            } ' +
-  '            .nav2:hover { ' +
-  '                color: #f2de9c; ' +
-  '                background: rgb(55, 40, 32); ' +
-  '                border: 1px solid #f2de9c; ' +
-  '            } ' +
-  '            .nav2:focus { ' +
-  '                background: rgb(55, 40, 32); ' +
-  '                box-shadow: 1px 1px 3px #f2de9c ; ' +
-  '            } ' +
-  '            .content { ' +
-  '                width: 100%; ' +
-  '                float: right; ' +
-  '            }' +
-  '            .orderAndShouPai { ' +
-  '                width: 100%; ' +
-  '                overflow: hidden; ' +
-  '                display: inline-block; ' +
-  '            } ' +
-  '            .order { ' +
-  '                width: 100%; ' +
-  '                overflow: hidden; ' +
-  '            } ' +
-  '            .orderContainer { ' +
-  '                width: 100%; ' +
-  '                overflow: hidden; ' +
-  '            } ' +
-  '            .order-head { ' +
-  '                width: 10%; ' +
-  '                height: 25px; ' +
-  '                float: left; ' +
-  '                text-align: center; ' +
-  '                color: #f2de9c; ' +
-  '                margin-left: 3px; ' +
-  '            } ' +
-  '            .order-body:empty { ' +
-  '                padding: 5px; ' +
-  '                height: 35px; ' +
-  '                max-width: 82%; ' +
-  '                float: right; ' +
-  '                display: block; ' +
-  '                box-shadow:  1px 1px 3px ; ' +
-  '                margin: 1px; ' +
-  '                overflow: hidden; ' +
-  '                column-width: 300px; ' +
-  '                border-radius:5px; ' +
-  '            } ' +
-  '            .order-body { ' +
-  '                padding: 5px; ' +
-  '                height: auto; ' +
-  '                max-width: 82%; ' +
-  '                float: right; ' +
-  '                display: block; ' +
-  '                box-shadow:  1px 1px 3px ; ' +
-  '                margin: 1px; ' +
-  '                overflow: hidden; ' +
-  '                column-width: 300px; ' +
-  '                border-radius:5px; ' +
-  '            } ' +
-  '            .shoupai { ' +
-  '                --shoupaiR-width: 26px; ' +
-  '                font-weight: bolder; ' +
-  '                margin-right: calc(22px - var(--shoupaiR-width)); ' +
-  '                float: left; ' +
-  '                width: var(--shoupaiR-width); ' +
-  '                height: 35px; ' +
-  '                border: 1px solid black; ' +
-  '                text-align: center; ' +
-  '                color: black; ' +
-  '                background: rgb(200, 200, 166); ' +
-  '                box-shadow: inset 1px 1px 3px #111; ' +
-  '            } ' +
-  '            .shoupaiR { ' +
-  '                --shoupaiR-width: 26px; ' +
-  '                font-weight: bolder; ' +
-  '                margin-right: calc(22px - var(--shoupaiR-width)); ' +
-  '                float: left; ' +
-  '                width: var(--shoupaiR-width); ' +
-  '                height: 35px; ' +
-  '                border: 1px solid black; ' +
-  '                text-align: center; ' +
-  '                color: red; ' +
-  '                background: rgb(200, 200, 166); ' +
-  '                box-shadow: inset 1px 1px 3px #111; ' +
-  '            }' +
-  '            .knownShouPai{' +
-  '                border:1px rgb(40,40,40) solid;' +
-  '                animation: blink 1s;' +
-  '                animation-iteration-count: infinite ;' +
-  '            }' +
-  '            .knownCardsInHand{' +
-  '                text-align: center;' +
-  '                position: relative;' +
-  '                overflow: hidden;' +
-  '                display: none;' +
-  '                height: 121px;' +
-  '            }' +
-  '            .knownCards:empty{' +
-  '                text-align: center;' +
-  '                position: relative;' +
-  '                overflow: hidden;' +
-  '                display: none;' +
-  '            }' +
-  '            .knownCards{ ' +
-  '                width: 81%;' +
-  '                text-align: center; ' +
-  '                position: relative; ' +
-  '                overflow: hidden; ' +
-  '                height: 121px;' +
-  '            }' +
-  '            @keyframes blink { 50% { border-color:#f2de9c ; }  }' +
-  '            .knownCards:after{ ' +
-  '                text-align: center; ' +
-  "                content: '场上手牌';" +
-  '                position: absolute;' +
-  '                bottom: 0;' +
-  '                right: 5px;' +
-  '                z-index: -1; ' +
-  "                font: 800 20px 'Arial Black'; " +
-  '                -webkit-text-fill-color: transparent; ' +
-  '                -webkit-text-stroke-width: 1px; ' +
-  '            } ' +
-  '             .ding{' +
-  '                text-align: center;' +
-  '                width: 100%;' +
-  '                position: relative;' +
-  '                height: auto;' +
-  '                display: none;' +
-  '            } ' +
-  '             .dingCards{' +
-  '                text-align: center;' +
-  '                width: 100%;' +
-  '                position: relative;' +
-  '                height: auto;' +
-  '                min-height: 60px;' +
-  '                display: none;' +
-  '            } ' +
-  '            .dingCards:after{ ' +
-  "                content: '第一张为牌堆顶';" +
-  '                position: absolute;' +
-  '                bottom: 0;' +
-  '                right: 5px;' +
-  '                z-index: -1; ' +
-  "                font: 800 20px 'Arial Black'; " +
-  '                -webkit-text-fill-color: transparent; ' +
-  '                -webkit-text-stroke-width: 1px; ' +
-  '            } ' +
-  '             .di{' +
-  '                text-align: center;' +
-  '                width: 100%;' +
-  '                position: relative;' +
-  '                height: auto;' +
-  '                display: none;' +
-  '            } ' +
-  '            .diCards{ ' +
-  '                text-align: center; ' +
-  '                position: relative;' +
-  '                height: auto;' +
-  '                min-height: 60px;' +
-  '                display: none;' +
-  '            } ' +
-  '            .diCards:after{ ' +
-  "                content: '第一张为牌堆底';" +
-  '                position: absolute;' +
-  '                bottom: 0;' +
-  '                right: 5px;' +
-  '                z-index: -1; ' +
-  "                font: 800 20px 'Arial Black'; " +
-  '                -webkit-text-fill-color: transparent; ' +
-  '                -webkit-text-stroke-width: 1px; ' +
-  '     ' +
-  '            } ' +
-  '            .cardDetail { ' +
-  '                width: 100%; ' +
-  '                overflow: hidden; ' +
-  '                display: inline-block; ' +
-  '            } ' +
-  '            .type { ' +
-  '                width: 100%; ' +
-  '                float: left; ' +
-  '            } ' +
-  '            .cardTypeContainer{ ' +
-  '                width: 100%; ' +
-  '                overflow: hidden; ' +
-  '                display: block; ' +
-  '            } ' +
-  '            .type-head { ' +
-  '                width: 10%; ' +
-  '                float: left; ' +
-  '                text-align: center; ' +
-  '                color: #f2de9c; ' +
-  '                margin-left: 3px; ' +
-  '                display: block; ' +
-  '                overflow: hidden; ' +
-  '                cursor: pointer; ' +
-  '            } ' +
-  '            .type-body { ' +
-  '                padding: 5px; ' +
-  '                width: 82%; ' +
-  '                float: right; ' +
-  '                display: block; ' +
-  '                box-shadow:  1px 1px 3px ; ' +
-  '                margin: 1px; ' +
-  '                overflow: hidden; ' +
-  '                column-width: 300px; ' +
-  '                border-radius:5px; ' +
-  '            } ' +
-  '            .cardType { ' +
-  '                font-size: 11px; ' +
-  '                width: 25%; ' +
-  '                height: 22px; ' +
-  '                float: left; ' +
-  '                text-align: center; ' +
-  '                border: 1px; ' +
-  '                margin: 0px; ' +
-  '                background: rgb(200, 200, 166); ' +
-  '                box-shadow:  inset 1px 1px 3px #000; ' +
-  '            } ' +
-  '            .detail { ' +
-  '                width: 100%; ' +
-  '                float: left; ' +
-  '                /*overflow: hidden;*/ ' +
-  '            } ' +
-  '            .detail-head { ' +
-  '                width: 10%; ' +
-  '                float: left; ' +
-  '                text-align: center; ' +
-  '                color: #f2de9c; ' +
-  '                margin-left: 3px; ' +
-  '                display: block; ' +
-  '                overflow: hidden; ' +
-  '                cursor: pointer; ' +
-  '            } ' +
-  '            .detail-body { ' +
-  '                padding: 5px; ' +
-  '                width: 82%; ' +
-  '                float: left; ' +
-  '                display: block; ' +
-  '                box-shadow:  1px 1px 3px; ' +
-  '                margin: 1px; ' +
-  '                border-radius:5px; ' +
-  '                overflow: hidden; ' +
-  '            } ' +
-  '            .r { ' +
-  '                color: red; ' +
-  '            } ' +
-  '            .suitRec { ' +
-  '                width: 100%; ' +
-  '                float: left; ' +
-  '                font-size:15px;' +
-  '            } ' +
-  '            .suit { ' +
-  '                width: 50%; ' +
-  '                float: left; ' +
-  '            } ' +
-  '            #shandian { ' +
-  '                width: 100%; ' +
-  '                float: left; ' +
-  '            } ' +
-  '            .function { ' +
-  '                width: 50%; ' +
-  '                float: left; ' +
-  '            } ' +
-  '            .jizhan { ' +
-  '                width: 100%; ' +
-  '                float: left; ' +
-  '            } ' +
-  '            .yanjiao { ' +
-  '                width: 100%; ' +
-  '                float: left; ' +
-  '            } ' +
-  '            .calRes { ' +
-  '                width: 100%; ' +
-  '                height: 20px;' +
-  '                float: left;' +
-  '                text-align: center;' +
-  '                color: #f2de9c;' +
-  '                background: rgb(40, 40, 40);' +
-  '                border: 1px solid #f2de9c;' +
-  '                display: block;' +
-  '                border-radius: 5px;' +
-  '            } ' +
-  '           .calRes:hover {' +
-  '                color: #f2de9c;' +
-  '                background: rgb(55, 40, 32);' +
-  '                border: 1px solid #f2de9c;' +
-  '            }' +
-  '            .mizhuBtn { ' +
-  '                width: 55px; ' +
-  '                height: 20px;' +
-  '                float: left;' +
-  '                text-align: center;' +
-  '                color: #f2de9c;' +
-  '                background: rgb(40, 40, 40);' +
-  '                border: 1px solid #f2de9c;' +
-  '                display: block;' +
-  '                border-radius: 5px;' +
-  '            } ' +
-  '           .mizhuBtn:hover {' +
-  '                color: #f2de9c;' +
-  '                background: rgb(55, 40, 32);' +
-  '                border: 1px solid #f2de9c;' +
-  '            }' +
-  '            .mizhu { ' +
-  '                width: 100%; ' +
-  '                height: 20px;' +
-  '                float: left;' +
-  '                text-align: center;' +
-  '                color: #f2de9c;' +
-  '                background: rgb(40, 40, 40);' +
-  '                margin-left: 3px;' +
-  '                border: 1px solid #f2de9c;' +
-  '                display: block;' +
-  '                border-radius: 5px;' +
-  '            } ' +
-  '           .mizhu:hover {' +
-  '                color: #f2de9c;' +
-  '                background: rgb(55, 40, 32);' +
-  '                border: 1px solid #f2de9c;' +
-  '            }' +
-  '            #mySeatID1 { ' +
-  '                width: 50px; ' +
-  '                display: none; ' +
-  '                float: left; ' +
-  '            } ' +
-  '            #mySeatID2 { ' +
-  '                width: 50px; ' +
-  '                display: none; ' +
-  '                float: left; ' +
-  '            } ' +
-  '            .res { ' +
-  '                width: 100%; ' +
-  '                float: left; ' +
-  '            } ' +
-  '            .tooltip { ' +
-  '                position: relative; ' +
-  '                display: inline-block; ' +
-  '                text-align: center; ' +
-  '            } ' +
-  '            .tooltiptext { ' +
-  '                position: relative; ' +
-  '                display: inline-block; ' +
-  '                text-align: center; ' +
-  '            } ' +
-  '            #donate { ' +
-  '                position: relative; ' +
-  '                color: #f2de9c; ' +
-  '                display: inline-block; ' +
-  '                text-align: center; ' +
-  '            } ' +
-  '            .tooltip .tooltiptext { ' +
-  '                width: 100%; ' +
-  '                visibility: hidden; ' +
-  '                background-color: black; ' +
-  '                top: -80%; ' +
-  '                left: 50%; ' +
-  '                margin-left: -103px; ' +
-  '                color: #f2de9c; ' +
-  '                text-align: left; ' +
-  '                padding: 5px 0; ' +
-  '                border-radius: 6px; ' +
-  '                position: absolute; ' +
-  '                z-index: 1; ' +
-  '            } ' +
-  '            .tooltip:hover .tooltiptext { ' +
-  '                visibility: visible; ' +
-  '            } ' +
-  '            .footer { ' +
-  '                position: fixed; ' +
-  '                bottom: 0; ' +
-  '                left: 0; ' +
-  '                width: 100%; ' +
-  '                text-align: center; ' +
-  '            } ' +
-  '            .width { ' +
-  '                width: 100%; ' +
-  '                height: 5px; ' +
-  '            } ' +
-  '        </style> ' +
-  '    </head> ' +
-  '<body>' +
-  "   <div class='nav'>" +
-  "       <div class='nav1' id = 'nav1'>当前模式：无</div>" +
-  '   </div>' +
-  "    <div class='content' id='content'>" +
-  "        <div class='orderAndShouPai' id ='orderAndShouPai' >" +
-  "            <div class='order' id='button'>" +
-  "                <div class='orderContainer'>" +
-  "                    <div class='order-head or1' id='or1'>一</div>" +
-  "                    <div class='order-body No1' id='1'>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦13 <br>南蛮 </button>" +
-  "                        <button class='shoupaiR'>♦13 <br>南蛮 </button>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦13 <br>南蛮 </button>" +
-  "                        <button class='shoupaiR'>♦13 <br>南蛮 </button>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  '                    </div>' +
-  '                </div>' +
-  "                <div class='orderContainer'>" +
-  "                    <div class='order-head or2' id='or2'>二</div>" +
-  "                    <div class=order-body No2 id='2'>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦13 <br>南蛮 </button>" +
-  '                    </div>' +
-  '                </div>' +
-  "                <div class='orderContainer'>" +
-  "                    <div class='order-head or3' id='or3'>三</div>" +
-  "                    <div class=order-body No3 id='3'>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupai'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦13 <br>南蛮 </button>" +
-  '                    </div>' +
-  '                </div>' +
-  "                <div class='orderContainer'>" +
-  "                    <div class='order-head or4' id='or4'>四</div>" +
-  "                    <div class='order-body No4' id='4'></div>" +
-  '                </div>' +
-  "                <div class='orderContainer'>" +
-  "                    <div class='order-head or5' id='or5'>五</div>" +
-  "                    <div class='order-body No5' id='5'></div>" +
-  '                </div>' +
-  "                <div class='orderContainer'>" +
-  "                    <div class='order-head or6' id='or6'>六</div>" +
-  "                    <div class='order-body No6' id='6'></div>" +
-  '                </div>' +
-  "                <div class='orderContainer'>" +
-  "                    <div class='order-head or7' id='or7'>七</div>" +
-  "                    <div class='order-body No7' id='7'></div>" +
-  '                </div>' +
-  "                <div class='orderContainer'>" +
-  "                    <div class='order-head or8' id='or8'>八</div>" +
-  "                    <div class='order-body No8' id='8'></div>" +
-  '                </div>' +
-  "                <div class='orderContainer'>" +
-  "                    <div class='order-head knownCardsInHand' id='knownCardsInHand'>场上手牌</div>" +
-  "                    <div class='order-body knownCards' id='knownCards'></div>" +
-  // "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  // "                        <button class='shoupai'>♦6 <br>酒 </button>" +
-  // "                        <button class='shoupaiR'>♦13 <br>南蛮 </button>" +
-  // "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  // "                        <button class='shoupai'>♦6 <br>酒 </button>" +
-  // "                        <button class='shoupaiR'>♦13 <br>南蛮 </button>" +
-  // "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  // "                        <button class='shoupai'>♦6 <br>酒 </button>" +
-  // "                        <button class='shoupaiR'>♦13 <br>南蛮 </button>" +
-  // "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  // "                        <button class='shoupai'>♦6 <br>酒 </button>" +
-  // "                        <button class='shoupaiR'>♦13 <br>南蛮 </button>" +
-  // "                    </div>" +
-  '                </div>' +
-  "                <div class='orderContainer'>" +
-  "                    <div class='order-head ding' id='ding'></div>" +
-  "                    <div class='order-body dingCards' id='dingCards'>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupai'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦13 <br>南蛮 </button>" +
-  '                    </div>' +
-  '                </div>' +
-  "                <div class='orderContainer'>" +
-  "                    <div class='order-head di' id='di'></div>" +
-  "                    <div class='order-body diCards' id='diCards'>" +
-  "                        <button class='shoupaiR'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupai'>♦6 <br>酒 </button>" +
-  "                        <button class='shoupaiR'>♦13 <br>南蛮 </button>" +
-  '                    </div>' +
-  '                </div>' +
-  '            </div>' +
-  '        </div>' +
-  "        <div class='cardDetail' id='cardDetail'>" +
-  '            <div class=space></div>' +
-  '            <div class=detail>' +
-  "                <div class='detail-head' id='detail'>" +
-  '                    <b>功能区</b>' +
-  '                </div>' +
-  "                <div class='detail-body'>" +
-  "                    <div class='suit r' id='heart'>♥红桃 × </div>" +
-  "                    <div class='suit' id='spade'>♠黑桃 × </div>" +
-  "                    <div class='suit' id='club'>♣梅花 × </div>" +
-  "                    <div class='suit r' id='diamond'>♦方片 × </div>" +
-  "                    <div class='suit r' id='hongsha'>红杀 × </div>" +
-  "                    <div class='suit' id='heisha' n>黑杀 × </div>" +
-  "                    <div class='suitRec' id='suit'>乱击/权变花色 </div>" +
-  "                    <div class='function jizhan' id='jizhan'>吉占点数</div>" +
-  // "                    <div class='function paiduiSize' id='paiduiSize'>牌堆张数</div>" +
-  "                    <div class='function yanjiao' id='yanjiao'>严教小抄</div>" +
-  "                    <button class='function mizhuBTN' id='mizhu'>糜竺小抄</button>" +
-  "                    <button class='function mizhu mySeatID' id='mySeatID1'>座位：1</button>" +
-  "                    <button class='function mizhu mySeatID' id='mySeatID2'>座位：2</button>" +
-  "                    <div class='function res' id='res'>结果样式：1+1+1+1 = 4</div>" +
-  '                </div>' +
-  '            </div>' +
-  "            <div class='width'></div>" +
-  '' +
-  '            <div class=type>' +
-  "                <div class='cardTypeContainer'>" +
-  "                    <div class='type-head' id='jiben'><b>基本</b></div>" +
-  "                    <div class='type-body type1' id='type1'>" +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                    </div>' +
-  '                </div>' +
-  "                <div class='cardTypeContainer'>" +
-  "                    <div class='type-head' id='jinnang'><b>锦囊</b></div>" +
-  "                    <div class='type-body type2' id='type2'>" +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                    </div>' +
-  '                </div>' +
-  "                <div class='cardTypeContainer'>" +
-  "                    <div class='type-head' id='zhuangbei'><b>装备</b></div>" +
-  "                    <div class='type-body type3' id='type3'>" +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                        <button class=cardType>12寒冰</button>' +
-  '                    </div>' +
-  '                </div>' +
-  '            </div>' +
-  '        </div>' +
-  "           <a href='https://afdian.net/@yimadaO_o' id='donate' target='_blank'>请我喝肥宅快乐水</a>" +
-  '    </div>' +
-  '    </div>' +
-  '</body>'
+
+var html = `<head>
+  <meta charset=UTF-8>
+  <style type=text/css>
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 12px;
+    }
+    ::-webkit-scrollbar-track {
+      border: 1px solid rgb(5, 5, 5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgb(95, 86, 63);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgb(44, 44, 44);
+    }
+    * {
+      width: 205px;
+      margin: 0;
+      padding: 0;
+      font-size: 12px;
+    }
+    body {
+      width: 205px;
+      background: rgb(40, 40, 40);
+      color: #f2de9c;
+      display: flex;
+      flex-direction: column;
+      margin: 0px;
+      user-select: none;
+    }
+    .nav {
+      width: 100%;
+      background: rgb(40, 40, 40);
+    }
+    .nav1 {
+      height: 20px;
+      width: 100%;
+      text-align: center;
+      color: #f2de9c;
+      background: rgb(40, 40, 40);
+      margin-right: 15px;
+      display: block;
+    }
+    .nav2 {
+      height: 20px;
+      width: 49%;
+      float: right;
+      text-align: center;
+      color: #f2de9c;
+      background: rgb(40, 40, 40);
+      margin-left: 3px;
+      border: 1px solid #f2de9c;
+      display: block;
+      border-radius: 5px;
+    }
+    .nav2:hover {
+      color: #f2de9c;
+      background: rgb(55, 40, 32);
+      border: 1px solid #f2de9c;
+    }
+    .nav2:focus {
+      background: rgb(55, 40, 32);
+      box-shadow: 1px 1px 3px #f2de9c;
+    }
+    .content {
+      width: 100%;
+      float: right;
+    }
+    .orderAndShouPai {
+      width: 100%;
+      overflow: hidden;
+      display: inline-block;
+    }
+    .order {
+      width: 100%;
+      overflow: hidden;
+    }
+    .orderContainer {
+      width: 100%;
+      overflow: hidden;
+    }
+    .order-head {
+      width: 10%;
+      height: 25px;
+      float: left;
+      text-align: center;
+      color: #f2de9c;
+      margin-left: 3px;
+    }
+    .order-body:empty {
+      padding: 5px;
+      height: 35px;
+      max-width: 82%;
+      float: right;
+      display: block;
+      box-shadow: 1px 1px 3px;
+      margin: 1px;
+      overflow: hidden;
+      column-width: 300px;
+      border-radius: 5px;
+    }
+    .order-body {
+      padding: 5px;
+      height: auto;
+      max-width: 82%;
+      float: right;
+      display: block;
+      box-shadow: 1px 1px 3px;
+      margin: 1px;
+      overflow: hidden;
+      column-width: 300px;
+      border-radius: 5px;
+    }
+    .shoupai {
+      --shoupaiR-width: 26px;
+      font-weight: bolder;
+      margin-right: calc(22px - var(--shoupaiR-width));
+      float: left;
+      width: var(--shoupaiR-width);
+      height: 35px;
+      border: 1px solid black;
+      text-align: center;
+      color: black;
+      background: rgb(200, 200, 166);
+      box-shadow: inset 1px 1px 3px #111;
+    }
+    .shoupaiR {
+      --shoupaiR-width: 26px;
+      font-weight: bolder;
+      margin-right: calc(22px - var(--shoupaiR-width));
+      float: left;
+      width: var(--shoupaiR-width);
+      height: 35px;
+      border: 1px solid black;
+      text-align: center;
+      color: red;
+      background: rgb(200, 200, 166);
+      box-shadow: inset 1px 1px 3px #111;
+    }
+    .knownShouPai {
+      border: 1px rgb(40, 40, 40) solid;
+      animation: blink 1s;
+      animation-iteration-count: infinite;
+    }
+    .knownCardsInHand {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      display: none;
+      height: 121px;
+    }
+    .knownCards:empty {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      display: none;
+    }
+    .knownCards {
+      width: 81%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      height: 121px;
+    }
+    @keyframes blink {
+      50% {
+        border-color: #f2de9c;
+      }
+    }
+    .knownCards:after {
+      text-align: center;
+      content: '场上手牌';
+      position: absolute;
+      bottom: 0;
+      right: 5px;
+      z-index: -1;
+      font: 800 20px 'Arial Black';
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke-width: 1px;
+    }
+    .ding {
+      text-align: center;
+      width: 100%;
+      position: relative;
+      height: auto;
+      display: none;
+    }
+    .dingCards {
+      text-align: center;
+      width: 100%;
+      position: relative;
+      height: auto;
+      min-height: 60px;
+      display: none;
+    }
+    .dingCards:after {
+      content: '第一张为牌堆顶';
+      position: absolute;
+      bottom: 0;
+      right: 5px;
+      z-index: -1;
+      font: 800 20px 'Arial Black';
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke-width: 1px;
+    }
+    .di {
+      text-align: center;
+      width: 100%;
+      position: relative;
+      height: auto;
+      display: none;
+    }
+    .diCards {
+      text-align: center;
+      position: relative;
+      height: auto;
+      min-height: 60px;
+      display: none;
+    }
+    .diCards:after {
+      content: '第一张为牌堆底';
+      position: absolute;
+      bottom: 0;
+      right: 5px;
+      z-index: -1;
+      font: 800 20px 'Arial Black';
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke-width: 1px;
+    }
+    .cardDetail {
+      width: 100%;
+      overflow: hidden;
+      display: inline-block;
+    }
+    .type {
+      width: 100%;
+      float: left;
+    }
+    .cardTypeContainer {
+      width: 100%;
+      overflow: hidden;
+      display: block;
+    }
+    .type-head {
+      width: 10%;
+      float: left;
+      text-align: center;
+      color: #f2de9c;
+      margin-left: 3px;
+      display: block;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .type-body {
+      padding: 5px;
+      width: 82%;
+      float: right;
+      display: block;
+      box-shadow: 1px 1px 3px;
+      margin: 1px;
+      overflow: hidden;
+      column-width: 300px;
+      border-radius: 5px;
+    }
+    .cardType {
+      font-size: 11px;
+      width: 25%;
+      height: 22px;
+      float: left;
+      text-align: center;
+      border: 1px;
+      margin: 0px;
+      background: rgb(200, 200, 166);
+      box-shadow: inset 1px 1px 3px #000;
+    }
+    .detail {
+      width: 100%;
+      float: left;
+      /*overflow: hidden;*/
+    }
+    .detail-head {
+      width: 10%;
+      float: left;
+      text-align: center;
+      color: #f2de9c;
+      margin-left: 3px;
+      display: block;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .detail-body {
+      padding: 5px;
+      width: 82%;
+      float: left;
+      display: block;
+      box-shadow: 1px 1px 3px;
+      margin: 1px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .r {
+      color: red;
+    }
+    .suitRec {
+      width: 100%;
+      float: left;
+      font-size: 15px;
+    }
+    .suit {
+      width: 50%;
+      float: left;
+    }
+    #shandian {
+      width: 100%;
+      float: left;
+    }
+    .function {
+      width: 50%;
+      float: left;
+    }
+    .jizhan {
+      width: 100%;
+      float: left;
+    }
+    .yanjiao {
+      width: 100%;
+      float: left;
+    }
+    .calRes {
+      width: 100%;
+      height: 20px;
+      float: left;
+      text-align: center;
+      color: #f2de9c;
+      background: rgb(40, 40, 40);
+      border: 1px solid #f2de9c;
+      display: block;
+      border-radius: 5px;
+    }
+    .calRes:hover {
+      color: #f2de9c;
+      background: rgb(55, 40, 32);
+      border: 1px solid #f2de9c;
+    }
+    .mizhuBtn {
+      width: 55px;
+      height: 20px;
+      float: left;
+      text-align: center;
+      color: #f2de9c;
+      background: rgb(40, 40, 40);
+      border: 1px solid #f2de9c;
+      display: block;
+      border-radius: 5px;
+    }
+    .mizhuBtn:hover {
+      color: #f2de9c;
+      background: rgb(55, 40, 32);
+      border: 1px solid #f2de9c;
+    }
+    .mizhu {
+      width: 100%;
+      height: 20px;
+      float: left;
+      text-align: center;
+      color: #f2de9c;
+      background: rgb(40, 40, 40);
+      margin-left: 3px;
+      border: 1px solid #f2de9c;
+      display: block;
+      border-radius: 5px;
+    }
+    .mizhu:hover {
+      color: #f2de9c;
+      background: rgb(55, 40, 32);
+      border: 1px solid #f2de9c;
+    }
+    #mySeatID1 {
+      width: 50px;
+      display: none;
+      float: left;
+    }
+    #mySeatID2 {
+      width: 50px;
+      display: none;
+      float: left;
+    }
+    .res {
+      width: 100%;
+      float: left;
+    }
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      text-align: center;
+    }
+    .tooltiptext {
+      position: relative;
+      display: inline-block;
+      text-align: center;
+    }
+    #donate {
+      position: relative;
+      color: #f2de9c;
+      display: inline-block;
+      text-align: center;
+    }
+    .tooltip .tooltiptext {
+      width: 100%;
+      visibility: hidden;
+      background-color: black;
+      top: -80%;
+      left: 50%;
+      margin-left: -103px;
+      color: #f2de9c;
+      text-align: left;
+      padding: 5px 0;
+      border-radius: 6px;
+      position: absolute;
+      z-index: 1;
+    }
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+    }
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
+    }
+    .width {
+      width: 100%;
+      height: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class='nav'>
+    <div class='nav1' id='nav1'>当前模式：无</div>
+  </div>
+  <div class='content' id='content'>
+    <div class='orderAndShouPai' id='orderAndShouPai'>
+      <div class='order' id='button'>
+        <div class='orderContainer'>
+          <div class='order-head or1' id='or1'>一</div>
+          <div class='order-body No1' id='1'>
+            <button class='shoupaiR'>♦6 <br>酒 </button>
+            <button class='shoupaiR'>♦6 <br>酒 </button>
+            <button class='shoupaiR'>♦6 <br>酒 </button>
+            <button class='shoupaiR'>♦13 <br>南蛮 </button>
+            <button class='shoupaiR'>♦13 <br>南蛮 </button>
+            <button class='shoupaiR'>♦6 <br>酒 </button>
+            <button class='shoupaiR'>♦6 <br>酒 </button>
+            <button class='shoupaiR'>♦6 <br>酒 </button>
+            <button class='shoupaiR'>♦6 <br>酒 </button>
+            <button class='shoupaiR'>♦6 <br>酒 </button>
+            <button class='shoupaiR'>♦13 <br>南蛮 </button>
+            <button class='shoupaiR'>♦13 <br>南蛮 </button>
+            <button class='shoupaiR'>♦6 <br>酒 </button>
+            <button class='shoupaiR'>♦6 <br>酒 </button>
+            <button class='shoupaiR'>♦6 <br>酒 </button>
+          </div>
+        </div>
+        <div class='orderContainer'>
+          <div class='order-head or2' id='or2'>二</div>
+          <div class=order-body No2 id='2'>
+            <button class='shoupaiR'>♦6 <br>酒 </button>
+            <button class='shoupaiR'>♦6 <br>酒 </button>
+            <button class='shoupaiR'>♦13 <br>南蛮 </button>
+          </div>
+        </div>
+        <div class='orderContainer'>
+          <div class='order-head or3' id='or3'>三</div>
+          <div class=order-body No3 id='3'>
+            <button class='shoupaiR'>♦6 <br>酒 </button>
+            <button class='shoupai'>♦6 <br>酒 </button>
+            <button class='shoupaiR'>♦13 <br>南蛮 </button>
+          </div>
+        </div>
+        <div class='orderContainer'>
+          <div class='order-head or4' id='or4'>四</div>
+          <div class='order-body No4' id='4'></div>
+        </div>
+        <div class='orderContainer'>
+          <div class='order-head or5' id='or5'>五</div>
+          <div class='order-body No5' id='5'></div>
+        </div>
+        <div class='orderContainer'>
+          <div class='order-head or6' id='or6'>六</div>
+          <div class='order-body No6' id='6'></div>
+        </div>
+        <div class='orderContainer'>
+          <div class='order-head or7' id='or7'>七</div>
+          <div class='order-body No7' id='7'></div>
+        </div>
+        <div class='orderContainer'>
+          <div class='order-head or8' id='or8'>八</div>
+          <div class='order-body No8' id='8'></div>
+        </div>
+        <div class='orderContainer'>
+          <div class='order-head knownCardsInHand' id='knownCardsInHand'>场上手牌</div>
+          <div class='order-body knownCards' id='knownCards'></div>
+        </div>
+      </div>
+      <div class='orderContainer'>
+        <div class='order-head ding' id='ding'></div>
+        <div class='order-body dingCards' id='dingCards'>
+          <button class='shoupaiR'>♦6 <br>酒 </button>
+          <button class='shoupai'>♦6 <br>酒 </button>
+          <button class='shoupaiR'>♦13 <br>南蛮 </button>
+        </div>
+      </div>
+      <div class='orderContainer'>
+        <div class='order-head di' id='di'></div>
+        <div class='order-body diCards' id='diCards'>
+          <button class='shoupaiR'>♦6 <br>酒 </button>
+          <button class='shoupai'>♦6 <br>酒 </button>
+          <button class='shoupaiR'>♦13 <br>南蛮 </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class='cardDetail' id='cardDetail'>
+    <div class=space></div>
+    <div class=detail>
+      <div class='detail-head' id='detail'>
+        <b>功能区</b>
+      </div>
+      <div class='detail-body'>
+        <div class='suit r' id='heart'>♥红桃 × </div>
+        <div class='suit' id='spade'>♠黑桃 × </div>
+        <div class='suit' id='club'>♣梅花 × </div>
+        <div class='suit r' id='diamond'>♦方片 × </div>
+        <div class='suit r' id='hongsha'>红杀 × </div>
+        <div class='suit' id='heisha' n>黑杀 × </div>
+        <div class='suitRec' id='suit'>乱击/权变花色 </div>
+        <div class='function jizhan' id='jizhan'>吉占点数</div>
+        <div class='function yanjiao' id='yanjiao'>严教小抄</div>
+        <button class='function mizhuBTN' id='mizhu'>糜竺小抄</button>
+        <button class='function mizhu mySeatID' id='mySeatID1'>座位：1</button>
+        <button class='function mizhu mySeatID' id='mySeatID2'>座位：2</button>
+        <div class='function res' id='res'>结果样式：1+1+1+1 = 4</div>
+      </div>
+    </div>
+    <div class='width'></div>
+    <div class=type>
+      <div class='cardTypeContainer'>
+        <div class='type-head' id='jiben'><b>基本</b></div>
+        <div class='type-body type1' id='type1'>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+        </div>
+      </div>
+      <div class='cardTypeContainer'>
+        <div class='type-head' id='jinnang'><b>锦囊</b></div>
+        <div class='type-body type2' id='type2'>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+        </div>
+      </div>
+      <div class='cardTypeContainer'>
+        <div class='type-head' id='zhuangbei'><b>装备</b></div>
+        <div class='type-body type3' id='type3'>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+          <button class=cardType>12寒冰</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href='https://afdian.net/@yimadaO_o' id='donate' target='_blank'>请我喝肥宅快乐水</a>
+  </div>
+  </div>
+</body>
+`
 
 main()
