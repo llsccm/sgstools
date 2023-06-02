@@ -84,10 +84,10 @@ $('#wxpay').on('click', async function (e) {
   }
   $('.code').empty()
   const qrcode = new Image()
-  const url = `https://payment.sanguosha.com/ol/qr_pay/wechat/order/create?account=${account}&yuanbao=${yuanbao-1}&page_from=0&channelid=210000`
+  const url = `https://payment.sanguosha.com/ol/qr_pay/wechat/order/create?account=${account}&yuanbao=${yuanbao}&page_from=0&channelid=210000`
   const res = await fetch(url)
   const orderData = await res.json()
-  console.log(orderData)
+  // console.log(orderData)
   if (orderData.code == 0) {
     let { order_id } = orderData.data
     const qrRes = await fetch(`https://payment.sanguosha.com/ol/qr_pay/wechat/qrcode/show?order_id=${order_id}&`)
