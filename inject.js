@@ -2474,19 +2474,7 @@ let DouDiZhu = {
   12126: { id: 12126, cardName: '三略', type: 3, subType: 9, exType: 0, number: 5, color: 3, attRange: 0, attDistance: 0, defDistance: 0, spellId: 6016, imageId: 6016, cardClass: 'EquipCard', res: 'SanLve', Grade1: '4,6', Grade2: '2,4', Grade3: '2,4', Grade4: '25,8_103,8_153,5_155,7_48,5_55,6_159,5_28,6_21,5_9,7_30,5_32,5_45,7_42,7', recycle: '0;0;1,2,4,7' },
   12127: { id: 12127, cardName: '照骨', type: 3, subType: 9, exType: 0, number: 1, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 6018, imageId: 6018, cardClass: 'EquipCard', res: 'ZhaoGuJing', recycle: '0;0;1,2,4,7' }
 }
-// 计算新牌堆详情
-// let c = {};
-// for(let i = 12110; i<=12127 ; i++){
-//     if(c.hasOwnProperty(puyuan[i]["cardName"])) {
-//         c[puyuan[i]["cardName"]]["cardNum"]++;
-//     }
-//     else{
-//         c[puyuan[i]["cardName"]] = {};
-//         c[puyuan[i]["cardName"]]["cardNum"] = 1;
-//         c[puyuan[i]["cardName"]]["cardType"] = parseInt(puyuan[i]["type"]);
-//     }
-// }
-// console.log(JSON.stringify(c))
+
 let remCardCount = 0
 let currentMode
 let paidui = new Set() //, 别人摸未知牌不会改变,自己mainID摸牌会减少的牌,场上有明牌都会被移出,此牌堆包括别人手牌
@@ -3004,7 +2992,7 @@ function gameStart() {
     document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：国战应变</b>'
   } else if (isDouDiZhu) {
     paidui = new Set()
-    for (let i = 1; i <= 161; i++) {
+    for (let i = 1; i <= 160; i++) {
       paidui.add(i)
     }
     for (let i = 13000; i <= 13005; i++) {
