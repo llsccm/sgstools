@@ -2909,7 +2909,7 @@ var mainID
 var diamond, spade, heart, club, spade2_9, hongsha, heisha
 var arr = []
 var combos = []
-var closeIframe = false
+var closeIframe = true
 var isJunZhengBiaoZhun = false
 var isJunZhengBiaoZhunShanShan = false
 var isJunZhengYingBian = false
@@ -5292,7 +5292,7 @@ function addFrame() {
     div = document.createElement('div')
     div.id = 'createIframe'
     div.className = 'createIframe'
-    div.style = 'position: fixed;' + 'overflow: auto; ' + 'resize: vertical;  ' + 'top: 200px; ' + 'right: 5px;' + 'width: 210px;' + 'height:500px;' + 'z-index: 10000000000;' + 'display: flex;' + 'flex-direction: column;' + 'color: #f2de9c;' + 'background: rgb(50,50,50);' + 'user-select:none;' + 'text-align: left;'
+    div.style = 'position: fixed;' + 'overflow: auto; ' + 'resize: vertical;  ' + 'top: 200px; ' + 'right: 5px;' + 'width: 210px;' + 'height:25px;' + 'z-index: 10000000000;' + 'display: flex;' + 'flex-direction: column;' + 'color: #f2de9c;' + 'background: rgb(50,50,50);' + 'user-select:none;' + 'text-align: left;'
 
     var header = document.createElement('p')
     header.id = 'header'
@@ -5302,14 +5302,14 @@ function addFrame() {
     div.appendChild(header)
     var btn = document.createElement('btn')
 
-    btn.innerText = '×'
+    btn.innerText = '+'
     btn.id = 'toggle-me'
     btn.style = 'text-align:center;' + 'color: #f2de9c;' + 'background: rgb(40,40,40);' + 'border-radius:5px;' + 'margin-left:3px;' + 'border: 1px solid rgb(212,212,162);' + 'cursor: pointer;' + 'user-select:none;' + 'background: rgb(107,30,30);'
     header.append(btn)
     document.body.appendChild(div)
 
     iframe = document.createElement('iframe')
-    iframe.style = 'border: none;' + 'width: 210px;' + 'height : 1000px;' + 'margin: 0px;' + 'cursor: move;'
+    iframe.style = 'border: none; width: 210px; height : 500px; margin: 0px; cursor: move; display: none;'
     iframe.id = 'iframe-source'
     iframe.title = 'iframe'
 
@@ -5331,7 +5331,7 @@ function buttonClick() {
       document.getElementById('createIframe').style.height = '25px'
     } else {
       document.getElementById('iframe-source').style.display = 'block'
-      toggle.innerText = '×'
+      toggle.innerText = 'x'
       document.getElementById('createIframe').style.height = '500px'
     }
   }
