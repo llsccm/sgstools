@@ -13,407 +13,13 @@ var card = {}
 var mySkin
 var isSelectGeneral = false
 var GuoZhanGeneral = []
-var skinMap = {
-  1: [299, 1],
-  2: [2, 300],
-  3: [3, 301],
-  4: [440, 4],
-  5: [302, 5],
-  6: [6, 303],
-  7: [441, 7],
-  8: [442, 8],
-  9: [9, 305],
-  10: [10, 306],
-  11: [11, 307],
-  12: [308, 12],
-  13: [309, 13],
-  14: [14, 310],
-  15: [15, 311],
-  16: [312, 16],
-  17: [313, 17],
-  18: [18, 314],
-  19: [19, 315],
-  20: [20, 316],
-  21: [21, 444],
-  22: [318, 22],
-  23: [23, 319],
-  24: [24, 445],
-  25: [25, 443],
-  26: [26],
-  27: [456, 27],
-  28: [28, 453],
-  29: [29],
-  30: [30, 457],
-  34: [34, 526],
-  35: [35],
-  36: [36, 455],
-  37: [454, 37],
-  38: [38, 463],
-  39: [39],
-  40: [40, 550],
-  41: [41, 450],
-  42: [42, 496],
-  43: [43],
-  44: [44, 458],
-  45: [45],
-  46: [46, 479],
-  47: [47],
-  48: [48],
-  49: [49],
-  50: [50],
-  51: [471, 51],
-  52: [52, 480],
-  53: [53, 451],
-  54: [452, 54],
-  55: [55],
-  56: [56, 447],
-  57: [57],
-  72: [72],
-  73: [73],
-  74: [74],
-  100: [100],
-  101: [320, 101],
-  103: [103],
-  104: [104],
-  105: [105],
-  106: [106],
-  107: [107],
-  108: [108],
-  109: [109],
-  110: [110],
-  111: [111],
-  112: [112],
-  113: [113],
-  114: [114],
-  115: [115],
-  116: [116],
-  117: [117],
-  118: [118],
-  119: [119],
-  121: [121],
-  122: [122],
-  123: [123],
-  124: [124],
-  125: [125],
-  126: [126],
-  127: [127],
-  128: [128],
-  129: [129],
-  130: [130],
-  131: [131],
-  135: [135],
-  136: [136],
-  137: [137],
-  139: [139],
-  140: [140],
-  151: [151],
-  152: [152],
-  153: [153],
-  155: [155],
-  156: [156],
-  157: [157],
-  158: [158],
-  160: [160],
-  161: [161],
-  162: [162],
-  164: [164],
-  166: [166],
-  167: [167],
-  168: [168],
-  169: [169],
-  170: [170],
-  171: [214, 171, 446],
-  172: [172],
-  173: [173],
-  174: [174],
-  175: [175],
-  176: [176],
-  177: [177],
-  178: [178],
-  179: [179],
-  180: [180],
-  181: [181],
-  182: [182],
-  183: [183],
-  184: [184],
-  185: [185],
-  186: [304, 186],
-  187: [187],
-  188: [188],
-  201: [201],
-  202: [202],
-  203: [203],
-  204: [204],
-  205: [205],
-  206: [206],
-  207: [207],
-  208: [208],
-  210: [210],
-  211: [211, 449],
-  212: [212, 448],
-  214: [214, 171, 446],
-  215: [215],
-  220: [220],
-  221: [221],
-  224: [224],
-  299: [1, 299],
-  300: [2, 300],
-  301: [3, 301],
-  302: [302, 5],
-  303: [6, 303],
-  304: [304, 186],
-  305: [9, 305],
-  306: [10, 306],
-  307: [11, 307],
-  308: [308, 12],
-  309: [309, 13],
-  310: [14, 310],
-  311: [15, 311],
-  312: [312, 16],
-  313: [313, 17],
-  314: [18, 314],
-  315: [19, 315],
-  316: [20, 316],
-  317: [317],
-  318: [318, 22],
-  319: [23, 319],
-  320: [320, 101],
-  321: [321],
-  322: [322],
-  323: [323],
-  324: [324],
-  325: [325],
-  326: [326],
-  327: [327],
-  328: [328],
-  329: [329],
-  330: [330],
-  331: [331],
-  332: [332],
-  333: [333],
-  334: [334],
-  335: [335],
-  336: [336],
-  337: [337],
-  338: [338],
-  339: [339],
-  340: [340],
-  341: [341],
-  342: [342],
-  343: [343],
-  344: [344],
-  345: [345],
-  346: [346],
-  347: [347],
-  348: [348],
-  349: [349],
-  350: [350],
-  351: [351],
-  352: [352],
-  353: [353],
-  354: [354],
-  358: [358],
-  360: [360],
-  361: [361],
-  362: [362],
-  363: [363],
-  364: [364],
-  365: [365],
-  366: [366],
-  367: [367],
-  368: [368],
-  369: [369],
-  370: [370],
-  371: [371],
-  372: [372],
-  373: [373],
-  374: [374],
-  375: [375],
-  376: [376],
-  377: [377],
-  378: [378],
-  379: [379],
-  380: [380],
-  381: [381],
-  382: [382],
-  383: [383],
-  384: [384],
-  385: [385],
-  386: [386],
-  387: [387],
-  388: [388],
-  389: [389],
-  390: [390],
-  391: [391],
-  392: [392],
-  393: [393],
-  394: [394],
-  395: [395],
-  400: [400],
-  401: [401],
-  402: [402],
-  403: [403],
-  404: [404],
-  406: [406],
-  407: [407],
-  408: [408],
-  409: [409],
-  410: [410],
-  411: [411],
-  413: [413],
-  414: [414],
-  415: [415],
-  416: [416],
-  417: [417],
-  418: [418],
-  419: [419],
-  420: [420],
-  421: [421],
-  422: [422],
-  423: [423],
-  424: [424],
-  425: [425],
-  426: [426],
-  427: [427],
-  428: [428],
-  429: [429],
-  430: [430],
-  431: [431],
-  432: [432],
-  433: [433],
-  435: [435],
-  436: [436],
-  437: [437],
-  438: [438],
-  439: [439],
-  440: [440, 4],
-  441: [441, 7],
-  442: [442, 8],
-  443: [25, 443],
-  444: [21, 444],
-  445: [24, 445],
-  446: [214, 171, 446],
-  447: [56, 447],
-  448: [212, 448],
-  449: [211, 449],
-  450: [41, 450],
-  451: [53, 451],
-  452: [452, 54],
-  453: [28, 453],
-  454: [37, 454],
-  455: [36, 455],
-  456: [27, 456],
-  457: [30, 457],
-  458: [44, 458],
-  459: [459],
-  460: [460],
-  461: [461],
-  462: [39],
-  463: [38, 463],
-  464: [464],
-  465: [465],
-  466: [466],
-  467: [467],
-  468: [468],
-  469: [469],
-  470: [45],
-  471: [471, 51],
-  472: [472],
-  473: [473],
-  474: [474],
-  475: [475],
-  476: [476],
-  477: [477],
-  478: [478],
-  479: [46, 479],
-  480: [52, 480],
-  481: [481],
-  483: [483],
-  484: [48],
-  485: [49],
-  486: [50],
-  487: [487],
-  491: [491],
-  492: [47],
-  495: [495],
-  496: [42],
-  497: [497],
-  498: [498],
-  499: [499],
-  500: [500],
-  501: [501],
-  502: [502],
-  503: [503],
-  504: [504],
-  505: [505, 57],
-  506: [506],
-  507: [507],
-  508: [508],
-  510: [510],
-  511: [511],
-  513: [513],
-  514: [514],
-  515: [35, 515],
-  516: [516],
-  517: [517],
-  518: [518],
-  519: [519],
-  520: [520],
-  521: [521],
-  522: [522],
-  523: [523],
-  524: [524],
-  525: [525],
-  526: [34, 526],
-  528: [528],
-  529: [529],
-  550: [550, 40],
-  999: [0],
-  2029: [2029],
-  2054: [2054],
-  2055: [2055],
-  2056: [2056],
-  2057: [2057],
-  2059: [2059],
-  2061: [2061],
-  2069: [2069],
-  2070: [2070],
-  2071: [2071],
-  2072: [2072],
-  2074: [2074],
-  2076: [2076],
-  2079: [0],
-  2101: [0],
-  3041: [3041],
-  3042: [3042],
-  3043: [3043],
-  4063: [4063],
-  4211: [4211],
-  7000: [7000],
-  7001: [7001],
-  7002: [7002],
-  7003: [7003],
-  7004: [7004],
-  7005: [7005],
-  7006: [7006],
-  7007: [7007],
-  7008: [7008],
-  7009: [7009],
-  7010: [7010],
-  7011: [7011],
-  7013: [7013],
-  7014: [7014],
-  7015: [7015],
-  7016: [7016],
-  7017: [7017],
-  7019: [7019]
-}
 
 let UserID
 let curUserID
 let oldGeneralID = 999 ////只有不同GeneralID才会更新skinFrame
 let GeneralID = 999
 let isFirstTime = true //第一次不会弹出skin窗口，只有oldGeneralID != GeneralID 时（新一局游戏）， 才会 isFirstTime = true；新一局游戏开始重置
+
 let GuoZhanBiaoZhun = {
   0: { cardName: '?', color: '', number: '', type: '' },
   1001: { cardName: '决斗', color: '3', number: 1, type: '2' },
@@ -524,8 +130,10 @@ let GuoZhanBiaoZhun = {
   1106: { cardName: '国无', color: '2', number: 12, type: '2' },
   1107: { cardName: '紫骍', color: '2', number: 13, type: '3' },
   1108: { cardName: '闪', color: '2', number: 13, type: '1' },
+  1148: { cardName: '玉玺', color: '4', number: 1, type: '1' },
   1150: { cardName: '敕令', color: '4', number: 3, type: '1' }
 }
+
 let JunZhengBiaoZhun = {
   0: { color: '', cardName: '?', number: '', type: '' },
   1: { color: '2', cardName: '决斗', number: 1, type: '2' },
@@ -708,6 +316,7 @@ let JunZhengBiaoZhun = {
   12126: { id: 12126, cardName: '三略', type: 3, subType: 9, exType: 0, number: 5, color: 3, attRange: 0, attDistance: 0, defDistance: 0, spellId: 6016, imageId: 6016, cardClass: 'EquipCard', res: 'SanLve', Grade1: '4,6', Grade2: '2,4', Grade3: '2,4', Grade4: '25,8_103,8_153,5_155,7_48,5_55,6_159,5_28,6_21,5_9,7_30,5_32,5_45,7_42,7', recycle: '0;0;1,2,4,7' },
   12127: { id: 12127, cardName: '照骨', type: 3, subType: 9, exType: 0, number: 1, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 6018, imageId: 6018, cardClass: 'EquipCard', res: 'ZhaoGuJing', recycle: '0;0;1,2,4,7' }
 }
+
 let JunZhengBiaoZhunShanShan = {
   0: { color: '', cardName: '?', number: '', type: '' },
   1: { color: '2', cardName: '决斗', number: 1, type: '2' },
@@ -890,6 +499,7 @@ let JunZhengBiaoZhunShanShan = {
   12126: { id: 12126, cardName: '三略', type: 3, subType: 9, exType: 0, number: 5, color: 3, attRange: 0, attDistance: 0, defDistance: 0, spellId: 6016, imageId: 6016, cardClass: 'EquipCard', res: 'SanLve', Grade1: '4,6', Grade2: '2,4', Grade3: '2,4', Grade4: '25,8_103,8_153,5_155,7_48,5_55,6_159,5_28,6_21,5_9,7_30,5_32,5_45,7_42,7', recycle: '0;0;1,2,4,7' },
   12127: { id: 12127, cardName: '照骨', type: 3, subType: 9, exType: 0, number: 1, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 6018, imageId: 6018, cardClass: 'EquipCard', res: 'ZhaoGuJing', recycle: '0;0;1,2,4,7' }
 }
+
 let HuanLeBiaoZhunShanShan = {
   0: { color: '', cardName: '?', number: '', type: '' },
   1: { color: '2', cardName: '决斗', number: 1, type: '2' },
@@ -1071,6 +681,7 @@ let HuanLeBiaoZhunShanShan = {
   12126: { id: 12126, cardName: '三略', type: 3, subType: 9, exType: 0, number: 5, color: 3, attRange: 0, attDistance: 0, defDistance: 0, spellId: 6016, imageId: 6016, cardClass: 'EquipCard', res: 'SanLve', Grade1: '4,6', Grade2: '2,4', Grade3: '2,4', Grade4: '25,8_103,8_153,5_155,7_48,5_55,6_159,5_28,6_21,5_9,7_30,5_32,5_45,7_42,7', recycle: '0;0;1,2,4,7' },
   12127: { id: 12127, cardName: '照骨', type: 3, subType: 9, exType: 0, number: 1, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 6018, imageId: 6018, cardClass: 'EquipCard', res: 'ZhaoGuJing', recycle: '0;0;1,2,4,7' }
 }
+
 let JunZhengYingBianShanShan = {
   0: { id: 0, cardName: '?', type: '', subType: 9, exType: 27, number: '', color: '', attRange: 0, attDistance: 0, defDistance: 0, spellId: 700, res: 'MuNiuLiuMa' },
   161: { id: 161, cardName: '木马', type: 3, subType: 9, exType: 27, number: 5, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 700, res: 'MuNiuLiuMa' },
@@ -1256,6 +867,7 @@ let JunZhengYingBianShanShan = {
   12141: { color: '2', cardName: '闪', number: 5, type: '1' },
   12140: { color: '2', cardName: '闪', number: 3, type: '1' }
 }
+
 let HuanLeBiaoZhun = {
   0: { color: '', cardName: '?', number: '', type: '' },
   1: { color: '2', cardName: '决斗', number: 1, type: '2' },
@@ -1439,6 +1051,7 @@ let HuanLeBiaoZhun = {
   4400: { id: 4400, cardName: '回魂', type: 2, subType: 0, exType: 0, number: 3, color: 1, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1332, res: 'HuiHun', Grade1: '15,20', Grade2: '10,14', Grade3: '6,8', Grade4: '3,5', Specials: '2,4_106,4_22,6_7,9_206,-6_13,8' },
   4401: { id: 4401, cardName: '回魂', type: 2, subType: 0, exType: 0, number: 4, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1332, res: 'HuiHun', Grade1: '15,20', Grade2: '10,14', Grade3: '6,8', Grade4: '3,5', Specials: '2,4_106,4_22,6_7,9_206,-6_13,8' }
 }
+
 let JunZhengYingBian = {
   0: { id: 0, cardName: '?', type: '', subType: 9, exType: 27, number: '', color: '', attRange: 0, attDistance: 0, defDistance: 0, spellId: 700, res: 'MuNiuLiuMa' },
   161: { id: 161, cardName: '木马', type: 3, subType: 9, exType: 27, number: 5, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 700, res: 'MuNiuLiuMa' },
@@ -1621,6 +1234,7 @@ let JunZhengYingBian = {
   12126: { id: 12126, cardName: '三略', type: 3, subType: 9, exType: 0, number: 5, color: 3, attRange: 0, attDistance: 0, defDistance: 0, spellId: 6016, imageId: 6016, cardClass: 'EquipCard', res: 'SanLve', Grade1: '4,6', Grade2: '2,4', Grade3: '2,4', Grade4: '25,8_103,8_153,5_155,7_48,5_55,6_159,5_28,6_21,5_9,7_30,5_32,5_45,7_42,7', recycle: '0;0;1,2,4,7' },
   12127: { id: 12127, cardName: '照骨', type: 3, subType: 9, exType: 0, number: 1, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 6018, imageId: 6018, cardClass: 'EquipCard', res: 'ZhaoGuJing', recycle: '0;0;1,2,4,7' }
 }
+
 let ShenZhiShiLian = {
   0: { id: 0, cardName: '?', type: '', subType: 9, exType: 27, number: '', color: '', attRange: 0, attDistance: 0, defDistance: 0, spellId: 700, res: 'MuNiuLiuMa' },
   161: { id: 161, cardName: '木马', type: 3, subType: 9, exType: 27, number: 5, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 700, res: 'MuNiuLiuMa' },
@@ -1804,8 +1418,10 @@ let ShenZhiShiLian = {
   12126: { id: 12126, cardName: '三略', type: 3, subType: 9, exType: 0, number: 5, color: 3, attRange: 0, attDistance: 0, defDistance: 0, spellId: 6016, imageId: 6016, cardClass: 'EquipCard', res: 'SanLve', Grade1: '4,6', Grade2: '2,4', Grade3: '2,4', Grade4: '25,8_103,8_153,5_155,7_48,5_55,6_159,5_28,6_21,5_9,7_30,5_32,5_45,7_42,7', recycle: '0;0;1,2,4,7' },
   12127: { id: 12127, cardName: '照骨', type: 3, subType: 9, exType: 0, number: 1, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 6018, imageId: 6018, cardClass: 'EquipCard', res: 'ZhaoGuJing', recycle: '0;0;1,2,4,7' }
 }
+
 let GuoZhanYingBian = {
   0: { id: 0, cardName: '?', type: '', subType: 9, exType: 27, number: '', color: '', attRange: 0, attDistance: 0, defDistance: 0, spellId: 700, res: 'MuNiuLiuMa' },
+  1148: { cardName: '玉玺', color: '4', number: 1, type: '1' },
   1150: { cardName: '敕令', color: '4', number: 3, type: '1' },
   1200: { id: 1200, cardName: '决斗', type: 2, subType: 0, exType: 48, number: 1, color: 3, attRange: 0, attDistance: 0, defDistance: 0, spellId: 8, res: 'JueDou', Grade1: '12,14', Grade2: '5,7', Grade3: '3,5', Grade4: '1,3', Specials: '2004,5_2006,3_2021,4_2031,4_2039,3_2046,3_2052,4' },
   1201: { id: 1201, cardName: '闪电', type: 2, subType: 5, exType: 48, number: 1, color: 3, attRange: 0, attDistance: 0, defDistance: 0, spellId: 11, cardClass: 'DelayedJinNangCard', res: 'ShanDian', Grade1: '3,7', Specials: '2001,5_2006,3_2031,4_2039,3_2052,4' },
@@ -1842,44 +1458,7 @@ let GuoZhanYingBian = {
   1232: { id: 1232, cardName: '桃', type: 1, subType: 0, exType: 48, number: 12, color: 1, attRange: 0, attDistance: 0, defDistance: 0, spellId: 3, cardClass: 'TaoNCard', res: 'Tao', Grade1: '23,25', Grade2: '15,20', Grade3: '8,12', Grade4: '4,6', Specials: '2000,2_2001,2_2002,2_2005,5_2012,5_2016_2_2028,3_2033,5_2036,2_2039,4_2040,3_2045,4_2056,3' },
   1233: { id: 1233, cardName: '过拆', type: 2, subType: 0, exType: 48, number: 12, color: 1, attRange: 0, attDistance: 0, defDistance: 0, spellId: 5, res: 'GuoHeChaiQiao', Grade1: '12,14', Grade2: '6,8', Grade3: '3,5', Grade4: '1,3', Specials: '2012,3_2016_2_2021,4_2028,3_2036,2_2039,4_2040,3_2045,4_2056,3' },
   1234: { id: 1234, cardName: '闪', type: 1, subType: 0, exType: 48, number: 13, color: 1, attRange: 0, attDistance: 0, defDistance: 0, spellId: 2, res: 'Shan', Grade1: '23,25', Grade2: '12,15', Grade3: '4,6', Grade4: '0,4', Specials: '2012,5_2016_2_2019,2_2028,5_2036,2_2039,4_2040,5_2045,4_2052,5_2056,5' },
-  1235: { id: 1235, cardName: '爪黄', type: 3, subType: 3, exType: 48, number: 13, color: 1, attRange: 0, attDistance: 0, defDistance: 1, spellId: 22, res: 'ZhuaHuangFeiDian', Grade1: '16,20', Grade2: '8,10', Grade3: '2,4', Specials: '2007,5_2012,5_2016_2_2028,5_2036,2_2037,5_2039,4_2040,5_2043,2_2045,4_2056,5' },
-  1236: { id: 1236, cardName: '决斗', type: 2, subType: 0, exType: 48, number: 1, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 8, res: 'JueDou', Grade1: '12,14', Grade2: '5,7', Grade3: '3,5', Grade4: '1,3', Specials: '2004,5_2006,3_2021,4_2024,4_2031,4_2046,3_2052,2' },
-  1237: { id: 1237, cardName: '杀', type: 1, subType: 0, exType: 48, number: 2, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, res: 'Sha', Grade1: '23,25', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2006,3_2009,4_2017_3_2019,3_2024,4_2031,4_2052,2' },
-  1238: { id: 1238, cardName: '仁王', type: 3, subType: 2, exType: 48, number: 2, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 200, res: 'RenWangDun', Grade1: '14,18', Specials: '2006,3_2007,5_2009,4_2024,4_2031,4_2037,5_2043,2_2052,2' },
-  1239: { id: 1239, cardName: '杀', type: 1, subType: 0, exType: 48, number: 3, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, res: 'Sha', Grade1: '23,25', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2006,3_2009,4_2017_3_2019,3_2024,4_2031,4_2052,2' },
-  1240: { id: 1240, cardName: '知己', type: 2, subType: 0, exType: 48, number: 3, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 2022, res: 'ZhiJiZhiBi', Grade1: '14,16', Grade2: '5,7', Specials: '2006,3_2021,4_2024,4_2031,4_2052,2' },
-  1241: { id: 1241, cardName: '知己', type: 2, subType: 0, exType: 48, number: 4, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 2022, res: 'ZhiJiZhiBi', Grade1: '14,16', Grade2: '5,7', Specials: '2006,3_2021,4_2024,4_2031,4_2052,2' },
-  1242: { id: 1242, cardName: '乐', type: 2, subType: 5, exType: 48, number: 6, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 15, cardClass: 'DelayedJinNangCard', res: 'LeBuSiShu', Grade1: '12,14', Grade2: '6,8', Specials: '2006,3_2024,4_2031,4_2052,2' },
-  1243: { id: 1243, cardName: '雷杀', type: 1, subType: 7, exType: 48, number: 6, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, cardClass: 'LeiShaNCard', res: 'LeiSha', Grade1: '23,26', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2006,3_2009,4_2017_3_2019,3_2024,4_2031,4_2052,2' },
-  1244: { id: 1244, cardName: '雷杀', type: 1, subType: 7, exType: 48, number: 7, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, cardClass: 'LeiShaNCard', res: 'LeiSha', Grade1: '23,26', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2006,3_2009,4_2017_3_2019,3_2024,4_2031,4_2052,2' },
-  1245: { id: 1245, cardName: '杀', type: 1, subType: 0, exType: 48, number: 8, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, res: 'Sha', Grade1: '23,25', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2006,3_2009,4_2017_3_2019,3_2024,4_2031,4_2052,2' },
-  1246: { id: 1246, cardName: '雷杀', type: 1, subType: 7, exType: 48, number: 8, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, cardClass: 'LeiShaNCard', res: 'LeiSha', Grade1: '23,26', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2006,3_2009,4_2017_3_2019,3_2024,4_2031,4_2052,2' },
-  1247: { id: 1247, cardName: '酒', type: 1, subType: 0, exType: 48, number: 9, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 82, res: 'Jiu', Grade1: '15,18', Grade2: '10,14', Grade3: '6,9', Grade4: '2,4', Specials: '2001,1_2005,2_2006,3_2009,4_2024,4_2031,4_2033,3_2052,2' },
-  1248: { id: 1248, cardName: '杀', type: 1, subType: 0, exType: 48, number: 9, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, res: 'Sha', Grade1: '23,25', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2006,3_2009,4_2017_3_2019,3_2024,4_2031,4_2052,2' },
-  1249: { id: 1249, cardName: '兵', type: 2, subType: 5, exType: 48, number: 10, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 84, cardClass: 'DelayedJinNangCard', res: 'BingLiangCunDuan', Grade1: '10,12', Grade2: '3,5', Specials: '2006,3_2024,4_2031,4_2052,2' },
-  1250: { id: 1250, cardName: '杀', type: 1, subType: 0, exType: 48, number: 10, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, res: 'Sha', Grade1: '23,25', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2006,3_2009,4_2017_3_2019,3_2024,4_2031,4_2052,2' },
-  1251: { id: 1251, cardName: '杀', type: 1, subType: 0, exType: 48, number: 11, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, res: 'Sha', Grade1: '23,25', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2006,3_2009,4_2017_3_2019,3_2024,4_2031,4_2052,2' },
-  1252: { id: 1252, cardName: '杀', type: 1, subType: 0, exType: 48, number: 11, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, res: 'Sha', Grade1: '23,25', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2006,3_2009,4_2017_3_2019,3_2024,4_2031,4_2052,2' },
-  1253: { id: 1253, cardName: '铁索', type: 2, subType: 0, exType: 48, number: 12, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 85, res: 'TieSuoLianHuan', Grade1: '12,14', Grade2: '5,7', Grade3: '0,4', Specials: '2006,3_2012,3_2021,4_2024,4_2028,3_2031,4_2040,3_2052,2_2056,3' },
-  1254: { id: 1254, cardName: '铁索', type: 2, subType: 0, exType: 48, number: 13, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 85, res: 'TieSuoLianHuan', Grade1: '12,14', Grade2: '5,7', Grade3: '0,4', Specials: '2006,3_2012,5_2021,4_2024,4_2028,5_2031,4_2040,5_2052,2_2056,5' },
-  1255: { id: 1255, cardName: '国无', type: 2, subType: 8, exType: 48, number: 13, color: 4, attRange: 0, attDistance: 0, defDistance: 0, spellId: 13, res: 'WuXieKeJiGuo', Grade1: '23,25', Grade2: '14,16', Grade3: '7,9', Grade4: '5,7', Specials: '2006,3_2012,5_2021,4_2024,4_2028,5_2031,4_2040,5_2052,2_2056,5' },
-  1256: { id: 1256, cardName: '连弩', type: 3, subType: 1, exType: 48, number: 1, color: 2, attRange: 1, attDistance: 0, defDistance: 0, spellId: 23, res: 'ZhuGeLianNu', Grade1: '8,10', Specials: '2007,5_2011,5_2016_2_2032,6_2033,6_2035,5_2036,2_2037,5_2043,2_2045,4' },
-  1257: { id: 1257, cardName: '桃', type: 1, subType: 0, exType: 48, number: 2, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 3, cardClass: 'TaoNCard', res: 'Tao', Grade1: '23,25', Grade2: '15,20', Grade3: '8,12', Grade4: '4,6', Specials: '2000,2_2001,2_2002,2_2005,5_2012,2_2016_2_2033,5_2035,5_2036,2_2045,4' },
-  1258: { id: 1258, cardName: '闪', type: 1, subType: 0, exType: 48, number: 2, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 2, res: 'Shan', Grade1: '23,25', Grade2: '12,15', Grade3: '4,6', Grade4: '0,4', Specials: '2016_2_2019,2_2035,5_2036,2_2045,4_2052,5' },
-  1259: { id: 1259, cardName: '顺手', type: 2, subType: 0, exType: 48, number: 3, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 4, res: 'ShunShouQianYang', Grade1: '14,16', Grade2: '8,10', Grade3: '5,7', Specials: '2016_2_2021,5_2035,5_2036,2_2045,4' },
-  1260: { id: 1260, cardName: '闪', type: 1, subType: 0, exType: 48, number: 3, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 2, res: 'Shan', Grade1: '23,25', Grade2: '12,15', Grade3: '4,6', Grade4: '0,4', Specials: '2016_2_2019,2_2035,5_2036,2_2045,4_2052,5' },
-  1261: { id: 1261, cardName: '逸劳', type: 2, subType: 0, exType: 48, number: 4, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 2020, res: 'YiYiDaiLao', Grade1: '12,14', Grade2: '6,8', Specials: '2016_2_2021,5_2035,5_2036,2_2045,4' },
-  1262: { id: 1262, cardName: '贯石', type: 3, subType: 1, exType: 48, number: 5, color: 2, attRange: 3, attDistance: 0, defDistance: 0, spellId: 28, res: 'GuanShiFu', Grade1: '9,12', Specials: '2004,5_2007,5_2011,5_2016_2_2035,5_2036,2_2037,5_2043,2_2045,4' },
-  1263: { id: 1263, cardName: '火杀', type: 1, subType: 6, exType: 48, number: 5, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, cardClass: 'HuoShaNCard', res: 'HuoSha', Grade1: '24,26', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2016_2_2017_3_2019,3_2035,5_2036,2_2045,4' },
-  1264: { id: 1264, cardName: '吴六', type: 3, subType: 1, exType: 48, number: 6, color: 2, attRange: 2, attDistance: 0, defDistance: 0, spellId: 2051, cardClass: 'WuLiuJianNCard', res: 'WuLiuJian', Grade1: '8,11', Specials: '2007,5_2011,5_2016_2_2035,5_2036,2_2037,5_2043,2_2045,4' },
-  1265: { id: 1265, cardName: '闪', type: 1, subType: 0, exType: 48, number: 6, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 2, res: 'Shan', Grade1: '23,25', Grade2: '12,15', Grade3: '4,6', Grade4: '0,4', Specials: '2016_2_2019,2_2035,5_2036,2_2045,4_2052,5' },
-  1266: { id: 1266, cardName: '酒', type: 1, subType: 0, exType: 48, number: 9, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 82, res: 'Jiu', Grade1: '15,18', Grade2: '10,14', Grade3: '6,9', Grade4: '2,4', Specials: '2001,1_2005,2_2016_2_2033,3_2035,5_2036,2_2045,4' },
-  1267: { id: 1267, cardName: '闪', type: 1, subType: 0, exType: 48, number: 9, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 2, res: 'Shan', Grade1: '23,25', Grade2: '12,15', Grade3: '4,6', Grade4: '0,4', Specials: '2016_2_2019,2_2035,5_2036,2_2045,4_2052,5' },
-  1268: { id: 1268, cardName: '杀', type: 1, subType: 0, exType: 48, number: 10, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, res: 'Sha', Grade1: '23,26', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2016_2_2017_3_2019,3_2035,5_2036,2_2045,4' },
-  1269: { id: 1269, cardName: '闪', type: 1, subType: 0, exType: 48, number: 10, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 2, res: 'Shan', Grade1: '23,25', Grade2: '12,15', Grade3: '4,6', Grade4: '0,4', Specials: '2016_2_2019,2_2035,5_2036,2_2045,4_2052,5' },
-  1270: { id: 1270, cardName: '杀', type: 1, subType: 0, exType: 48, number: 11, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, res: 'Sha', Grade1: '23,26', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2016_2_2017_3_2019,3_2035,5_2036,2_2045,4' },
-  1271: { id: 1271, cardName: '闪', type: 1, subType: 0, exType: 48, number: 11, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 2, res: 'Shan', Grade1: '23,25', Grade2: '12,15', Grade3: '4,6', Grade4: '0,4', Specials: '2016_2_2019,2_2035,5_2036,2_2045,4_2052,5' },
-  1272: { id: 1272, cardName: '杀', type: 1, subType: 0, exType: 48, number: 12, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, res: 'Sha', Grade1: '23,26', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2012,3_2016_2_2017_3_2019,3_2028,3_2035,5_2036,2_2040,3_2045,4_2056,3' },
+  1235: { id: 1235, cardName: '爪黄', type: 3, subType: 3, exType: 48, number: 13, color: 12, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 1, res: 'Sha', Grade1: '23,26', Grade2: '10,12', Grade3: '4,7', Grade4: '1,3', Specials: '2012,3_2016_2_2017_3_2019,3_2028,3_2035,5_2036,2_2040,3_2045,4_2056,3' },
   1273: { id: 1273, cardName: '三尖', type: 3, subType: 1, exType: 48, number: 12, color: 2, attRange: 3, attDistance: 0, defDistance: 0, spellId: 2050, res: 'SanJianLiangRenDao', Grade1: '9,12', Specials: '2007,5_2011,5_2012,3_2016_2_2028,3_2035,5_2036,2_2037,5_2040,3_2043,2_2045,4_2056,3' },
   1274: { id: 1274, cardName: '国无', type: 2, subType: 8, exType: 48, number: 12, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 13, res: 'WuXieKeJiGuo', Grade1: '23,25', Grade2: '14,16', Grade3: '7,9', Grade4: '5,7', Specials: '2012,3_2016_2_2021,4_2028,3_2035,5_2036,2_2040,3_2045,4_2056,3' },
   1275: { id: 1275, cardName: '紫骍', type: 3, subType: 4, exType: 48, number: 13, color: 2, attRange: 0, attDistance: 1, defDistance: 0, spellId: 18, res: 'ZiXing', Grade1: '12,14', Grade2: '5,7', Grade3: '3,5', Specials: '2012,5_2016_2_2023,3_2028,5_2035,5_2036,2_2037,5_2040,5_2043,2_2045,4_2056,5' },
@@ -1914,8 +1493,10 @@ let GuoZhanYingBian = {
   1304: { id: 1304, cardName: '闪', type: 1, subType: 0, exType: 48, number: 7, color: 2, attRange: 0, attDistance: 0, defDistance: 0, enhanceCond: 3012, enhanceEffect: 3025, spellId: 2, imageId: 2, res: 'Shan', Grade1: '23,25', Grade2: '12,15', Grade3: '4,6', Grade4: '0,4' },
   1305: { id: 1305, cardName: '闪', type: 1, subType: 0, exType: 48, number: 8, color: 2, attRange: 0, attDistance: 0, defDistance: 0, enhanceCond: 3012, enhanceEffect: 3025, spellId: 2, imageId: 2, res: 'Shan', Grade1: '23,25', Grade2: '12,15', Grade3: '4,6', Grade4: '0,4' },
   1306: { id: 1306, cardName: '闪', type: 1, subType: 0, exType: 48, number: 8, color: 2, attRange: 0, attDistance: 0, defDistance: 0, enhanceCond: 3012, enhanceEffect: 3025, spellId: 2, imageId: 2, res: 'Shan', Grade1: '23,25', Grade2: '12,15', Grade3: '4,6', Grade4: '0,4' },
-  1307: { id: 1307, cardName: '火杀', type: 1, subType: 6, exType: 48, number: 4, color: 1, attRange: 0, attDistance: 0, defDistance: 0, enhanceCond: 3017, enhanceEffect: 3023, spellId: 1, imageId: 1, cardClass: 'HuoShaNCard', res: 'HuoSha', Grade1: '23,25', Grade2: '8,12', Grade3: '4,7', Grade4: '1,3' }
+  1307: { id: 1307, cardName: '火杀', type: 1, subType: 6, exType: 48, number: 4, color: 1, attRange: 0, attDistance: 0, defDistance: 0, enhanceCond: 3017, enhanceEffect: 3023, spellId: 1, imageId: 1, cardClass: 'HuoShaNCard', res: 'HuoSha', Grade1: '23,25', Grade2: '8,12', Grade3: '4,7', Grade4: '1,3' },
+  20330: { id: 20330, cardName: '不知', type: 1, subType: 0, exType: 48, number: 8, color: 2, attRange: 0, attDistance: 0, defDistance: 0, enhanceCond: 3012, enhanceEffect: 3025, spellId: 2, imageId: 2, res: 'Shan', Grade1: '23,25', Grade2: '12,15', Grade3: '4,6', Grade4: '0,4' }
 }
+
 let ZhuGongSha = {
   0: { color: '', cardName: '?', number: '', type: '' },
   1: { color: '2', cardName: '决斗', number: 1, type: '2' },
@@ -2094,6 +1675,7 @@ let ZhuGongSha = {
   13004: { id: 13004, cardName: '酒', type: 1, subType: 0, exType: 0, number: 2, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 82, res: 'Jiu', Grade1: '15,18', Grade2: '10,14', Grade3: '6,9', Grade4: '2,4', Specials: '2,4_106,4_22,6_20,6_13,8_11,5' },
   13005: { id: 13005, cardName: '酒', type: 1, subType: 0, exType: 0, number: 3, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 82, res: 'Jiu', Grade1: '15,18', Grade2: '10,14', Grade3: '6,9', Grade4: '2,4', Specials: '2,4_106,4_22,6_20,6_13,8_11,5' }
 }
+
 let ZhuGongShaShanShan = {
   0: { color: '', cardName: '?', number: '', type: '' },
   1: { color: '2', cardName: '决斗', number: 1, type: '2' },
@@ -2275,6 +1857,7 @@ let ZhuGongShaShanShan = {
   13004: { id: 13004, cardName: '酒', type: 1, subType: 0, exType: 0, number: 2, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 82, res: 'Jiu', Grade1: '15,18', Grade2: '10,14', Grade3: '6,9', Grade4: '2,4', Specials: '2,4_106,4_22,6_20,6_13,8_11,5' },
   13005: { id: 13005, cardName: '酒', type: 1, subType: 0, exType: 0, number: 3, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 82, res: 'Jiu', Grade1: '15,18', Grade2: '10,14', Grade3: '6,9', Grade4: '2,4', Specials: '2,4_106,4_22,6_20,6_13,8_11,5' }
 }
+
 let puyuan = {
   12110: { id: 12110, cardName: '无双', type: 3, subType: 1, exType: 0, number: 12, color: 2, attRange: 4, attDistance: 0, defDistance: 0, spellId: 388, imageId: 388, cardClass: 'EquipCard', res: 'WuShuangFangTianJi', recycle: '0;0;1,2,4,7' },
   12111: { id: 12111, cardName: '鬼龙', type: 3, subType: 1, exType: 0, number: 5, color: 3, attRange: 3, attDistance: 0, defDistance: 0, spellId: 1128, imageId: 1128, cardClass: 'EquipCard', res: 'GuiLongZhanYueDao', recycle: '0;0;1,2,4,7' },
@@ -2295,6 +1878,7 @@ let puyuan = {
   12126: { id: 12126, cardName: '三略', type: 3, subType: 9, exType: 0, number: 5, color: 3, attRange: 0, attDistance: 0, defDistance: 0, spellId: 6016, imageId: 6016, cardClass: 'EquipCard', res: 'SanLve', Grade1: '4,6', Grade2: '2,4', Grade3: '2,4', Grade4: '25,8_103,8_153,5_155,7_48,5_55,6_159,5_28,6_21,5_9,7_30,5_32,5_45,7_42,7', recycle: '0;0;1,2,4,7' },
   12127: { id: 12127, cardName: '照骨', type: 3, subType: 9, exType: 0, number: 1, color: 2, attRange: 0, attDistance: 0, defDistance: 0, spellId: 6018, imageId: 6018, cardClass: 'EquipCard', res: 'ZhaoGuJing', recycle: '0;0;1,2,4,7' }
 }
+
 let DouDiZhu = {
   0: { color: '', cardName: '?', number: '', type: '' },
   1: { color: '2', cardName: '决斗', number: 1, type: '2' },
@@ -2555,6 +2139,7 @@ let cardTypeGuoZhanYingBian = {
   铜雀: { cardNum: 1, cardType: 3 },
   五行: { cardNum: 1, cardType: 3 }
 }
+
 let cardTypeJunZhengBiaoZhun = {
   桃: { cardType: 1, cardNum: 12 },
   酒: { cardType: 1, cardNum: 5 },
@@ -2601,6 +2186,7 @@ let cardTypeJunZhengBiaoZhun = {
   紫骍: { cardType: 3, cardNum: 1 },
   木马: { cardType: 3, cardNum: 1 }
 }
+
 let cardTypeGuoZhanBiaoZhun = {
   南蛮: { cardNum: 2, cardType: 2 },
   万箭: { cardNum: 1, cardType: 2 },
@@ -2639,6 +2225,7 @@ let cardTypeGuoZhanBiaoZhun = {
   朱雀: { cardNum: 1, cardType: 3 },
   麒麟: { cardNum: 1, cardType: 3 },
   白银: { cardNum: 1, cardType: 3 },
+  玉玺: { cardNum: 1, cardType: 3 },
   藤甲: { cardNum: 1, cardType: 3 },
   仁王: { cardNum: 1, cardType: 3 },
   八卦: { cardNum: 1, cardType: 3 },
@@ -2649,6 +2236,7 @@ let cardTypeGuoZhanBiaoZhun = {
   大宛: { cardNum: 1, cardType: 3 },
   紫骍: { cardNum: 1, cardType: 3 }
 }
+
 let cardTypeHuanLeBiaoZhun = {
   桃: { cardType: 1, cardNum: 12 },
   酒: { cardType: 1, cardNum: 5 },
@@ -2694,6 +2282,7 @@ let cardTypeHuanLeBiaoZhun = {
   大宛: { cardType: 3, cardNum: 1 },
   紫骍: { cardType: 3, cardNum: 1 }
 }
+
 let cardTypeJunZhengYingBian = {
   木马: { cardType: 3, cardNum: 1 },
   决斗: { cardNum: 3, cardType: 2 },
@@ -2746,6 +2335,7 @@ let cardTypeJunZhengYingBian = {
   桃园: { cardNum: 1, cardType: 2 },
   万箭: { cardNum: 1, cardType: 2 }
 }
+
 let cardTypeZhuGongSha = {
   桃: { cardType: 1, cardNum: 10 },
   酒: { cardType: 1, cardNum: 5 },
@@ -2791,6 +2381,7 @@ let cardTypeZhuGongSha = {
   大宛: { cardType: 3, cardNum: 1 },
   紫骍: { cardType: 3, cardNum: 1 }
 }
+
 let cardTypeShenZhiShiLian = {
   洪荒: { cardType: 2, cardNum: 1 },
   木马: { cardType: 3, cardNum: 1 },
@@ -2844,6 +2435,7 @@ let cardTypeShenZhiShiLian = {
   桃园: { cardNum: 1, cardType: 2 },
   万箭: { cardNum: 1, cardType: 2 }
 }
+
 let cardTypeDouDiZhu = {
   桃: { cardType: 1, cardNum: 12 },
   酒: { cardType: 1, cardNum: 7 },
@@ -2987,8 +2579,9 @@ function gameStart() {
     for (let i = 1001; i <= 1108; i++) {
       paidui.add(i)
     }
+    paidui.add(1148)
     paidui.add(1150)
-    ;(diamond = 27), (spade = 27), (heart = 27), (club = 27), (spade2_9 = 17), (hongsha = 8), (heisha = 21)
+    ;(diamond = 27), (spade = 27), (heart = 27), (club = 28), (spade2_9 = 17), (hongsha = 8), (heisha = 21)
     document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：国战</b>'
   } else if (isGuoZhanYingBian) {
     paidui = new Set()
@@ -3998,7 +3591,7 @@ function getCardNumAndSuit(cardID) {
 function addCard(id, cardID, zone, ToPosition, SpellID) {
   //观星询询翻回牌堆,牌堆增加,cardType增加
   //65280 丢到牌堆顶
-  if (zone == 1 && id == 255 && ToPosition == 65280 && cardID != 4400 && cardID != 4401) {
+  if (zone == 1 && id == 255 && ToPosition == 65280 && cardID != 4400 && cardID != 4401 && SpellID != 3208 && SpellID != 3266) {
     paidui.add(cardID)
     addCardType(cardID)
     ding.push(cardID)
@@ -4017,7 +3610,7 @@ function addCard(id, cardID, zone, ToPosition, SpellID) {
     addCardType(cardID)
     ding.splice(insertInd, 0, cardID)
     // ding.reverse();
-    console.warn('card di 黄承彦 ' + ding + ' ' + insertInd)
+    console.warn('card ding 黄承彦 ' + ding + ' ' + insertInd)
   }
   //用手气卡把手牌丢回给牌堆
   else if (zone == 1 && id == 0) {
@@ -4451,7 +4044,7 @@ function mainLogic(args) {
       isDouDiZhu = true
       currentCardType = cardTypeDouDiZhu
       currentMode = DouDiZhu
-    } else if (cardCount == 109 && cardList[107] == 1108) {
+    } else if (cardCount == 110 && cardList[107] == 1108) {
       isGuoZhanBiaoZhun = true
       currentCardType = cardTypeGuoZhanBiaoZhun
       currentMode = GuoZhanBiaoZhun
@@ -4467,7 +4060,7 @@ function mainLogic(args) {
       isShenZhiShiLian = true
       currentCardType = cardTypeShenZhiShiLian
       currentMode = ShenZhiShiLian
-    } else if (cardCount == 109 && cardList[108] == 1307) {
+    } else if (cardCount == 111 && cardList[110] == 20330) {
       isGuoZhanYingBian = true
       currentCardType = cardTypeGuoZhanYingBian
       currentMode = GuoZhanYingBian
@@ -4555,6 +4148,22 @@ function mainLogic(args) {
       }
       drawShouPai(shoupai)
     }
+    //族钟琰
+    else if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && targetSeatID == 255 && Param == 0 && card.SpellID == 3266) {
+      for (const p of Params.slice().reverse()) {
+        paidui.add(p)
+        addCardType(p)
+        ding.push(p)
+        console.warn('card ding ' + ding)
+      }
+    } else if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && targetSeatID != 255 && Param == 0 && card.SpellID == 3266) {
+      if (typeof targetSeatID != 'undefined') {
+        for (let p = Params.length - 1; p >= 0; p--) {
+          shoupai[idOrder[targetSeatID]].add(Params[p])
+        }
+      }
+      drawShouPai(shoupai)
+    }
     //溃围
     else if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && card.SpellID == 372) {
       // Params: (9) [5, 2, 63, 138, 60, 118, 153, 28, 20]
@@ -4618,11 +4227,14 @@ function mainLogic(args) {
             removeCardType(i)
           }
           removeCardType(1150)
+          removeCardType(1148)
         } else if (isGuoZhanYingBian) {
           for (let i = 1200; i <= 1307; i++) {
             removeCardType(i)
           }
           removeCardType(1150)
+          removeCardType(1148)
+          removeCardType(20330)
         } else if (isHuanLeBiaoZhun) {
           for (let i = 1; i <= 160; i++) {
             removeCardType(i)
@@ -5113,25 +4725,7 @@ function addSkinFrame() {
     btnSkin.style = 'text-align:center;' + 'color: #f2de9c;' + 'background: rgb(40,40,40);' + 'border-radius:5px;' + 'margin-left:3px;' + 'border: 1px solid rgb(212,212,162);' + 'cursor: pointer;' + 'user-select:none;' + 'background: rgb(107,30,30);'
     header.append(btnSkin)
     createSkinIframe.appendChild(header)
-    // var btn = document.createElement('btn');
-    //
-    // btn.innerText = "×";
-    // // toggle.type = 'checkbox';
-    // btn.id = 'toggle-me';
-    // btn.style =
-    //     "text-align:center;" +
-    //     "color: #f2de9c;" +
-    //     "background: rgb(40,40,40);" +
-    //     "border-radius:5px;" +
-    //     "margin-left:3px;" +
-    //     "border: 1px solid rgb(212,212,162);" +
-    //     "cursor: pointer;" +
-    //     "user-select:none;"+
-    //     "background: rgb(107,30,30);"
-    //
-    //
-    // ;
-    // header.append(btn);
+
     document.body.appendChild(createSkinIframe)
 
     iframe = document.createElement('iframe')
@@ -5370,19 +4964,6 @@ function buttonClick() {
       }
     }
   }
-  // mySeat1BTN.onmousedown = function (){
-  //     if(mySeatID.size == 1){
-  //         for(const m of mySeatID){
-  //             MiZhuCards = [];
-  //             for(const card of shoupai[idOrder[m]]){
-  //                 MiZhuCards.push(getCardNumAndSuit(m)["cardNum"]);
-  //             }
-  //             MiZhuCal(MiZhuCards,MiZhuCards.length);
-  //             drawMiZhu(MiZhuRes);
-  //         };
-  //
-  //     }
-  // }
 }
 
 function initDragElement() {
