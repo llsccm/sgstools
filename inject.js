@@ -9,6 +9,12 @@ fetch('https://llsccm.github.io/sgstools/iframe.html')
   })
 
 window.WDVerSion = '1.0.0'
+;(function () {
+  let iframe = document.createElement('iframe')
+  document.body.appendChild(iframe)
+  window.console = iframe.contentWindow.console
+  iframe = null
+})()
 var card = {}
 var mySkin
 var isSelectGeneral = false
@@ -5035,4 +5041,8 @@ function initDragElement() {
   }
 }
 
-main()
+try{
+  main()
+}catch(e){
+  console.error(e)
+}
