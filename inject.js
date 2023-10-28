@@ -12,6 +12,7 @@ window.WDVerSion = '1.0.0'
 ;(function () {
   let iframe = document.createElement('iframe')
   document.body.appendChild(iframe)
+  iframe.frameBorder = 0
   window.console = iframe.contentWindow.console
   iframe = null
 })()
@@ -5041,8 +5042,9 @@ function initDragElement() {
   }
 }
 
-try{
+try {
   main()
-}catch(e){
+} catch (e) {
   console.error(e)
+  document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>小抄GG了，联系作者解决</b>'
 }
