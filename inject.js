@@ -22,7 +22,8 @@ fetch('https://llsccm.github.io/sgstools/iframe.html')
 fetch('https://llsccm.github.io/sgstools/card.json')
   .then((res) => res.json())
   .then((data) => {
-    cardJson = data(({ GuoZhanBiaoZhun, JunZhengBiaoZhun, JunZhengBiaoZhunShanShan, HuanLeBiaoZhunShanShan, JunZhengYingBianShanShan, HuanLeBiaoZhun, JunZhengYingBian, ShenZhiShiLian, GuoZhanYingBian, ZhuGongSha, ZhuGongShaShanShan, puyuan, DouDiZhu } = cardJson))
+    cardJson = data
+    ;({ GuoZhanBiaoZhun, JunZhengBiaoZhun, JunZhengBiaoZhunShanShan, HuanLeBiaoZhunShanShan, JunZhengYingBianShanShan, HuanLeBiaoZhun, JunZhengYingBian, ShenZhiShiLian, GuoZhanYingBian, ZhuGongSha, ZhuGongShaShanShan, puyuan, DouDiZhu } = cardJson)
   })
 
 fetch('https://llsccm.github.io/sgstools/allCard.json')
