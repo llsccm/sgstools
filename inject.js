@@ -12,7 +12,7 @@ window.WDVerSion = '1.0.0'
 let html
 let cardJson = {}
 let allCard = {}
-
+let GuoZhanBiaoZhun, JunZhengBiaoZhun, JunZhengBiaoZhunShanShan, HuanLeBiaoZhunShanShan, JunZhengYingBianShanShan, HuanLeBiaoZhun, JunZhengYingBian, ShenZhiShiLian, GuoZhanYingBian, ZhuGongSha, ZhuGongShaShanShan, puyuan, DouDiZhu
 fetch('https://llsccm.github.io/sgstools/iframe.html')
   .then((res) => res.text())
   .then((data) => {
@@ -22,7 +22,7 @@ fetch('https://llsccm.github.io/sgstools/iframe.html')
 fetch('https://llsccm.github.io/sgstools/card.json')
   .then((res) => res.json())
   .then((data) => {
-    cardJson = data
+    cardJson = data(({ GuoZhanBiaoZhun, JunZhengBiaoZhun, JunZhengBiaoZhunShanShan, HuanLeBiaoZhunShanShan, JunZhengYingBianShanShan, HuanLeBiaoZhun, JunZhengYingBian, ShenZhiShiLian, GuoZhanYingBian, ZhuGongSha, ZhuGongShaShanShan, puyuan, DouDiZhu } = cardJson))
   })
 
 fetch('https://llsccm.github.io/sgstools/allCard.json')
@@ -41,8 +41,6 @@ let curUserID
 let oldGeneralID = 999 ////只有不同GeneralID才会更新skinFrame
 let GeneralID = 999
 let isFirstTime = true //第一次不会弹出skin窗口，只有oldGeneralID != GeneralID 时（新一局游戏）， 才会 isFirstTime = true；新一局游戏开始重置
-
-let { GuoZhanBiaoZhun, JunZhengBiaoZhun, JunZhengBiaoZhunShanShan, HuanLeBiaoZhunShanShan, JunZhengYingBianShanShan, HuanLeBiaoZhun, JunZhengYingBian, ShenZhiShiLian, GuoZhanYingBian, ZhuGongSha, ZhuGongShaShanShan, puyuan, DouDiZhu } = cardJson
 
 let remCardCount = 0
 let currentMode
@@ -2543,7 +2541,7 @@ function main() {
       userID = args[0]['uid']
       addSkinFrame() //预先注入
       console.warn('userID' + userID)
-    } 
+    }
     // else if (className == 'ClientGeneralSkinRep' && GeneralSkinList[0]['GeneralID'] == 7003 && curUserID == UserID) {
     //   enableQuanBian = true
     // }
