@@ -462,6 +462,52 @@
       紫骍: { cardType: 3, cardNum: 1 },
       木马: { cardType: 3, cardNum: 1 }
     }
+    cardTypeDouDiZhu = {
+      桃: { cardType: 1, cardNum: 12 },
+      酒: { cardType: 1, cardNum: 7 },
+      火杀: { cardType: 1, cardNum: 5 },
+      杀: { cardType: 1, cardNum: 34 },
+      雷杀: { cardType: 1, cardNum: 9 },
+      闪: { cardType: 1, cardNum: 24 },
+      南蛮: { cardType: 2, cardNum: 3 },
+      万箭: { cardType: 2, cardNum: 1 },
+      铁索: { cardType: 2, cardNum: 6 },
+      决斗: { cardType: 2, cardNum: 3 },
+      顺手: { cardType: 2, cardNum: 5 },
+      火攻: { cardType: 2, cardNum: 3 },
+      无中: { cardType: 2, cardNum: 4 },
+      过拆: { cardType: 2, cardNum: 6 },
+      无懈: { cardType: 2, cardNum: 7 },
+      乐: { cardType: 2, cardNum: 3 },
+      兵: { cardType: 2, cardNum: 2 },
+      闪电: { cardType: 2, cardNum: 2 },
+      桃园: { cardType: 2, cardNum: 1 },
+      五谷: { cardType: 2, cardNum: 2 },
+      借刀: { cardType: 2, cardNum: 2 },
+      连弩: { cardType: 3, cardNum: 2 },
+      寒冰: { cardType: 3, cardNum: 1 },
+      青釭: { cardType: 3, cardNum: 1 },
+      雌雄: { cardType: 3, cardNum: 1 },
+      古锭: { cardType: 3, cardNum: 1 },
+      青龙: { cardType: 3, cardNum: 1 },
+      丈八: { cardType: 3, cardNum: 1 },
+      贯石: { cardType: 3, cardNum: 1 },
+      方天: { cardType: 3, cardNum: 1 },
+      朱雀: { cardType: 3, cardNum: 1 },
+      麒麟: { cardType: 3, cardNum: 1 },
+      白银: { cardType: 3, cardNum: 1 },
+      藤甲: { cardType: 3, cardNum: 2 },
+      八卦: { cardType: 3, cardNum: 2 },
+      仁王: { cardType: 3, cardNum: 1 },
+      的卢: { cardType: 3, cardNum: 1 },
+      绝影: { cardType: 3, cardNum: 1 },
+      爪黄: { cardType: 3, cardNum: 1 },
+      骅骝: { cardType: 3, cardNum: 1 },
+      赤兔: { cardType: 3, cardNum: 1 },
+      大宛: { cardType: 3, cardNum: 1 },
+      紫骍: { cardType: 3, cardNum: 1 },
+      木马: { cardType: 3, cardNum: 1 }
+    }
   }
   // var shenSunQuanSkill = {};
   function gameStart() {
@@ -953,16 +999,16 @@
     combinationUtil(arr, n, r, 0, data, 0)
   }
 
-/**
- * Generate the function comment for the given function body.
- *
- * @param {Array} arr - the input array
- * @param {number} n - the length of the array
- * @param {number} r - the size of each combination
- * @param {number} index - the current index in the combination
- * @param {Array} data - the temporary combination array
- * @param {number} i - the current index in the input array
- */
+  /**
+   * Generate the function comment for the given function body.
+   *
+   * @param {Array} arr - the input array
+   * @param {number} n - the length of the array
+   * @param {number} r - the size of each combination
+   * @param {number} index - the current index in the combination
+   * @param {Array} data - the temporary combination array
+   * @param {number} i - the current index in the input array
+   */
   function combinationUtil(arr, n, r, index, data, i) {
     // Current combination is ready, print it
     if (index === r) {
