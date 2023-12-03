@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .field {
+      width: 500px;
+      height: 500px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3 class="mode">当前模式：编辑模式</h3>
+    <div>
+      <button id="edit">切换模式</button>
+      <button id="answer">寻找答案</button>
+    </div>
+    <div class="field"></div>
+    <p class="step"></p>
+  </div>
+  <script type="text/javascript" src="./lightout.js"></script>
+</body>
+</html>
