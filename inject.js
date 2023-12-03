@@ -19,9 +19,9 @@
   }
 
   let html = await request('https://llsccm.github.io/sgstools/iframe.html')
-  let cardJson = await request('https://llsccm.github.io/sgstools/card.json')
+  // let cardJson = await request('https://llsccm.github.io/sgstools/card.json')
   let allCard = await request('https://llsccm.github.io/sgstools/allCard.json')
-  let { GuoZhanBiaoZhun, JunZhengBiaoZhun, JunZhengBiaoZhunShanShan, HuanLeBiaoZhunShanShan, JunZhengYingBianShanShan, HuanLeBiaoZhun, JunZhengYingBian, ShenZhiShiLian, GuoZhanYingBian, ZhuGongSha, ZhuGongShaShanShan, puyuan, DouDiZhu } = cardJson
+  // let { GuoZhanBiaoZhun, JunZhengBiaoZhun, JunZhengBiaoZhunShanShan, HuanLeBiaoZhunShanShan, JunZhengYingBianShanShan, HuanLeBiaoZhun, JunZhengYingBian, ShenZhiShiLian, GuoZhanYingBian, ZhuGongSha, ZhuGongShaShanShan, puyuan, DouDiZhu } = cardJson
 
   var card = {}
   var mySkin
@@ -34,7 +34,7 @@
   let GeneralID = 999
   let isFirstTime = true //第一次不会弹出skin窗口，只有oldGeneralID != GeneralID 时（新一局游戏）， 才会 isFirstTime = true；新一局游戏开始重置
   let remCardCount = 0
-  let currentMode
+  let currentMode = {}
   let paidui = new Set() //, 别人摸未知牌不会改变,自己mainID摸牌会减少的牌,场上有明牌都会被移出,此牌堆包括别人手牌
   var paiduiSum = 0 //用于计算的平均数,吉占
 
@@ -54,16 +54,9 @@
   let isGameStart = false
   //var div
 
-  let cardTypeGuoZhanYingBian, cardTypeJunZhengBiaoZhun, cardTypeGuoZhanBiaoZhun, cardTypeHuanLeBiaoZhun, cardTypeJunZhengYingBian, cardTypeZhuGongSha, cardTypeShenZhiShiLian, cardTypeDouDiZhu
-  resetCardType()
+  //let cardTypeGuoZhanYingBian, cardTypeJunZhengBiaoZhun, cardTypeGuoZhanBiaoZhun, cardTypeHuanLeBiaoZhun, cardTypeJunZhengYingBian, cardTypeZhuGongSha, cardTypeShenZhiShiLian, cardTypeDouDiZhu
   let currentCardType
   let cardTypeButton = ''
-  //for draggable iframe
-  // var x_pos = 0,
-  //   y_pos = 0, // Stores x & y coordinates of the mouse pointer
-  //   x_elem = 0,
-  //   y_elem = 0, // Stores top, left values (edge) of the element
-  //   selected = null // Object of the element to be moved
 
   //cardType 基本1锦囊2装备3其他4
   var isSeatOrder = false //座位是否安排好了
@@ -90,6 +83,7 @@
   var isZhuGongShaShanShan = false
 
   var isTongShuai = false
+  var isUnknown = false
 
   var isHuanLeBiaoZhun = false
   var isHuanLeBiaoZhunShanShan = false
@@ -122,518 +116,91 @@
   var unknownCard = []
   var knownShouPai = new Set()
   var emojiFontSize = '15px' // 可变的字体大小，可以根据需要进行调整
-  function resetCardType() {
-    cardTypeGuoZhanYingBian = {
-      决斗: { cardNum: 2, cardType: 2 },
-      闪电: { cardNum: 1, cardType: 2 },
-      八卦: { cardNum: 1, cardType: 3 },
-      雌雄: { cardNum: 1, cardType: 3 },
-      过拆: { cardNum: 2, cardType: 2 },
-      绝影: { cardNum: 1, cardType: 3 },
-      杀: { cardNum: 19, cardType: 1 },
-      青釭: { cardNum: 1, cardType: 3 },
-      酒: { cardNum: 3, cardType: 1 },
-      兵: { cardNum: 2, cardType: 2 },
-      铁索: { cardNum: 3, cardType: 2 },
-      丈八: { cardNum: 1, cardType: 3 },
-      桃园: { cardNum: 1, cardType: 2 },
-      万箭: { cardNum: 1, cardType: 2 },
-      闪: { cardNum: 14, cardType: 1 },
-      五谷: { cardNum: 1, cardType: 2 },
-      桃: { cardNum: 8, cardType: 1 },
-      赤兔: { cardNum: 1, cardType: 3 },
-      麒麟: { cardNum: 1, cardType: 3 },
-      乐: { cardNum: 2, cardType: 2 },
-      远交: { cardNum: 1, cardType: 2 },
-      逸劳: { cardNum: 2, cardType: 2 },
-      爪黄: { cardNum: 1, cardType: 3 },
-      仁王: { cardNum: 1, cardType: 3 },
-      知己: { cardNum: 2, cardType: 2 },
-      雷杀: { cardNum: 3, cardType: 1 },
-      国无: { cardNum: 2, cardType: 2 },
-      连弩: { cardNum: 1, cardType: 3 },
-      顺手: { cardNum: 1, cardType: 2 },
-      贯石: { cardNum: 1, cardType: 3 },
-      火杀: { cardNum: 3, cardType: 1 },
-      吴六: { cardNum: 1, cardType: 3 },
-      三尖: { cardNum: 1, cardType: 3 },
-      紫骍: { cardNum: 1, cardType: 3 },
-      水淹: { cardNum: 2, cardType: 2 },
-      冰杀: { cardNum: 4, cardType: 1 },
-      南蛮: { cardNum: 2, cardType: 2 },
-      逐近: { cardNum: 2, cardType: 2 },
-      无懈: { cardNum: 1, cardType: 2 },
-      乌铁: { cardNum: 1, cardType: 3 },
-      洞烛: { cardNum: 2, cardType: 2 },
-      出其: { cardNum: 2, cardType: 2 },
-      敕令: { cardNum: 1, cardType: 2 },
-      太公: { cardNum: 1, cardType: 3 },
-      藤甲: { cardNum: 1, cardType: 3 },
-      护心: { cardNum: 1, cardType: 3 },
-      铜雀: { cardNum: 1, cardType: 3 },
-      五行: { cardNum: 1, cardType: 3 }
-    }
-    cardTypeJunZhengBiaoZhun = {
-      桃: { cardType: 1, cardNum: 12 },
-      酒: { cardType: 1, cardNum: 5 },
-      火杀: { cardType: 1, cardNum: 5 },
-      杀: { cardType: 1, cardNum: 30 },
-      雷杀: { cardType: 1, cardNum: 9 },
-      闪: { cardType: 1, cardNum: 24 },
-      南蛮: { cardType: 2, cardNum: 3 },
-      万箭: { cardType: 2, cardNum: 1 },
-      铁索: { cardType: 2, cardNum: 6 },
-      决斗: { cardType: 2, cardNum: 3 },
-      顺手: { cardType: 2, cardNum: 5 },
-      火攻: { cardType: 2, cardNum: 3 },
-      无中: { cardType: 2, cardNum: 4 },
-      过拆: { cardType: 2, cardNum: 6 },
-      无懈: { cardType: 2, cardNum: 7 },
-      乐: { cardType: 2, cardNum: 3 },
-      兵: { cardType: 2, cardNum: 2 },
-      闪电: { cardType: 2, cardNum: 2 },
-      桃园: { cardType: 2, cardNum: 1 },
-      五谷: { cardType: 2, cardNum: 2 },
-      借刀: { cardType: 2, cardNum: 2 },
-      连弩: { cardType: 3, cardNum: 2 },
-      寒冰: { cardType: 3, cardNum: 1 },
-      青釭: { cardType: 3, cardNum: 1 },
-      雌雄: { cardType: 3, cardNum: 1 },
-      古锭: { cardType: 3, cardNum: 1 },
-      青龙: { cardType: 3, cardNum: 1 },
-      丈八: { cardType: 3, cardNum: 1 },
-      贯石: { cardType: 3, cardNum: 1 },
-      方天: { cardType: 3, cardNum: 1 },
-      朱雀: { cardType: 3, cardNum: 1 },
-      麒麟: { cardType: 3, cardNum: 1 },
-      白银: { cardType: 3, cardNum: 1 },
-      藤甲: { cardType: 3, cardNum: 2 },
-      八卦: { cardType: 3, cardNum: 2 },
-      仁王: { cardType: 3, cardNum: 1 },
-      的卢: { cardType: 3, cardNum: 1 },
-      绝影: { cardType: 3, cardNum: 1 },
-      爪黄: { cardType: 3, cardNum: 1 },
-      骅骝: { cardType: 3, cardNum: 1 },
-      赤兔: { cardType: 3, cardNum: 1 },
-      大宛: { cardType: 3, cardNum: 1 },
-      紫骍: { cardType: 3, cardNum: 1 },
-      木马: { cardType: 3, cardNum: 1 }
-    }
-    cardTypeGuoZhanBiaoZhun = {
-      南蛮: { cardNum: 2, cardType: 2 },
-      万箭: { cardNum: 1, cardType: 2 },
-      决斗: { cardNum: 2, cardType: 2 },
-      无懈: { cardNum: 1, cardType: 2 },
-      国无: { cardNum: 2, cardType: 2 },
-      远交: { cardNum: 1, cardType: 2 },
-      兵: { cardNum: 2, cardType: 2 },
-      乐: { cardNum: 2, cardType: 2 },
-      桃园: { cardNum: 1, cardType: 2 },
-      铁索: { cardNum: 3, cardType: 2 },
-      闪电: { cardNum: 1, cardType: 2 },
-      借刀: { cardNum: 1, cardType: 2 },
-      逸劳: { cardNum: 2, cardType: 2 },
-      无中: { cardNum: 2, cardType: 2 },
-      知己: { cardNum: 2, cardType: 2 },
-      顺手: { cardNum: 3, cardType: 2 },
-      火攻: { cardNum: 2, cardType: 2 },
-      五谷: { cardNum: 1, cardType: 2 },
-      过拆: { cardNum: 3, cardType: 2 },
-      桃: { cardNum: 8, cardType: 1 },
-      杀: { cardNum: 21, cardType: 1 },
-      雷杀: { cardNum: 5, cardType: 1 },
-      火杀: { cardNum: 3, cardType: 1 },
-      酒: { cardNum: 3, cardType: 1 },
-      闪: { cardNum: 14, cardType: 1 },
-      连弩: { cardNum: 1, cardType: 3 },
-      吴六: { cardNum: 1, cardType: 3 },
-      雌雄: { cardNum: 1, cardType: 3 },
-      寒冰: { cardNum: 1, cardType: 3 },
-      青釭: { cardNum: 1, cardType: 3 },
-      丈八: { cardNum: 1, cardType: 3 },
-      三尖: { cardNum: 1, cardType: 3 },
-      贯石: { cardNum: 1, cardType: 3 },
-      朱雀: { cardNum: 1, cardType: 3 },
-      麒麟: { cardNum: 1, cardType: 3 },
-      白银: { cardNum: 1, cardType: 3 },
-      藤甲: { cardNum: 1, cardType: 3 },
-      仁王: { cardNum: 1, cardType: 3 },
-      八卦: { cardNum: 1, cardType: 3 },
-      的卢: { cardNum: 1, cardType: 3 },
-      爪黄: { cardNum: 1, cardType: 3 },
-      绝影: { cardNum: 1, cardType: 3 },
-      赤兔: { cardNum: 1, cardType: 3 },
-      大宛: { cardNum: 1, cardType: 3 },
-      紫骍: { cardNum: 1, cardType: 3 }
-    }
-    cardTypeHuanLeBiaoZhun = {
-      桃: { cardType: 1, cardNum: 12 },
-      酒: { cardType: 1, cardNum: 5 },
-      火杀: { cardType: 1, cardNum: 5 },
-      杀: { cardType: 1, cardNum: 30 },
-      雷杀: { cardType: 1, cardNum: 9 },
-      闪: { cardType: 1, cardNum: 24 },
-      南蛮: { cardType: 2, cardNum: 3 },
-      万箭: { cardType: 2, cardNum: 1 },
-      铁索: { cardType: 2, cardNum: 6 },
-      决斗: { cardType: 2, cardNum: 3 },
-      顺手: { cardType: 2, cardNum: 5 },
-      火攻: { cardType: 2, cardNum: 3 },
-      无中: { cardType: 2, cardNum: 4 },
-      过拆: { cardType: 2, cardNum: 6 },
-      无懈: { cardType: 2, cardNum: 7 },
-      乐: { cardType: 2, cardNum: 3 },
-      兵: { cardType: 2, cardNum: 2 },
-      闪电: { cardType: 2, cardNum: 2 },
-      桃园: { cardType: 2, cardNum: 1 },
-      五谷: { cardType: 2, cardNum: 2 },
-      借刀: { cardType: 2, cardNum: 2 },
-      连弩: { cardType: 3, cardNum: 2 },
-      寒冰: { cardType: 3, cardNum: 1 },
-      青釭: { cardType: 3, cardNum: 1 },
-      雌雄: { cardType: 3, cardNum: 1 },
-      古锭: { cardType: 3, cardNum: 1 },
-      青龙: { cardType: 3, cardNum: 1 },
-      丈八: { cardType: 3, cardNum: 1 },
-      贯石: { cardType: 3, cardNum: 1 },
-      方天: { cardType: 3, cardNum: 1 },
-      朱雀: { cardType: 3, cardNum: 1 },
-      麒麟: { cardType: 3, cardNum: 1 },
-      白银: { cardType: 3, cardNum: 1 },
-      藤甲: { cardType: 3, cardNum: 2 },
-      八卦: { cardType: 3, cardNum: 2 },
-      仁王: { cardType: 3, cardNum: 1 },
-      的卢: { cardType: 3, cardNum: 1 },
-      绝影: { cardType: 3, cardNum: 1 },
-      爪黄: { cardType: 3, cardNum: 1 },
-      骅骝: { cardType: 3, cardNum: 1 },
-      赤兔: { cardType: 3, cardNum: 1 },
-      大宛: { cardType: 3, cardNum: 1 },
-      紫骍: { cardType: 3, cardNum: 1 }
-    }
-    cardTypeJunZhengYingBian = {
-      木马: { cardType: 3, cardNum: 1 },
-      决斗: { cardNum: 3, cardType: 2 },
-      顺手: { cardNum: 3, cardType: 2 },
-      贯石: { cardNum: 1, cardType: 3 },
-      杀: { cardNum: 23, cardType: 1 },
-      闪: { cardNum: 24, cardType: 1 },
-      紫騂: { cardNum: 1, cardType: 3 },
-      连弩: { cardNum: 2, cardType: 3 },
-      桃: { cardNum: 12, cardType: 1 },
-      五谷: { cardNum: 2, cardType: 2 },
-      赤兔: { cardNum: 1, cardType: 3 },
-      乐: { cardNum: 3, cardType: 2 },
-      过拆: { cardNum: 3, cardType: 2 },
-      麒麟: { cardNum: 1, cardType: 3 },
-      爪黄: { cardNum: 1, cardType: 3 },
-      无懈: { cardNum: 7, cardType: 2 },
-      的卢: { cardNum: 1, cardType: 3 },
-      雌雄: { cardNum: 1, cardType: 3 },
-      绝影: { cardNum: 1, cardType: 3 },
-      青釭: { cardNum: 1, cardType: 3 },
-      八卦: { cardNum: 1, cardType: 3 },
-      青龙: { cardNum: 1, cardType: 3 },
-      丈八: { cardNum: 1, cardType: 3 },
-      大宛: { cardNum: 1, cardType: 3 },
-      闪电: { cardNum: 1, cardType: 2 },
-      仁王: { cardNum: 1, cardType: 3 },
-      火杀: { cardNum: 5, cardType: 1 },
-      酒: { cardNum: 5, cardType: 1 },
-      骅骝: { cardNum: 1, cardType: 3 },
-      古锭: { cardNum: 1, cardType: 3 },
-      藤甲: { cardNum: 2, cardType: 3 },
-      雷杀: { cardNum: 11, cardType: 1 },
-      兵: { cardNum: 2, cardType: 2 },
-      铁索: { cardNum: 6, cardType: 2 },
-      太公: { cardNum: 1, cardType: 3 },
-      随机: { cardNum: 1, cardType: 2 },
-      逐近: { cardNum: 4, cardType: 2 },
-      水淹: { cardNum: 2, cardType: 2 },
-      冰杀: { cardNum: 5, cardType: 1 },
-      天机: { cardNum: 1, cardType: 3 },
-      出其: { cardNum: 2, cardType: 2 },
-      洞烛: { cardNum: 4, cardType: 2 },
-      护心: { cardNum: 1, cardType: 3 },
-      黑光: { cardNum: 1, cardType: 3 },
-      铜雀: { cardNum: 1, cardType: 3 },
-      五行: { cardNum: 1, cardType: 3 },
-      乌铁: { cardNum: 1, cardType: 3 },
-      南蛮: { cardNum: 3, cardType: 2 },
-      桃园: { cardNum: 1, cardType: 2 },
-      万箭: { cardNum: 1, cardType: 2 }
-    }
-    cardTypeShenZhiShiLian = {
-      洪荒: { cardType: 2, cardNum: 1 },
-      木马: { cardType: 3, cardNum: 1 },
-      决斗: { cardNum: 3, cardType: 2 },
-      顺手: { cardNum: 3, cardType: 2 },
-      贯石: { cardNum: 1, cardType: 3 },
-      杀: { cardNum: 23, cardType: 1 },
-      闪: { cardNum: 24, cardType: 1 },
-      紫騂: { cardNum: 1, cardType: 3 },
-      连弩: { cardNum: 2, cardType: 3 },
-      桃: { cardNum: 12, cardType: 1 },
-      五谷: { cardNum: 2, cardType: 2 },
-      赤兔: { cardNum: 1, cardType: 3 },
-      乐: { cardNum: 3, cardType: 2 },
-      过拆: { cardNum: 3, cardType: 2 },
-      麒麟: { cardNum: 1, cardType: 3 },
-      爪黄: { cardNum: 1, cardType: 3 },
-      无懈: { cardNum: 7, cardType: 2 },
-      的卢: { cardNum: 1, cardType: 3 },
-      雌雄: { cardNum: 1, cardType: 3 },
-      绝影: { cardNum: 1, cardType: 3 },
-      青釭: { cardNum: 1, cardType: 3 },
-      八卦: { cardNum: 1, cardType: 3 },
-      青龙: { cardNum: 1, cardType: 3 },
-      丈八: { cardNum: 1, cardType: 3 },
-      大宛: { cardNum: 1, cardType: 3 },
-      闪电: { cardNum: 1, cardType: 2 },
-      仁王: { cardNum: 1, cardType: 3 },
-      火杀: { cardNum: 5, cardType: 1 },
-      酒: { cardNum: 5, cardType: 1 },
-      骅骝: { cardNum: 1, cardType: 3 },
-      古锭: { cardNum: 1, cardType: 3 },
-      藤甲: { cardNum: 2, cardType: 3 },
-      雷杀: { cardNum: 11, cardType: 1 },
-      兵: { cardNum: 2, cardType: 2 },
-      铁索: { cardNum: 6, cardType: 2 },
-      太公: { cardNum: 1, cardType: 3 },
-      随机: { cardNum: 1, cardType: 2 },
-      逐近: { cardNum: 4, cardType: 2 },
-      水淹: { cardNum: 2, cardType: 2 },
-      冰杀: { cardNum: 5, cardType: 1 },
-      天机: { cardNum: 1, cardType: 3 },
-      出其: { cardNum: 2, cardType: 2 },
-      洞烛: { cardNum: 4, cardType: 2 },
-      护心: { cardNum: 1, cardType: 3 },
-      黑光: { cardNum: 1, cardType: 3 },
-      铜雀: { cardNum: 1, cardType: 3 },
-      五行: { cardNum: 1, cardType: 3 },
-      乌铁: { cardNum: 1, cardType: 3 },
-      南蛮: { cardNum: 3, cardType: 2 },
-      桃园: { cardNum: 1, cardType: 2 },
-      万箭: { cardNum: 1, cardType: 2 }
-    }
-    cardTypeZhuGongSha = {
-      桃: { cardType: 1, cardNum: 10 },
-      酒: { cardType: 1, cardNum: 5 },
-      火杀: { cardType: 1, cardNum: 5 },
-      杀: { cardType: 1, cardNum: 30 },
-      雷杀: { cardType: 1, cardNum: 9 },
-      闪: { cardType: 1, cardNum: 20 },
-      南蛮: { cardType: 2, cardNum: 3 },
-      万箭: { cardType: 2, cardNum: 1 },
-      铁索: { cardType: 2, cardNum: 6 },
-      决斗: { cardType: 2, cardNum: 3 },
-      顺手: { cardType: 2, cardNum: 5 },
-      火攻: { cardType: 2, cardNum: 3 },
-      无中: { cardType: 2, cardNum: 4 },
-      过拆: { cardType: 2, cardNum: 6 },
-      无懈: { cardType: 2, cardNum: 7 },
-      乐: { cardType: 2, cardNum: 1 },
-      兵: { cardType: 2, cardNum: 1 },
-      闪电: { cardType: 2, cardNum: 2 },
-      桃园: { cardType: 2, cardNum: 1 },
-      五谷: { cardType: 2, cardNum: 2 },
-      借刀: { cardType: 2, cardNum: 2 },
-      连弩: { cardType: 3, cardNum: 2 },
-      寒冰: { cardType: 3, cardNum: 1 },
-      青釭: { cardType: 3, cardNum: 1 },
-      雌雄: { cardType: 3, cardNum: 1 },
-      古锭: { cardType: 3, cardNum: 1 },
-      青龙: { cardType: 3, cardNum: 1 },
-      丈八: { cardType: 3, cardNum: 1 },
-      贯石: { cardType: 3, cardNum: 1 },
-      方天: { cardType: 3, cardNum: 1 },
-      朱雀: { cardType: 3, cardNum: 1 },
-      麒麟: { cardType: 3, cardNum: 1 },
-      白银: { cardType: 3, cardNum: 1 },
-      藤甲: { cardType: 3, cardNum: 2 },
-      八卦: { cardType: 3, cardNum: 2 },
-      仁王: { cardType: 3, cardNum: 1 },
-      的卢: { cardType: 3, cardNum: 1 },
-      绝影: { cardType: 3, cardNum: 1 },
-      爪黄: { cardType: 3, cardNum: 1 },
-      骅骝: { cardType: 3, cardNum: 1 },
-      赤兔: { cardType: 3, cardNum: 1 },
-      大宛: { cardType: 3, cardNum: 1 },
-      紫骍: { cardType: 3, cardNum: 1 },
-      木马: { cardType: 3, cardNum: 1 }
-    }
-    cardTypeDouDiZhu = {
-      桃: { cardType: 1, cardNum: 12 },
-      酒: { cardType: 1, cardNum: 7 },
-      火杀: { cardType: 1, cardNum: 5 },
-      杀: { cardType: 1, cardNum: 34 },
-      雷杀: { cardType: 1, cardNum: 9 },
-      闪: { cardType: 1, cardNum: 24 },
-      南蛮: { cardType: 2, cardNum: 3 },
-      万箭: { cardType: 2, cardNum: 1 },
-      铁索: { cardType: 2, cardNum: 6 },
-      决斗: { cardType: 2, cardNum: 3 },
-      顺手: { cardType: 2, cardNum: 5 },
-      火攻: { cardType: 2, cardNum: 3 },
-      无中: { cardType: 2, cardNum: 4 },
-      过拆: { cardType: 2, cardNum: 6 },
-      无懈: { cardType: 2, cardNum: 7 },
-      乐: { cardType: 2, cardNum: 3 },
-      兵: { cardType: 2, cardNum: 2 },
-      闪电: { cardType: 2, cardNum: 2 },
-      桃园: { cardType: 2, cardNum: 1 },
-      五谷: { cardType: 2, cardNum: 2 },
-      借刀: { cardType: 2, cardNum: 2 },
-      连弩: { cardType: 3, cardNum: 2 },
-      寒冰: { cardType: 3, cardNum: 1 },
-      青釭: { cardType: 3, cardNum: 1 },
-      雌雄: { cardType: 3, cardNum: 1 },
-      古锭: { cardType: 3, cardNum: 1 },
-      青龙: { cardType: 3, cardNum: 1 },
-      丈八: { cardType: 3, cardNum: 1 },
-      贯石: { cardType: 3, cardNum: 1 },
-      方天: { cardType: 3, cardNum: 1 },
-      朱雀: { cardType: 3, cardNum: 1 },
-      麒麟: { cardType: 3, cardNum: 1 },
-      白银: { cardType: 3, cardNum: 1 },
-      藤甲: { cardType: 3, cardNum: 2 },
-      八卦: { cardType: 3, cardNum: 2 },
-      仁王: { cardType: 3, cardNum: 1 },
-      的卢: { cardType: 3, cardNum: 1 },
-      绝影: { cardType: 3, cardNum: 1 },
-      爪黄: { cardType: 3, cardNum: 1 },
-      骅骝: { cardType: 3, cardNum: 1 },
-      赤兔: { cardType: 3, cardNum: 1 },
-      大宛: { cardType: 3, cardNum: 1 },
-      紫骍: { cardType: 3, cardNum: 1 },
-      木马: { cardType: 3, cardNum: 1 }
-    }
-  }
-  // var shenSunQuanSkill = {};
+  var cardList
+  var isAutoCloseEnabled = true
+
   function gameStart() {
     //全部区域清空,牌堆回复张
+    paidui = new Set()
+
     if (isJunZhengBiaoZhun) {
-      paidui = new Set()
-      for (let i = 1; i <= 161; i++) {
-        paidui.add(i)
+      for (const cid of cardList) {
+        paidui.add(cid)
       }
       ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：军争</b>'
     }
     if (isJunZhengBiaoZhunShanShan) {
-      paidui = new Set()
-      for (let i = 1; i <= 161; i++) {
-        paidui.add(i)
+      for (const cid of cardList) {
+        paidui.add(cid)
       }
-      paidui.delete(16)
-      paidui.delete(18)
-      paidui.delete(19)
-      paidui.add(12140)
-      paidui.add(12141)
-      paidui.add(12142)
       ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：军争</b>'
-    } else if (isGuoZhanBiaoZhun) {
-      paidui = new Set()
-      for (let i = 1001; i <= 1108; i++) {
-        paidui.add(i)
+      for (const cid of cardList) {
+        paidui.add(cid)
       }
-      paidui.add(1148)
-      paidui.add(1150)
       ;(diamond = 27), (spade = 27), (heart = 27), (club = 28), (spade2_9 = 17), (hongsha = 8), (heisha = 21)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：国战</b>'
-    } else if (isGuoZhanYingBian) {
-      paidui = new Set()
-      for (let i = 1200; i <= 1307; i++) {
-        paidui.add(i)
+      for (const cid of cardList) {
+        paidui.add(cid)
       }
-      paidui.add(1150)
       ;(diamond = 26), (spade = 27), (heart = 28), (club = 28), (spade2_9 = 17), (hongsha = 8), (heisha = 21)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：国战应变</b>'
     } else if (isDouDiZhu) {
-      paidui = new Set()
-      for (let i = 1; i <= 160; i++) {
-        paidui.add(i)
-      }
-      for (let i = 13000; i <= 13005; i++) {
-        paidui.add(i)
+      for (const cid of cardList) {
+        paidui.add(cid)
       }
       ;(diamond = 43), (spade = 40), (heart = 43), (club = 40), (spade2_9 = 25), (hongsha = 18), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：斗地主</b>'
     } else if (isZhuGongSha) {
-      paidui = new Set()
-      for (let i = 1; i <= 160; i++) {
-        paidui.add(i)
-      }
-      paidui.delete(144)
-      paidui.delete(71)
-      paidui.delete(32)
-      for (let i = 13000; i <= 13005; i++) {
-        paidui.add(i)
+      for (const cid of cardList) {
+        paidui.add(cid)
       }
       ;(diamond = 40), (spade = 39), (heart = 38), (club = 39), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：主公杀</b>'
     } else if (isZhuGongShaShanShan) {
       paidui = new Set()
-      for (let i = 1; i <= 160; i++) {
-        paidui.add(i)
+      for (const cid of cardList) {
+        paidui.add(cid)
       }
-      for (let i = 13000; i <= 13005; i++) {
-        paidui.add(i)
-      }
-      paidui.delete(144)
-      paidui.delete(71)
-      paidui.delete(32)
       ;(diamond = 40), (spade = 39), (heart = 38), (club = 39), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：主公杀</b>'
     } else if (isHuanLeBiaoZhun) {
-      paidui = new Set()
-      for (let i = 1; i <= 160; i++) {
-        paidui.add(i)
+      for (const cid of cardList) {
+        paidui.add(cid)
       }
       ;(diamond = 40), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：欢乐成双</b>'
     } else if (isHuanLeBiaoZhunShanShan) {
-      paidui = new Set()
-      for (let i = 1; i <= 160; i++) {
-        paidui.add(i)
+      for (const cid of cardList) {
+        paidui.add(cid)
       }
-      paidui.delete(16)
-      paidui.delete(18)
-      paidui.delete(19)
-      paidui.add(12140)
-      paidui.add(12141)
-      paidui.add(12142)
       ;(diamond = 40), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：欢乐成双</b>'
     } else if (isJunZhengYingBian) {
-      paidui = new Set()
-      for (let i = 7001; i <= 7160; i++) {
-        paidui.add(i)
+      for (const cid of cardList) {
+        paidui.add(cid)
       }
-      paidui.add(161)
       ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：军争应变</b>'
     } else if (isJunZhengYingBianShanShan) {
-      paidui = new Set()
-      for (let i = 7001; i <= 7160; i++) {
-        paidui.add(i)
+      for (const cid of cardList) {
+        paidui.add(cid)
       }
-      paidui.add(161)
-      paidui.add(12140)
-      paidui.add(12141)
-      paidui.add(12142)
       ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：军争应变</b>'
     } else if (isShenZhiShiLian) {
-      paidui = new Set()
-      for (let i = 7001; i <= 7160; i++) {
-        paidui.add(i)
+      for (const cid of cardList) {
+        paidui.add(cid)
       }
-      paidui.add(161)
-      paidui.add(201)
       ;(diamond = 41), (spade = 41), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：神之试炼</b>'
+    } else {
+      for (const cid of cardList) {
+        paidui.add(cid)
+      }
+      ;(diamond = 41), (spade = 41), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
+      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前牌堆：未知牌堆</b>'
     }
     qipai = new Set() //zone2 弃牌
     chuli = new Set() //zone3 处理区
@@ -650,14 +217,8 @@
     isGameStart = false
     //div = window.div
 
-    resetCardType()
+    //resetCardType()
     cardTypeButton = ''
-    //for draggable iframe
-    // ;(x_pos = 0),
-    //   (y_pos = 0), // Stores x & y coordinates of the mouse pointer
-    //   (x_elem = 0),
-    //   (y_elem = 0), // Stores top, left values (edge) of the element
-    //   (selected = null) // Object of the element to be moved
 
     //cardType 基本1锦囊2装备3其他4
     isSeatOrder = false //座位是否安排好了
@@ -720,7 +281,7 @@
 
       emojiWrapper.appendChild(emoji)
       button.appendChild(emojiWrapper)
-      button.innerHTML += currentMode[c]['cardName']
+      button.innerHTML += currentMode[c]['name']
       shoupaiDIV.append(button)
     }
 
@@ -758,7 +319,7 @@
 
       emojiWrapper.appendChild(emoji)
       button.appendChild(emojiWrapper)
-      button.innerHTML += currentMode[c]['cardName']
+      button.innerHTML += allCard[c] ? allCard[c]['name'] : '?'
       DingCardsDiv.append(button)
     }
     var diReverse = di.slice().reverse()
@@ -779,7 +340,7 @@
 
       emojiWrapper.appendChild(emoji)
       button.appendChild(emojiWrapper)
-      button.innerHTML += currentMode[c]['cardName']
+      button.innerHTML += allCard[c] ? allCard[c]['name'] : '?'
       DiCardsDiv.append(button)
     }
     DingCardsDiv.innerHTML = DingCardsDiv.innerHTML
@@ -1166,19 +727,22 @@
   }
 
   function getCardNumAndSuit(cardID) {
-    let cardNum = currentMode[cardID]['number']
+    let cardNum = allCard[cardID] ? allCard[cardID]['number'] : 0
     let cardSuit = ''
     let cardNumAndSuit = ''
     let cardNumAJQK = ''
-
-    if (currentMode[cardID]['color'] == 1) {
-      cardSuit = '♥'
-    } else if (currentMode[cardID]['color'] == 2) {
-      cardSuit = '♦'
-    } else if (currentMode[cardID]['color'] == 3) {
-      cardSuit = '♠'
-    } else if (currentMode[cardID]['color'] == 4) {
-      cardSuit = '♣'
+    if (allCard[cardID]) {
+      if (allCard[cardID]['color'] == 1) {
+        cardSuit = '♥'
+      } else if (allCard[cardID]['color'] == 2) {
+        cardSuit = '♦'
+      } else if (allCard[cardID]['color'] == 3) {
+        cardSuit = '♠'
+      } else if (allCard[cardID]['color'] == 4) {
+        cardSuit = '♣'
+      }
+    } else {
+      cardSuit = ''
     }
 
     if (cardNum == 12) {
@@ -1482,21 +1046,21 @@
 
   function removeCardType(cardID) {
     if (cardID != 0) {
-      console.warn('card type remove: ' + cardID + currentMode[cardID]['cardName'] + ' ' + JSON.stringify(getCardNumAndSuit(cardID)))
-      if (typeof currentCardType[currentMode[cardID]['cardName']] != 'undefined') {
-        let n = currentCardType[currentMode[cardID]['cardName']]['cardNum']
+      console.warn('card type remove: ' + cardID + currentMode[cardID]['name'] + ' ' + JSON.stringify(getCardNumAndSuit(cardID)))
+      if (typeof currentCardType[currentMode[cardID]['name']] != 'undefined') {
+        let n = currentCardType[currentMode[cardID]['name']]['cardNum']
         if (n > 0) {
           n--
-          currentCardType[currentMode[cardID]['cardName']]['cardNum'] = n
+          currentCardType[currentMode[cardID]['name']]['cardNum'] = n
           if (n == 1) {
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['cardName']).disabled = false
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['cardName']).innerText = currentMode[cardID]['cardName']
+            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).disabled = false
+            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).innerText = currentMode[cardID]['name']
           } else if (n == 0) {
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['cardName']).innerText = currentMode[cardID]['cardName']
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['cardName']).disabled = true
+            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).innerText = currentMode[cardID]['name']
+            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).disabled = true
           } else {
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['cardName']).innerText = n + currentMode[cardID]['cardName']
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['cardName']).disabled = false
+            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).innerText = n + currentMode[cardID]['name']
+            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).disabled = false
           }
         }
         if (getCardNumAndSuit(cardID)['cardSuit'] == '♦') {
@@ -1508,9 +1072,9 @@
         } else if (getCardNumAndSuit(cardID)['cardSuit'] == '♥') {
           heart--
         }
-        if ((getCardNumAndSuit(cardID)['cardSuit'] == '♥' || getCardNumAndSuit(cardID)['cardSuit'] == '♦') && (currentMode[cardID]['cardName'] == '火杀' || currentMode[cardID]['cardName'] == '雷杀' || currentMode[cardID]['cardName'] == '杀')) {
+        if ((getCardNumAndSuit(cardID)['cardSuit'] == '♥' || getCardNumAndSuit(cardID)['cardSuit'] == '♦') && (currentMode[cardID]['name'] == '火杀' || currentMode[cardID]['name'] == '雷杀' || currentMode[cardID]['name'] == '杀')) {
           hongsha--
-        } else if ((getCardNumAndSuit(cardID)['cardSuit'] == '♣' || getCardNumAndSuit(cardID)['cardSuit'] == '♠') && (currentMode[cardID]['cardName'] == '火杀' || currentMode[cardID]['cardName'] == '雷杀' || currentMode[cardID]['cardName'] == '杀')) {
+        } else if ((getCardNumAndSuit(cardID)['cardSuit'] == '♣' || getCardNumAndSuit(cardID)['cardSuit'] == '♠') && (currentMode[cardID]['name'] == '火杀' || currentMode[cardID]['name'] == '雷杀' || currentMode[cardID]['name'] == '杀')) {
           heisha--
         }
         if (diamond < 0) {
@@ -1544,21 +1108,21 @@
 
   function addCardType(cardID) {
     if (cardID != 0) {
-      console.warn('card type add: ' + cardID + currentMode[cardID]['cardName'] + ' ' + JSON.stringify(getCardNumAndSuit(cardID)))
-      if (typeof currentCardType[currentMode[cardID]['cardName']] != 'undefined') {
-        let n = currentCardType[currentMode[cardID]['cardName']]['cardNum']
+      //console.warn("card type add: " + cardID + currentMode[cardID]["name"] + " " + JSON.stringify(getCardNumAndSuit(cardID)));
+      if (typeof currentCardType[currentMode[cardID]['name']] != 'undefined') {
+        let n = currentCardType[currentMode[cardID]['name']]['cardNum']
         if (n >= 0) {
           n++
-          currentCardType[currentMode[cardID]['cardName']]['cardNum'] = n
+          currentCardType[currentMode[cardID]['name']]['cardNum'] = n
           if (n == 1) {
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['cardName']).disabled = false
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['cardName']).innerText = currentMode[cardID]['cardName']
+            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).disabled = false
+            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).innerText = currentMode[cardID]['name']
           } else if (n == 0) {
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['cardName']).innerText = currentMode[cardID]['cardName']
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['cardName']).disabled = true
+            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).innerText = currentMode[cardID]['name']
+            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).disabled = true
           } else {
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['cardName']).innerText = n + currentMode[cardID]['cardName']
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['cardName']).disabled = false
+            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).innerText = n + currentMode[cardID]['name']
+            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).disabled = false
           }
         }
         if (getCardNumAndSuit(cardID)['cardSuit'] == '♦') {
@@ -1570,9 +1134,9 @@
         } else if (getCardNumAndSuit(cardID)['cardSuit'] == '♥') {
           heart++
         }
-        if ((getCardNumAndSuit(cardID)['cardSuit'] == '♥' || getCardNumAndSuit(cardID)['cardSuit'] == '♦') && (currentMode[cardID]['cardName'] == '火杀' || currentMode[cardID]['cardName'] == '雷杀' || currentMode[cardID]['cardName'] == '杀')) {
+        if ((getCardNumAndSuit(cardID)['cardSuit'] == '♥' || getCardNumAndSuit(cardID)['cardSuit'] == '♦') && (currentMode[cardID]['name'] == '火杀' || currentMode[cardID]['name'] == '雷杀' || currentMode[cardID]['name'] == '杀')) {
           hongsha++
-        } else if ((getCardNumAndSuit(cardID)['cardSuit'] == '♣' || getCardNumAndSuit(cardID)['cardSuit'] == '♠') && (currentMode[cardID]['cardName'] == '火杀' || currentMode[cardID]['cardName'] == '雷杀' || currentMode[cardID]['cardName'] == '杀')) {
+        } else if ((getCardNumAndSuit(cardID)['cardSuit'] == '♣' || getCardNumAndSuit(cardID)['cardSuit'] == '♠') && (currentMode[cardID]['name'] == '火杀' || currentMode[cardID]['name'] == '雷杀' || currentMode[cardID]['name'] == '杀')) {
           heisha++
         }
         if (getCardNumAndSuit(cardID)['cardSuit'] == '♠' && getCardNumAndSuit(cardID)['cardNum'] >= 2 && getCardNumAndSuit(cardID)['cardNum'] <= 9) {
@@ -1604,6 +1168,37 @@
     }
   }
 
+  function allCardToCurrentMode(cardList) {
+    currentMode = {}
+    currentMode['0'] = { ...allCard['0'] }
+
+    // Iterate through cardList and populate currentMode
+    for (const cid of cardList) {
+      currentMode[cid] = allCard[cid] || { ...allCard['0'] }
+    }
+
+    return currentMode
+  }
+  function currentModeCardType(cards) {
+    const cardInfoMap = {}
+
+    Object.values(cards).forEach((card) => {
+      if (card.type === undefined) return
+      const cardName = card.name
+      const cardType = card.type
+
+      if (cardName !== '?') {
+        if (!cardInfoMap[cardName]) {
+          cardInfoMap[cardName] = { cardNum: 1, cardType }
+        } else {
+          cardInfoMap[cardName].cardNum += 1
+        }
+      }
+    })
+
+    return cardInfoMap
+  }
+
   function mainLogic(args) {
     let className = args['className']
     card.CardIDs = args['CardIDs']
@@ -1618,7 +1213,9 @@
     card.FromPosition = args['FromPosition']
     card.ToPosition = args['ToPosition']
     var cardCount = args['cardCount']
-    var cardList = args['CardList']
+    if (typeof args['CardList'] != 'undefined') {
+      cardList = args['CardList']
+    }
     let cardID = 0
     var firstID = args['SeatID']
     var Param = args['Param']
@@ -1632,8 +1229,8 @@
     var seatId = args['seatId']
     var SeatID = args['SeatID']
     var Round = args['Round']
-    curUserID = args['curUserID']
-    userID = args['userID']
+    var curUserID = args['curUserID']
+    var userID = args['userID']
 
     //博图，用于检测什么适合清空博图花色
     if (className == 'GsCGamephaseNtf' && Round == 0 && (enableBoTu || enableLuanJi || enableQuanBian)) {
@@ -1643,11 +1240,11 @@
     if (className == 'GsCModifyUserseatNtf') {
       size = Infos['length']
       console.warn('card renshu' + size)
-      for (let info of Infos) {
-        if (info['ClientID'] < 4200000000) {
-          firstSeatID = info['SeatID']
-        }
-      }
+      // for(let info of Infos){
+      //     if(info["ClientID"]<4200000000){
+      //         firstSeatID = info["SeatID"];
+      //     }
+      // }
     }
     if (className == 'MsgReconnectGame') {
       isDuanXian = true
@@ -1660,65 +1257,42 @@
       isJunZhengYingBianShanShan = false
       isHuanLeBiaoZhunShanShan = false
       isShenZhiShiLian = false
-
       isGuoZhanBiaoZhun = false
       isGuoZhanYingBian = false
-
       isZhuGongSha = false
       isZhuGongShaShanShan = false
       isDouDiZhu = false
-
       if (cardCount == 161 && cardList[160] == 12142) {
         isJunZhengBiaoZhunShanShan = true
-        currentCardType = cardTypeJunZhengBiaoZhun
-        currentMode = JunZhengBiaoZhunShanShan
       }
       if (cardCount == 161 && cardList[160] == 161) {
         isJunZhengBiaoZhun = true
-        currentCardType = cardTypeJunZhengBiaoZhun
-        currentMode = JunZhengBiaoZhun
       } else if (cardCount == 160 && cardList[159] == 160) {
         isHuanLeBiaoZhun = true
-        currentCardType = cardTypeHuanLeBiaoZhun
-        currentMode = HuanLeBiaoZhun
       } else if (cardCount == 160 && cardList[159] == 12142) {
         isHuanLeBiaoZhunShanShan = true
-        currentCardType = cardTypeHuanLeBiaoZhun
-        currentMode = HuanLeBiaoZhunShanShan
       } else if (cardCount == 166 && cardList[165] == 13005) {
         isDouDiZhu = true
-        currentCardType = cardTypeDouDiZhu
-        currentMode = DouDiZhu
       } else if (cardCount == 110 && cardList[107] == 1108) {
         isGuoZhanBiaoZhun = true
-        currentCardType = cardTypeGuoZhanBiaoZhun
-        currentMode = GuoZhanBiaoZhun
       } else if (cardCount == 161 && cardList[160] == 7160) {
         isJunZhengYingBian = true
-        currentCardType = cardTypeJunZhengYingBian
-        currentMode = JunZhengYingBian
       } else if (cardCount == 164 && cardList[160] == 7160) {
         isJunZhengYingBian = true
-        currentCardType = cardTypeJunZhengYingBian
-        currentMode = JunZhengYingBianShanShan
       } else if (cardCount == 162 && cardList[1] == 201) {
         isShenZhiShiLian = true
-        currentCardType = cardTypeShenZhiShiLian
-        currentMode = ShenZhiShiLian
       } else if (cardCount == 111 && cardList[110] == 20330) {
         isGuoZhanYingBian = true
-        currentCardType = cardTypeGuoZhanYingBian
-        currentMode = GuoZhanYingBian
       } else if (cardCount == 157 && cardList[156] == 13005) {
         isZhuGongSha = true
-        currentCardType = cardTypeZhuGongSha
-        currentMode = ZhuGongSha
       } else if (cardCount == 158 && cardList[157] == 13005) {
         isZhuGongShaShanShan = true
-        currentCardType = cardTypeZhuGongSha
-        currentMode = ZhuGongShaShanShan
+      } else {
+        isUnknown = true
       }
-      if (isShenZhiShiLian || isJunZhengBiaoZhun || isGuoZhanBiaoZhun || isHuanLeBiaoZhun || isJunZhengYingBian || isGuoZhanYingBian || isTongShuai || isZhuGongSha || isZhuGongShaShanShan || isJunZhengBiaoZhunShanShan || isJunZhengYingBianShanShan || isHuanLeBiaoZhunShanShan || isDouDiZhu) {
+      currentMode = allCardToCurrentMode(cardList)
+      currentCardType = currentModeCardType(currentMode)
+      if (isUnknown || isShenZhiShiLian || isJunZhengBiaoZhun || isGuoZhanBiaoZhun || isHuanLeBiaoZhun || isJunZhengYingBian || isGuoZhanYingBian || isTongShuai || isZhuGongSha || isZhuGongShaShanShan || isJunZhengBiaoZhunShanShan || isJunZhengYingBianShanShan || isHuanLeBiaoZhunShanShan || isDouDiZhu) {
         if (!isFrameAdd) {
           addFrame()
         }
@@ -1739,14 +1313,13 @@
     if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && Param == 0 && card.SpellID == 945) {
       arr = []
       for (const p of Params) {
-        arr.push(parseInt(getCardNumAndSuitFromAllCard(p)['cardNum']))
+        arr.push(parseInt(getCardNumAndSuit(p)['cardNum']))
       }
       calcResult()
     }
 
     //let cardNumAndSuit
-
-    if ((isShenZhiShiLian || isJunZhengBiaoZhun || isGuoZhanBiaoZhun || isHuanLeBiaoZhun || isJunZhengYingBian || isGuoZhanYingBian || isTongShuai || isZhuGongSha || isZhuGongShaShanShan || isJunZhengBiaoZhunShanShan || isJunZhengYingBianShanShan || isHuanLeBiaoZhunShanShan || isDouDiZhu) && !isDuanXian && !isB) {
+    if ((isUnknown || isShenZhiShiLian || isJunZhengBiaoZhun || isGuoZhanBiaoZhun || isHuanLeBiaoZhun || isJunZhengYingBian || isGuoZhanYingBian || isTongShuai || isZhuGongSha || isZhuGongShaShanShan || isJunZhengBiaoZhunShanShan || isJunZhengYingBianShanShan || isHuanLeBiaoZhunShanShan || isDouDiZhu) && !isDuanXian && !isB) {
       //座位表
 
       getSeatOrder(card.ToID, card.ToZone, card.CardIDs, className, firstID)
@@ -1773,11 +1346,8 @@
       //记录国战大嘴乱击花色
       else if (className == 'PubGsCUseCard' && mainID == SeatID && enableQuanBian) {
         addSuit(card.CardID)
-      }
-      // else if (className == "PubGsCUseCard" && mainID==SeatID &&  enableHuaMu) {
-      //     addSuit(card.CardID);
-      // }
-      else if (className == 'PubGsCUseSpell' && card.SpellID == 2143) {
+      } else if (className == 'PubGsCUseSpell' && card.SpellID == 2143) {
+        enableLuanJi = true
         for (const c of card.CardIDs) {
           addSuit(c)
         }
@@ -1804,18 +1374,26 @@
       }
       //族钟琰
       else if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && targetSeatID == 255 && Param == 0 && card.SpellID == 3266) {
-        for (const p of Params.slice().reverse()) {
+        Params = Params.slice()
+          .reverse()
+          .filter((_, index) => (index + 1) % 3 === 0)
+        for (const p of Params) {
           paidui.add(p)
           addCardType(p)
           ding.push(p)
-          console.warn('card ding ' + ding)
+          console.warn('card ding target ' + ding)
         }
       } else if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && targetSeatID != 255 && Param == 0 && card.SpellID == 3266) {
+        Params = Params.slice()
+          .reverse()
+          .filter((_, index) => (index + 1) % 3 === 0)
         if (typeof targetSeatID != 'undefined') {
-          for (let p = Params.length - 1; p >= 0; p--) {
-            shoupai[idOrder[targetSeatID]].add(Params[p])
+          for (const p of Params) {
+            shoupai[idOrder[targetSeatID]].add(p)
+            console.warn('card shoupai target ' + p)
           }
         }
+
         drawShouPai(shoupai)
       }
       //溃围
@@ -1872,92 +1450,8 @@
           drawRemShouPai(remShouPai)
           paidui = qipai
           qipai = new Set()
-          if (isJunZhengBiaoZhun) {
-            for (let i = 1; i <= 161; i++) {
-              removeCardType(i)
-            }
-          } else if (isGuoZhanBiaoZhun) {
-            for (let i = 1001; i <= 1108; i++) {
-              removeCardType(i)
-            }
-            removeCardType(1150)
-            removeCardType(1148)
-          } else if (isGuoZhanYingBian) {
-            for (let i = 1200; i <= 1307; i++) {
-              removeCardType(i)
-            }
-            removeCardType(1150)
-            removeCardType(1148)
-            removeCardType(20330)
-          } else if (isHuanLeBiaoZhun) {
-            for (let i = 1; i <= 160; i++) {
-              removeCardType(i)
-            }
-          } else if (isDouDiZhu) {
-            for (let i = 1; i <= 160; i++) {
-              removeCardType(i)
-            }
-            for (let i = 13000; i <= 13005; i++) {
-              removeCardType(i)
-            }
-          } else if (isHuanLeBiaoZhunShanShan) {
-            for (let i = 1; i <= 160; i++) {
-              removeCardType(i)
-            }
-          } else if (isJunZhengYingBian) {
-            for (let i = 7001; i <= 7160; i++) {
-              removeCardType(i)
-            }
-            removeCardType(161)
-          } else if (isShenZhiShiLian) {
-            for (let i = 7001; i <= 7160; i++) {
-              removeCardType(i)
-            }
-            removeCardType(161)
-            removeCardType(201)
-          }
-          if (isZhuGongSha) {
-            for (let i = 1; i <= 14; i++) {
-              removeCardType(i)
-            }
-            for (let i = 17; i <= 31; i++) {
-              removeCardType(i)
-            }
-            for (let i = 33; i <= 70; i++) {
-              removeCardType(i)
-            }
-            for (let i = 72; i <= 143; i++) {
-              removeCardType(i)
-            }
-            for (let i = 145; i <= 160; i++) {
-              removeCardType(i)
-            }
-            for (let i = 13000; i <= 13005; i++) {
-              removeCardType(i)
-            }
-          }
-          if (isZhuGongShaShanShan) {
-            for (let i = 1; i <= 14; i++) {
-              removeCardType(i)
-            }
-            for (let i = 17; i <= 31; i++) {
-              removeCardType(i)
-            }
-            for (let i = 33; i <= 70; i++) {
-              removeCardType(i)
-            }
-            for (let i = 72; i <= 143; i++) {
-              removeCardType(i)
-            }
-            for (let i = 145; i <= 160; i++) {
-              removeCardType(i)
-            }
-            for (let i = 12140; i <= 12142; i++) {
-              removeCardType(i)
-            }
-            for (let i = 13000; i <= 13005; i++) {
-              removeCardType(i)
-            }
+          for (const cid of cardList) {
+            removeCardType(cid)
           }
           hongsha = 0
           heisha = 0
@@ -2094,13 +1588,6 @@
             if (card.ToZone == 1) {
               remCardCount++
             }
-            //console.warn(di.length+' '+remCardCount);
-            //document.getElementById('iframe-source').contentWindow.document.getElementById("paiduiSize").innerText ="张数: "+ remCardCount;
-            //除了控底控顶从牌堆摸的牌，所有不是从牌堆摸的牌全部标为明牌
-            // if(FromZone != 1 && ToZone == 5){
-            //
-            // }
-
             //从牌堆出发，到其他区域，判断顶/底
             //从顶摸牌 已经到底了
             if (FromID == 255 && FromZone == 1 && FromPosition == 65280 && di.length != 0 && remCardCount == di.length) {
@@ -2123,14 +1610,6 @@
           }
         }
 
-        //黄承彦晋司马技能看的牌堆顶是queue不是stack，单独适配ding
-        //if(card.FromZone == 1 && card.FromID == 255 && card.ToZone == 1 && card.ToID == 255 && typeof (card.SpellID) != 'undefined' && (card.SpellID == 987)){ding;}
-        //严教
-        // if (card.FromZone == 1 && card.FromID == 255 && card.ToZone == 3 && card.ToID == 255 && typeof card.SpellID != 'undefined' && card.SpellID == 945) {
-        //   arr = []
-        //   card.CardIDs.forEach((cardID) => arr.push(parseInt(getCardNumAndSuit(cardID)['cardNum'])))
-        //   calcResult()
-        // }
         if (card.FromZone == 1 && card.FromID == 255 && card.ToZone == 8 && card.ToID == 255 && typeof card.SpellID != 'undefined' && card.SpellID == 3033) {
           JiZhanCal(parseInt(getCardNumAndSuit(cardID)['cardNum']))
         }
@@ -2153,9 +1632,18 @@
           document.getElementById('iframe-source').contentWindow.document.getElementById('knownCardsInHand').style.display = 'none'
         }
       }
+      isAutoCloseEnabled = true
     } else {
       if (document.getElementById('createIframe')) {
-        document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>不支持该模式/断线重连</b>'
+        document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>不支持该牌堆/断线重连</b>'
+        if (isAutoCloseEnabled) {
+          document.getElementById('iframe-source').style.display = 'none'
+          var toggle = document.getElementById('toggle-me')
+          toggle.innerText = '+'
+          document.getElementById('createIframe').style.height = '30px'
+          document.getElementById('createIframe').style.resize = 'none' // 禁用窗口调整大小
+          isAutoCloseEnabled = false
+        }
       }
     }
   }
@@ -2296,154 +1784,12 @@
 
         emojiWrapper.appendChild(emoji)
         button.appendChild(emojiWrapper)
-        button.innerHTML += currentMode[s]['cardName']
+        button.innerHTML += allCard[s] ? allCard[s]['name'] : '?'
         shoupaiDIV.append(button)
       }
 
       toBeAdd.innerHTML = shoupaiDIV.innerHTML
     }
-  }
-
-  function addSkinFrame() {
-    let createSkinIframe = document.getElementById('createSkinIframe')
-
-    if (!createSkinIframe) {
-      var skinHTML =
-        '<head> ' +
-        '        <meta charset=UTF-8> ' +
-        '        <style type=text/css> ' +
-        '            ::-webkit-scrollbar{width: 5px; height: 12px;} ' +
-        '            ::-webkit-scrollbar-track{border: 1px solid rgb(5,5,5);} ' +
-        '            ::-webkit-scrollbar-thumb{background: rgb(95,86,63);} ' +
-        '            ::-webkit-scrollbar-thumb:hover{background: rgb(44,44,44);} ' +
-        '            .skinList { ' +
-        '                padding:5px;' +
-        '                margin: 2px; ' +
-        '                user-select:none;' +
-        '            } ' +
-        '        </style> ' +
-        '    </head> ' +
-        '<body>' +
-        "<img class = 'skinList' id = '102' src ='https://web.sanguosha.com/220/h5_2/res/runtime/pc/general/seat/static/11211.png' ></img>" +
-        "<img class = 'skinList' id = '103' src ='https://web.sanguosha.com/220/h5_2/res/runtime/pc/general/seat/static/12807.png' ></img>" +
-        '</body>'
-      createSkinIframe = document.createElement('div')
-      createSkinIframe.id = 'createSkinIframe'
-      createSkinIframe.className = 'createSkinIframe'
-      createSkinIframe.style = '    display: inline-block;' + '    z-index: 10000000000;' + '    display: none;' + '    width: 680px;' + '    height:500px;' + '    position: fixed;' + '    top: 0;' + '    bottom: 0;' + '    left: 0;' + '    right: 20%;' + '    background: rgb(50,50,50);' + '    margin: auto;'
-
-      var header = document.createElement('p')
-      header.id = 'header'
-      header.className = 'header'
-      header.innerText = '请选择皮肤，选中后会自动关闭此窗口，再关闭自身的皮肤窗口即可'
-      header.style = 'style:display:inline-block;' + 'margin:1px;' + 'user-select:none;' + 'text-align:center;' + 'color: #f2de9c; ' + 'cursor: pointer'
-      var btnSkin = document.createElement('btn')
-
-      btnSkin.innerText = '×'
-      btnSkin.id = 'btnSkin'
-      btnSkin.style = 'text-align:center;' + 'color: #f2de9c;' + 'background: rgb(40,40,40);' + 'border-radius:5px;' + 'margin-left:3px;' + 'border: 1px solid rgb(212,212,162);' + 'cursor: pointer;' + 'user-select:none;' + 'background: rgb(107,30,30);'
-      header.append(btnSkin)
-      createSkinIframe.appendChild(header)
-
-      document.body.appendChild(createSkinIframe)
-
-      iframe = document.createElement('iframe')
-      iframe.style = 'border: none;' + '    width: 680px;' + '    height:475px;' + 'margin: 0px;' + 'cursor: move;'
-      iframe.id = 'createSkinIframeSource'
-      iframe.title = 'iframe'
-
-      //iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(html);
-      createSkinIframe.append(iframe)
-      iframe.contentWindow.document.open()
-      iframe.contentWindow.document.write(skinHTML)
-      iframe.contentWindow.document.close()
-    }
-    //skinLogic start
-    // var btnSkin = document.getElementById('btnSkin');
-    // btnSkin.onmousedown = function (){
-    //     document.getElementById("createSkinIframe").style.display = "none"
-    // }
-    //skinLogic end
-  }
-  function updateSkinList(generalID) {
-    document.getElementById('createSkinIframeSource').contentWindow.document.body.innerHTML = ''
-    if (typeof skinMap[generalID] != 'undefined') {
-      for (let i = 0; i < skinMap[generalID].length; i++) {
-        for (let id = 1; id <= 12; id++) {
-          var imgSkin = document.createElement('img')
-          imgSkin.id = skinMap[generalID][i] * 100 + id
-          imgSkin.className = 'skinList'
-          imgSkin.classList.add(generalID)
-          imgSkin.src = 'https://web.sanguosha.com/220/h5_2/res/runtime/pc/general/seat/static/' + imgSkin.id + '.png'
-          if (imgSkin.id != 0) {
-            document.getElementById('createSkinIframeSource').contentWindow.document.body.append(imgSkin)
-          }
-        }
-      }
-    }
-    //除了界的，没适配的皮肤在这里
-    else {
-      for (let id = 1; id <= 12; id++) {
-        var imgSkin = document.createElement('img')
-        imgSkin.id = generalID * 100 + id
-        imgSkin.className = 'skinList'
-        imgSkin.classList.add(generalID)
-        imgSkin.src = 'https://web.sanguosha.com/220/h5_2/res/runtime/pc/general/seat/static/' + imgSkin.id + '.png'
-        if (imgSkin.id != 0) {
-          document.getElementById('createSkinIframeSource').contentWindow.document.body.append(imgSkin)
-        }
-      }
-    }
-    document
-      .getElementById('createSkinIframeSource')
-      .contentWindow.document.querySelectorAll('.skinList')
-      .forEach(function (img) {
-        img.onerror = function () {
-          this.style.display = 'none'
-        }
-      })
-  }
-
-  function updateSkinListGuoZhan(generalID1, generalID2) {
-    document.getElementById('createSkinIframeSource').contentWindow.document.body.innerHTML = ''
-    if (typeof skinMap[generalID1] != 'undefined') {
-      for (let i = 0; i < skinMap[generalID1].length; i++) {
-        for (let id = 1; id <= 12; id++) {
-          var imgSkin = document.createElement('img')
-          imgSkin.id = skinMap[generalID1][i] * 100 + id
-          imgSkin.className = 'skinList'
-          imgSkin.classList.add(generalID1)
-          imgSkin.src = 'https://web.sanguosha.com/220/h5_2/res/runtime/pc/general/seat/static/' + imgSkin.id + '.png'
-          if (imgSkin.id != 0) {
-            document.getElementById('createSkinIframeSource').contentWindow.document.body.append(imgSkin)
-          }
-        }
-      }
-    }
-    const lineBreak = document.createElement('br')
-    document.getElementById('createSkinIframeSource').contentWindow.document.body.append(lineBreak)
-    if (typeof skinMap[generalID2] != 'undefined') {
-      for (let i = 0; i < skinMap[generalID2].length; i++) {
-        for (let id = 1; id <= 12; id++) {
-          var imgSkin = document.createElement('img')
-          imgSkin.id = skinMap[generalID2][i] * 100 + id
-          imgSkin.className = 'skinList'
-          imgSkin.classList.add(generalID2)
-          imgSkin.src = 'https://web.sanguosha.com/220/h5_2/res/runtime/pc/general/seat/static/' + imgSkin.id + '.png'
-          if (imgSkin.id != 0) {
-            document.getElementById('createSkinIframeSource').contentWindow.document.body.append(imgSkin)
-          }
-        }
-      }
-    }
-    document
-      .getElementById('createSkinIframeSource')
-      .contentWindow.document.querySelectorAll('.skinList')
-      .forEach(function (img) {
-        img.onerror = function () {
-          this.style.display = 'none'
-        }
-      })
   }
 
   function resetOrderContainer() {
@@ -2458,24 +1804,6 @@
     }
   }
 
-  function imageExists(image_url) {
-    var http = new XMLHttpRequest()
-    http.open('HEAD', image_url, false)
-    http.send()
-    return http.status != 404
-  }
-
-  function clickToChangeSkinAndCloseSkinFrame() {
-    const boxes = document.getElementById('createSkinIframeSource').contentWindow.document.querySelectorAll('.skinList')
-
-    boxes.forEach((box) => {
-      box.addEventListener('click', function handleClick(event) {
-        mySkin = box.id
-        document.getElementById('createSkinIframe').style.display = 'none'
-      })
-    })
-  }
-
   function addFrame() {
     isFrameAdd = true
     let div = document.getElementById('createIframe')
@@ -2484,24 +1812,99 @@
       div = document.createElement('div')
       div.id = 'createIframe'
       div.className = 'createIframe'
-      div.style = 'position: fixed;' + 'overflow: auto; ' + 'resize: vertical;  ' + 'top: 200px; ' + 'right: 5px;' + 'width: 210px;' + 'height:25px;' + 'z-index: 10000000000;' + 'display: flex;' + 'flex-direction: column;' + 'color: #f2de9c;' + 'background: rgb(50,50,50);' + 'user-select:none;' + 'text-align: left;'
+      div.style = 'position: fixed;' + 'overflow: auto;' + 'resize: none;' + 'top: 200px;' + 'right: 5px;' + 'width: 210px;' + 'z-index: 10000000000;' + 'display: flex;' + 'flex-direction: column;' + 'color: #f2de9c;' + 'background: rgb(50, 50, 50);' + 'user-select: none;' + 'text-align: left;'
 
       var header = document.createElement('p')
       header.id = 'header'
       header.className = 'header'
       header.innerText = '三国杀打小抄'
-      header.style = 'style:display:inline-block;' + 'margin:1px;' + 'user-select:none;' + 'cursor: move'
+      header.style = 'display: inline-block;' + 'margin: 1px;' + 'user-select: none;' + 'cursor: move;' + 'display: flex;' + 'justify-content: center;' + 'font-size: 20px;' // 设置字体大小，根据需要调整
       div.appendChild(header)
       var btn = document.createElement('btn')
 
-      btn.innerText = '+'
+      // 创建按钮并将其放在 header 最右侧
+      var btn = document.createElement('btn')
+      btn.innerText = '-'
       btn.id = 'toggle-me'
-      btn.style = 'text-align:center;' + 'color: #f2de9c;' + 'background: rgb(40,40,40);' + 'border-radius:5px;' + 'margin-left:3px;' + 'border: 1px solid rgb(212,212,162);' + 'cursor: pointer;' + 'user-select:none;' + 'background: rgb(107,30,30);'
-      header.append(btn)
+      btn.style =
+        'text-align: center;' +
+        'color: #f2de9c;' +
+        'background: rgb(40, 40, 40);' +
+        'border-radius: 5px;' +
+        'width: 25px;' +
+        'height: 25px;' +
+        'border: 1px solid rgb(212, 212, 162);' +
+        'cursor: pointer;' +
+        'user-select: none;' +
+        'background: rgb(107, 30, 30);' +
+        'display: flex;' + // 使用 flex 布局
+        'align-items: center;' + // 垂直居中
+        'justify-content: center;' + // 水平居中
+        'margin: 0;' // 设置外边距为零
+
+      // 添加悬停效果
+      btn.addEventListener('mouseover', function () {
+        btn.style.backgroundColor = 'rgb(130, 30, 30)'
+      })
+      btn.addEventListener('mouseout', function () {
+        btn.style.backgroundColor = 'rgb(107, 30, 30)'
+      })
+
+      var toTab = document.createElement('button')
+      toTab.innerText = '【】'
+      toTab.id = 'toTab'
+      toTab.style =
+        'text-align: center;' +
+        'color: #f2de9c;' +
+        'background: rgb(40, 40, 40);' +
+        'border-radius: 5px;' +
+        'width: 25px;' +
+        'height: 25px;' +
+        'border: 1px solid rgb(212, 212, 162);' +
+        'cursor: pointer;' +
+        'user-select: none;' +
+        'background: rgb(107, 30, 30);' +
+        'display: flex;' + // 使用 flex 布局
+        'align-items: center;' + // 垂直居中
+        'justify-content: center;' + // 水平居中
+        'margin: 0;' // 设置外边距为零
+
+      toTab.addEventListener('mouseover', function () {
+        toTab.style.backgroundColor = 'rgb(130, 30, 30)'
+      })
+      toTab.addEventListener('mouseout', function () {
+        toTab.style.backgroundColor = 'rgb(107, 30, 30)'
+      })
+
+      toTab.addEventListener('click', function () {
+        var newWindow = window.open('', '三国杀打小抄', 'width=210,height=950,resizable=no,scrollbars=no,status=no,toolbar=no,menubar=no,location=no')
+        //if(newWindow){
+        newWindow.document.open()
+        newWindow.document.write(iframe.contentDocument.documentElement.innerHTML)
+        newWindow.document.close()
+
+        // 添加 MutationObserver 监听新窗口
+        var observer = new MutationObserver(function (mutationsList, observer) {
+          if (newWindow && !newWindow.closed) {
+            newWindow.document.open()
+            newWindow.document.write(iframe.contentDocument.documentElement.innerHTML)
+            newWindow.document.close()
+          }
+        })
+
+        // 设置 childList 为 true
+        observer.observe(iframe.contentDocument, { childList: true, subtree: true })
+        //}
+      })
+
+      header.appendChild(btn)
+      //header.appendChild(toTab);
+      // 将按钮添加到 header 的右侧
+
       document.body.appendChild(div)
 
       iframe = document.createElement('iframe')
-      iframe.style = 'border: none; width: 210px; height : 500px; margin: 0px; cursor: move; display: none;'
+      iframe.style = 'border: none; width: 210px; height : 1000px; margin: 0px; cursor: move; display: none;'
       iframe.id = 'iframe-source'
       iframe.title = 'iframe'
 
@@ -2520,11 +1923,13 @@
       if (closeIframe) {
         document.getElementById('iframe-source').style.display = 'none'
         toggle.innerText = '+'
-        document.getElementById('createIframe').style.height = '25px'
+        document.getElementById('createIframe').style.height = '30px'
+        document.getElementById('createIframe').style.resize = 'none' // 禁用窗口调整大小
       } else {
         document.getElementById('iframe-source').style.display = 'block'
-        toggle.innerText = 'x'
+        toggle.innerText = '-'
         document.getElementById('createIframe').style.height = '500px'
+        document.getElementById('createIframe').style.resize = 'vertical' // 启用窗口调整大小
       }
     }
 
