@@ -1045,7 +1045,7 @@
   }
 
   function removeCardType(cardID) {
-    if (cardID != 0) {
+    if (cardID != 0 && cardList.includes(cardID)) {
       console.warn('card type remove: ' + cardID + currentMode[cardID]['name'] + ' ' + JSON.stringify(getCardNumAndSuit(cardID)))
       if (typeof currentCardType[currentMode[cardID]['name']] != 'undefined') {
         let n = currentCardType[currentMode[cardID]['name']]['cardNum']
@@ -1107,7 +1107,7 @@
   }
 
   function addCardType(cardID) {
-    if (cardID != 0) {
+    if (cardID != 0 && cardList.includes(cardID)) {
       //console.warn("card type add: " + cardID + currentMode[cardID]["name"] + " " + JSON.stringify(getCardNumAndSuit(cardID)));
       if (typeof currentCardType[currentMode[cardID]['name']] != 'undefined') {
         let n = currentCardType[currentMode[cardID]['name']]['cardNum']
@@ -1305,8 +1305,8 @@
 
         addCardTypeButton(currentCardType)
         // var elmnt = document.getElementById('createIframe')
-        buttonClick()
-        initDragElement()
+        // buttonClick()
+        // initDragElement()
       }
     }
     //严教
@@ -1651,6 +1651,9 @@
   function main() {
     console.info('inject file start!')
     let log = console.log
+    if (!isFrameAdd) {
+      addFrame()
+    }
     console.log = function () {
       let args = Array.prototype.slice.call(arguments)
       log.apply(this, args)
@@ -1665,9 +1668,6 @@
         //addSkinFrame() //预先注入
         console.warn('userID' + userID)
       }
-      // else if (className == 'ClientGeneralSkinRep' && GeneralSkinList[0]['GeneralID'] == 7003 && curUserID == UserID) {
-      //   enableQuanBian = true
-      // }
 
       if (className == 'SsCChatmsgNtf' || className == 'GsCModifyUserseatNtf' || className == 'MsgReconnectGame' || className == 'MsgGamePlayCardNtf' || className == 'PubGsCUseSpell' || className == 'ClientHappyGetFriendHandcardRep' || className == 'GsCRoleOptTargetNtf' || className == 'PubGsCMoveCard' || className == 'GsCFirstPhaseRole' || className == 'GsCModifyUserseatNtf' || className == 'GsCGamephaseNtf' || className == 'PubGsCUseCard') {
         mainInfo['className'] = args[0]['className']
@@ -1719,7 +1719,6 @@
   var iframe
   function clearButton(type) {
     var div = document.getElementById('iframe-source').contentWindow.document.getElementById(type)
-
     while (div.firstChild) {
       div.removeChild(div.firstChild)
     }
@@ -1727,11 +1726,6 @@
 
   function addCardTypeButton(cardType) {
     var toBeAdd
-    // for(let i = 1; i<=4 ; i++){
-    //     var t = "type"+i;
-    //     toBeAdd = document.getElementById('iframe-source').contentWindow.document.getElementById(t);
-    //     toBeAdd.append(document.createElement('br'));
-    // }
     for (const key in cardType) {
       var type = 'type' + cardType[key]['cardType']
       var button = document.createElement('button')
@@ -1820,7 +1814,6 @@
       header.innerText = '三国杀打小抄'
       header.style = 'display: inline-block;' + 'margin: 1px;' + 'user-select: none;' + 'cursor: move;' + 'display: flex;' + 'justify-content: center;' + 'font-size: 20px;' // 设置字体大小，根据需要调整
       div.appendChild(header)
-      var btn = document.createElement('btn')
 
       // 创建按钮并将其放在 header 最右侧
       var btn = document.createElement('btn')
@@ -1913,6 +1906,8 @@
       iframe.contentWindow.document.open()
       iframe.contentWindow.document.write(html)
       iframe.contentWindow.document.close()
+      buttonClick()
+      initDragElement()
     }
   }
 
@@ -1943,6 +1938,7 @@
         mySeat2BTN.style.display = 'none'
         for (const m of mySeatID) {
           MiZhuCards = []
+          if (idOrder[m] == void 0) break
           for (const card of shoupai[idOrder[m]]) {
             MiZhuCards.push(getCardNumAndSuit(card)['cardNum'])
           }
