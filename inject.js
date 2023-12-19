@@ -115,7 +115,7 @@
   var huaMu = new Set()
   var unknownCard = []
   var knownShouPai = new Set()
-  var emojiFontSize = '15px' // 可变的字体大小，可以根据需要进行调整
+  var emojiFontSize = '17px' // 可变的字体大小，可以根据需要进行调整
   var cardList
   var isAutoCloseEnabled = true
 
@@ -267,7 +267,7 @@
     for (const c of remShouPai) {
       var button = document.createElement('button')
       if (getCardNumAndSuit(c)['cardSuit'] == '♦' || getCardNumAndSuit(c)['cardSuit'] == '♥') {
-        button.className = 'shoupaiR' //红色手牌
+        button.className = 'shoupai red' //红色手牌
       } else {
         button.className = 'shoupai'
       }
@@ -305,7 +305,7 @@
     for (const c of dingReverse) {
       var button = document.createElement('button')
       if (getCardNumAndSuit(c)['cardSuit'] == '♦' || getCardNumAndSuit(c)['cardSuit'] == '♥') {
-        button.className = 'shoupaiR' //红色手牌
+        button.className = 'shoupai red' //红色手牌
       } else {
         button.className = 'shoupai'
       }
@@ -326,7 +326,7 @@
     for (const c of diReverse) {
       var button = document.createElement('button')
       if (getCardNumAndSuit(c)['cardSuit'] == '♦' || getCardNumAndSuit(c)['cardSuit'] == '♥') {
-        button.className = 'shoupaiR' //红色手牌
+        button.className = 'shoupai red' //红色手牌
       } else {
         button.className = 'shoupai'
       }
@@ -1759,7 +1759,7 @@
 
         var button = document.createElement('button')
         if (getCardNumAndSuit(s)['cardSuit'] == '♦' || getCardNumAndSuit(s)['cardSuit'] == '♥') {
-          button.className = 'shoupaiR' // 红色手牌
+          button.className = 'shoupai red' // 红色手牌
         } else {
           button.className = 'shoupai'
         }
@@ -1817,7 +1817,7 @@
 
       // 创建按钮并将其放在 header 最右侧
       var btn = document.createElement('btn')
-      btn.innerText = '-'
+      btn.innerText = '+'
       btn.id = 'toggle-me'
       btn.style =
         'text-align: center;' +

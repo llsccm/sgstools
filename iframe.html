@@ -1,7 +1,7 @@
 <head>
   <title>三国杀打小抄</title>
-  <meta charset=UTF-8>
-  <style type=text/css>
+  <meta charset="UTF-8" />
+  <style>
     ::-webkit-scrollbar {
       width: 5px;
       height: 12px;
@@ -16,7 +16,7 @@
       background: rgb(44, 44, 44);
     }
     * {
-      width: 205px;
+      /* width: 205px; */
       margin: 0;
       padding: 0;
       font-size: 12px;
@@ -115,6 +115,7 @@
     }
     .shoupai {
       --shoupaiR-width: 26px;
+      box-sizing: content-box;
       font-weight: bolder;
       margin-right: calc(22px - var(--shoupaiR-width));
       float: left;
@@ -126,18 +127,8 @@
       background: rgb(200, 200, 166);
       box-shadow: inset 1px 1px 3px #111;
     }
-    .shoupaiR {
-      --shoupaiR-width: 26px;
-      font-weight: bolder;
-      margin-right: calc(22px - var(--shoupaiR-width));
-      float: left;
-      width: var(--shoupaiR-width);
-      height: 35px;
-      border: 1px solid black;
-      text-align: center;
+    .shoupai.red {
       color: red;
-      background: rgb(200, 200, 166);
-      box-shadow: inset 1px 1px 3px #111;
     }
     .knownShouPai {
       border: 1px rgb(40, 40, 40) solid;
@@ -438,113 +429,105 @@
   </style>
 </head>
 <body>
-  <div class='nav'>
-    <div class='nav1' id='nav1'>当前模式：无</div>
+  <div class="nav">
+    <div class="nav1" id="nav1">当前模式：无</div>
   </div>
-  <div class='content' id='content'>
-    <div class='orderAndShouPai' id='orderAndShouPai'>
-      <div class='order' id='button'>
-        <div class='orderContainer'>
-          <div class='order-head or1' id='or1'>一</div>
-          <div class='order-body No1' id='1'>
-            <button class='shoupaiR'>♦6 <br>酒 </button>
+  <div class="content" id="content">
+    <div class="orderAndShouPai" id="orderAndShouPai">
+      <div class="order" id="button">
+        <div class="orderContainer">
+          <div class="order-head or1" id="or1">一</div>
+          <div class="order-body No1" id="1"></div>
+        </div>
+        <div class="orderContainer">
+          <div class="order-head or2" id="or2">二</div>
+          <div class="order-body" No2 id="2"></div>
+        </div>
+        <div class="orderContainer">
+          <div class="order-head or3" id="or3">三</div>
+          <div class="order-body" No3 id="3">
+            <button class="shoupai">♦6 <br />test</button>
           </div>
         </div>
-        <div class='orderContainer'>
-          <div class='order-head or2' id='or2'>二</div>
-          <div class=order-body No2 id='2'>
-            <button class='shoupaiR'>♦6 <br>酒 </button>
-          </div>
+        <div class="orderContainer">
+          <div class="order-head or4" id="or4">四</div>
+          <div class="order-body No4" id="4"></div>
         </div>
-        <div class='orderContainer'>
-          <div class='order-head or3' id='or3'>三</div>
-          <div class=order-body No3 id='3'>
-            <button class='shoupaiR'>♦6 <br>酒 </button>
-          </div>
+        <div class="orderContainer">
+          <div class="order-head or5" id="or5">五</div>
+          <div class="order-body No5" id="5"></div>
         </div>
-        <div class='orderContainer'>
-          <div class='order-head or4' id='or4'>四</div>
-          <div class='order-body No4' id='4'></div>
+        <div class="orderContainer">
+          <div class="order-head or6" id="or6">六</div>
+          <div class="order-body No6" id="6"></div>
         </div>
-        <div class='orderContainer'>
-          <div class='order-head or5' id='or5'>五</div>
-          <div class='order-body No5' id='5'></div>
+        <div class="orderContainer">
+          <div class="order-head or7" id="or7">七</div>
+          <div class="order-body No7" id="7"></div>
         </div>
-        <div class='orderContainer'>
-          <div class='order-head or6' id='or6'>六</div>
-          <div class='order-body No6' id='6'></div>
+        <div class="orderContainer">
+          <div class="order-head or8" id="or8">八</div>
+          <div class="order-body No8" id="8"></div>
         </div>
-        <div class='orderContainer'>
-          <div class='order-head or7' id='or7'>七</div>
-          <div class='order-body No7' id='7'></div>
-        </div>
-        <div class='orderContainer'>
-          <div class='order-head or8' id='or8'>八</div>
-          <div class='order-body No8' id='8'></div>
-        </div>
-        <div class='orderContainer'>
-          <div class='order-head knownCardsInHand' id='knownCardsInHand'>场上手牌</div>
-          <div class='order-body knownCards' id='knownCards'></div>
+        <div class="orderContainer">
+          <div class="order-head knownCardsInHand" id="knownCardsInHand">场上手牌</div>
+          <div class="order-body knownCards" id="knownCards"></div>
         </div>
       </div>
-      <div class='orderContainer'>
-        <div class='order-head ding' id='ding'></div>
-        <div class='order-body dingCards' id='dingCards'>
-        </div>
+      <div class="orderContainer">
+        <div class="order-head ding" id="ding"></div>
+        <div class="order-body dingCards" id="dingCards"> </div>
       </div>
-      <div class='orderContainer'>
-        <div class='order-head di' id='di'></div>
-        <div class='order-body diCards' id='diCards'>
-        </div>
+      <div class="orderContainer">
+        <div class="order-head di" id="di"></div>
+        <div class="order-body diCards" id="diCards"> </div>
       </div>
     </div>
   </div>
-  <div class='cardDetail' id='cardDetail'>
-    <div class=space></div>
-    <div class=detail>
-      <div class='detail-head' id='detail'>
+  <div class="cardDetail" id="cardDetail">
+    <div class="space"></div>
+    <div class="detail">
+      <div class="detail-head" id="detail">
         <b>功能区</b>
       </div>
-      <div class='detail-body'>
-        <div class='suit r' id='heart'>♥红桃 × </div>
-        <div class='suit' id='spade'>♠黑桃 × </div>
-        <div class='suit' id='club'>♣梅花 × </div>
-        <div class='suit r' id='diamond'>♦方片 × </div>
-        <div class='suit r' id='hongsha'>红杀 × </div>
-        <div class='suit' id='heisha' n>黑杀 × </div>
-        <div class='suitRec' id='suit'>乱击/化木/权变花色 </div>
-        <div class='function jizhan' id='jizhan'>吉占点数</div>
+      <div class="detail-body">
+        <div class="suit r" id="heart">♥红桃 ×</div>
+        <div class="suit" id="spade">♠黑桃 ×</div>
+        <div class="suit" id="club">♣梅花 ×</div>
+        <div class="suit r" id="diamond">♦方片 ×</div>
+        <div class="suit r" id="hongsha">红杀 ×</div>
+        <div class="suit" id="heisha" n>黑杀 ×</div>
+        <div class="suitRec" id="suit">乱击/化木/权变花色</div>
+        <div class="function jizhan" id="jizhan">吉占点数</div>
         <!-- <div class='function paiduiSize' id='paiduiSize'>牌堆张数</div> -->
-        <div class='function yanjiao' id='yanjiao'>严教小抄</div>
-        <button class='function mizhuBTN' id='mizhu'>糜竺小抄</button>
-        <button class='function mizhu mySeatID' id='mySeatID1'>座位：1</button>
-        <button class='function mizhu mySeatID' id='mySeatID2'>座位：2</button>
-        <div class='function res' id='res'>结果样式：1+1+1+1 = 4</div>
+        <div class="function yanjiao" id="yanjiao">严教小抄</div>
+        <button class="function mizhuBTN" id="mizhu">糜竺小抄</button>
+        <button class="function mizhu mySeatID" id="mySeatID1">座位：1</button>
+        <button class="function mizhu mySeatID" id="mySeatID2">座位：2</button>
+        <div class="function res" id="res">结果样式：1+1+1+1 = 4</div>
       </div>
     </div>
-    <div class='width'></div>
-    <div class=type>
-      <div class='cardTypeContainer'>
-        <div class='type-head' id='jiben'><b>基本</b></div>
-        <div class='type-body type1' id='type1'>
-          <button class=cardType>12寒冰</button>
+    <div class="width"></div>
+    <div class="type">
+      <div class="cardTypeContainer">
+        <div class="type-head" id="jiben"><b>基本</b></div>
+        <div class="type-body type1" id="type1">
+          <button class="cardType">12寒冰</button>
         </div>
       </div>
-      <div class='cardTypeContainer'>
-        <div class='type-head' id='jinnang'><b>锦囊</b></div>
-        <div class='type-body type2' id='type2'>
-          <button class=cardType>12寒冰</button>
+      <div class="cardTypeContainer">
+        <div class="type-head" id="jinnang"><b>锦囊</b></div>
+        <div class="type-body type2" id="type2">
+          <button class="cardType">12寒冰</button>
         </div>
       </div>
-      <div class='cardTypeContainer'>
-        <div class='type-head' id='zhuangbei'><b>装备</b></div>
-        <div class='type-body type3' id='type3'>
-          <button class=cardType>12寒冰</button>
+      <div class="cardTypeContainer">
+        <div class="type-head" id="zhuangbei"><b>装备</b></div>
+        <div class="type-body type3" id="type3">
+          <button class="cardType">12寒冰</button>
         </div>
       </div>
     </div>
   </div>
-  <a href='https://afdian.net/@yimadaO_o' id='donate' target='_blank'>请我喝肥宅快乐水</a>
-  </div>
-  </div>
+  <a href="https://afdian.net/@yimadaO_o" id="donate" target="_blank">请我喝肥宅快乐水</a>
 </body>
