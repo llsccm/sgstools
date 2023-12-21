@@ -127,47 +127,47 @@
     for (const cid of cardList) {
       paidui.add(cid)
     }
-
+    const content = document.getElementById('iframe-source').contentWindow
     if (isJunZhengBiaoZhun) {
       ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：军争</b>'
+      content.document.getElementById('nav1').innerHTML = '<b>当前模式：军争</b>'
     }
     if (isJunZhengBiaoZhunShanShan) {
       ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：军争</b>'
+      content.document.getElementById('nav1').innerHTML = '<b>当前模式：军争</b>'
     } else if (isGuoZhanBiaoZhun) {
       ;(diamond = 27), (spade = 27), (heart = 27), (club = 28), (spade2_9 = 17), (hongsha = 8), (heisha = 21)
-      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：国战</b>'
+      content.document.getElementById('nav1').innerHTML = '<b>当前模式：国战</b>'
     } else if (isGuoZhanYingBian) {
       ;(diamond = 26), (spade = 27), (heart = 28), (club = 28), (spade2_9 = 17), (hongsha = 8), (heisha = 21)
-      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：国战应变</b>'
+      content.document.getElementById('nav1').innerHTML = '<b>当前模式：国战应变</b>'
     } else if (isDouDiZhu) {
       ;(diamond = 43), (spade = 40), (heart = 43), (club = 40), (spade2_9 = 25), (hongsha = 18), (heisha = 30)
-      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：斗地主</b>'
+      content.document.getElementById('nav1').innerHTML = '<b>当前模式：斗地主</b>'
     } else if (isZhuGongSha) {
       ;(diamond = 40), (spade = 39), (heart = 38), (club = 39), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：主公杀</b>'
+      content.document.getElementById('nav1').innerHTML = '<b>当前模式：主公杀</b>'
     } else if (isZhuGongShaShanShan) {
       ;(diamond = 40), (spade = 39), (heart = 38), (club = 39), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：主公杀</b>'
+      content.document.getElementById('nav1').innerHTML = '<b>当前模式：主公杀</b>'
     } else if (isHuanLeBiaoZhun) {
       ;(diamond = 40), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：欢乐成双</b>'
+      content.document.getElementById('nav1').innerHTML = '<b>当前模式：欢乐成双</b>'
     } else if (isHuanLeBiaoZhunShanShan) {
       ;(diamond = 40), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：欢乐成双</b>'
+      content.document.getElementById('nav1').innerHTML = '<b>当前模式：欢乐成双</b>'
     } else if (isJunZhengYingBian) {
       ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：军争应变</b>'
+      content.document.getElementById('nav1').innerHTML = '<b>当前模式：军争应变</b>'
     } else if (isJunZhengYingBianShanShan) {
       ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：军争应变</b>'
+      content.document.getElementById('nav1').innerHTML = '<b>当前模式：军争应变</b>'
     } else if (isShenZhiShiLian) {
       ;(diamond = 41), (spade = 41), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：神之试炼</b>'
+      content.document.getElementById('nav1').innerHTML = '<b>当前模式：神之试炼</b>'
     } else if (isUnknown) {
       ;(diamond = 41), (spade = 41), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前牌堆：未知牌堆</b>'
+      content.document.getElementById('nav1').innerHTML = '<b>当前牌堆：未知牌堆</b>'
     }
     qipai = new Set() //zone2 弃牌
     chuli = new Set() //zone3 处理区
@@ -1016,18 +1016,19 @@
       console.warn('card type remove: ' + cardID + currentMode[cardID]['name'] + ' ' + JSON.stringify(getCardNumAndSuit(cardID)))
       if (typeof currentCardType[currentMode[cardID]['name']] != 'undefined') {
         let n = currentCardType[currentMode[cardID]['name']]['cardNum']
+        const content = document.getElementById('iframe-source').contentWindow
         if (n > 0) {
           n--
           currentCardType[currentMode[cardID]['name']]['cardNum'] = n
           if (n == 1) {
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).disabled = false
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).innerText = currentMode[cardID]['name']
+            content.document.getElementById(currentMode[cardID]['name']).disabled = false
+            content.document.getElementById(currentMode[cardID]['name']).innerText = currentMode[cardID]['name']
           } else if (n == 0) {
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).innerText = currentMode[cardID]['name']
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).disabled = true
+            content.document.getElementById(currentMode[cardID]['name']).innerText = currentMode[cardID]['name']
+            content.document.getElementById(currentMode[cardID]['name']).disabled = true
           } else {
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).innerText = n + currentMode[cardID]['name']
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).disabled = false
+            content.document.getElementById(currentMode[cardID]['name']).innerText = n + currentMode[cardID]['name']
+            content.document.getElementById(currentMode[cardID]['name']).disabled = false
           }
         }
         if (getCardNumAndSuit(cardID)['cardSuit'] == '♦') {
@@ -1078,18 +1079,19 @@
       //console.warn("card type add: " + cardID + currentMode[cardID]["name"] + " " + JSON.stringify(getCardNumAndSuit(cardID)));
       if (typeof currentCardType[currentMode[cardID]['name']] != 'undefined') {
         let n = currentCardType[currentMode[cardID]['name']]['cardNum']
+        const content = document.getElementById('iframe-source').contentWindow
         if (n >= 0) {
           n++
           currentCardType[currentMode[cardID]['name']]['cardNum'] = n
           if (n == 1) {
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).disabled = false
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).innerText = currentMode[cardID]['name']
+            content.document.getElementById(currentMode[cardID]['name']).disabled = false
+            content.document.getElementById(currentMode[cardID]['name']).innerText = currentMode[cardID]['name']
           } else if (n == 0) {
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).innerText = currentMode[cardID]['name']
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).disabled = true
+            content.document.getElementById(currentMode[cardID]['name']).innerText = currentMode[cardID]['name']
+            content.document.getElementById(currentMode[cardID]['name']).disabled = true
           } else {
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).innerText = n + currentMode[cardID]['name']
-            document.getElementById('iframe-source').contentWindow.document.getElementById(currentMode[cardID]['name']).disabled = false
+            content.document.getElementById(currentMode[cardID]['name']).innerText = n + currentMode[cardID]['name']
+            content.document.getElementById(currentMode[cardID]['name']).disabled = false
           }
         }
         if (getCardNumAndSuit(cardID)['cardSuit'] == '♦') {
@@ -1109,14 +1111,14 @@
         if (getCardNumAndSuit(cardID)['cardSuit'] == '♠' && getCardNumAndSuit(cardID)['cardNum'] >= 2 && getCardNumAndSuit(cardID)['cardNum'] <= 9) {
           spade2_9++
         }
-        document.getElementById('iframe-source').contentWindow.document.getElementById('heart').innerText = '♥红桃 × ' + heart
-        document.getElementById('iframe-source').contentWindow.document.getElementById('club').innerText = '♣梅花 × ' + club
-        document.getElementById('iframe-source').contentWindow.document.getElementById('spade').innerText = '♠黑桃 × ' + spade
-        document.getElementById('iframe-source').contentWindow.document.getElementById('diamond').innerText = '♦方片 × ' + diamond
+        content.document.getElementById('heart').innerText = '♥红桃 × ' + heart
+        content.document.getElementById('club').innerText = '♣梅花 × ' + club
+        content.document.getElementById('spade').innerText = '♠黑桃 × ' + spade
+        content.document.getElementById('diamond').innerText = '♦方片 × ' + diamond
         // document.getElementById('iframe-source').contentWindow.document.getElementById("shandian").innerText ="♠黑桃2~9 概率:"+ (spade2_9/paidui.size).toFixed(2);
         //document.getElementById('iframe-source').contentWindow.document.getElementById("paiduiSize").innerText ="牌堆张数: "+ paidui.size;
-        document.getElementById('iframe-source').contentWindow.document.getElementById('hongsha').innerText = '红杀 × ' + hongsha
-        document.getElementById('iframe-source').contentWindow.document.getElementById('heisha').innerText = '黑杀 × ' + heisha
+        content.document.getElementById('hongsha').innerText = '红杀 × ' + hongsha
+        content.document.getElementById('heisha').innerText = '黑杀 × ' + heisha
       }
     }
   }
@@ -1124,12 +1126,10 @@
   function allCardToCurrentMode(cardList) {
     currentMode = {}
     currentMode['0'] = { ...allCard['0'] }
-
     // Iterate through cardList and populate currentMode
     for (const cid of cardList) {
       currentMode[cid] = allCard[cid] || { ...allCard['0'] }
     }
-
     return currentMode
   }
   function currentModeCardType(cards) {
@@ -1251,7 +1251,6 @@
       for (let i = 1; i <= 3; i++) {
         clearButton('type' + i)
       }
-
       addCardTypeButton(currentCardType)
       // var elmnt = document.getElementById('createIframe')
       // buttonClick()
@@ -2021,11 +2020,9 @@
 
     function getHeader(element) {
       var headerItems = element.getElementsByClassName('header')
-
       if (headerItems.length === 1) {
         return headerItems[0]
       }
-
       return null
     }
   }
