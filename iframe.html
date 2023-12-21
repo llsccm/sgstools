@@ -16,7 +16,6 @@
       background: rgb(44, 44, 44);
     }
     * {
-      /* width: 205px; */
       margin: 0;
       padding: 0;
       font-size: 12px;
@@ -27,7 +26,6 @@
       color: #f2de9c;
       display: flex;
       flex-direction: column;
-      margin: 0px;
       user-select: none;
     }
     .nav {
@@ -65,64 +63,52 @@
       box-shadow: 1px 1px 3px #f2de9c;
     }
     .content {
+      /* float: right; */
       width: 100%;
-      float: right;
     }
     .orderAndShouPai {
+      /* display: inline-block; */
       width: 100%;
       overflow: hidden;
-      display: inline-block;
+      text-align: center;
     }
-    .order {
-      width: 100%;
-      overflow: hidden;
-    }
+    .order,
     .orderContainer {
       width: 100%;
       overflow: hidden;
     }
     .order-head {
+      float: left;
       width: 10%;
       height: 25px;
-      float: left;
-      text-align: center;
-      color: #f2de9c;
       margin-left: 3px;
-    }
-    .order-body:empty {
-      padding: 5px;
-      height: 35px;
-      max-width: 82%;
-      float: right;
-      display: block;
-      box-shadow: 1px 1px 3px;
-      margin: 1px;
-      overflow: hidden;
-      column-width: 300px;
-      border-radius: 5px;
+      color: #f2de9c;
     }
     .order-body {
-      padding: 5px;
-      height: auto;
-      max-width: 82%;
       float: right;
       display: block;
-      box-shadow: 1px 1px 3px;
+      height: auto;
+      max-width: 82%;
+      padding: 5px;
       margin: 1px;
       overflow: hidden;
+      box-shadow: 1px 1px 3px;
       column-width: 300px;
       border-radius: 5px;
+    }
+    .order-body:empty {
+      height: 35px;
     }
     .shoupai {
       --shoupaiR-width: 26px;
-      box-sizing: content-box;
-      font-weight: bolder;
-      margin-right: calc(22px - var(--shoupaiR-width));
       float: left;
+      box-sizing: content-box;
       width: var(--shoupaiR-width);
       height: 35px;
+      margin-right: calc(24px - var(--shoupaiR-width));
+      overflow: hidden;
       border: 1px solid black;
-      text-align: center;
+      font-weight: bolder;
       color: black;
       background: rgb(200, 200, 166);
       box-shadow: inset 1px 1px 3px #111;
@@ -130,30 +116,28 @@
     .shoupai.red {
       color: red;
     }
+    .shoupai span {
+      font-family: 'MI Lan Pro VF Default','Segoe UI Emoji',sans-serif;
+    }
     .knownShouPai {
       border: 1px rgb(40, 40, 40) solid;
       animation: blink 1s;
       animation-iteration-count: infinite;
     }
     .knownCardsInHand {
-      text-align: center;
       position: relative;
-      overflow: hidden;
       display: none;
       height: 121px;
-    }
-    .knownCards:empty {
-      text-align: center;
-      position: relative;
       overflow: hidden;
-      display: none;
     }
     .knownCards {
-      width: 81%;
-      text-align: center;
       position: relative;
-      overflow: hidden;
+      width: 81%;
       height: 121px;
+      overflow: hidden;
+    }
+    .knownCards:empty {
+      display: none;
     }
     @keyframes blink {
       50% {
@@ -161,30 +145,28 @@
       }
     }
     .knownCards:after {
-      text-align: center;
-      content: '场上手牌';
       position: absolute;
       bottom: 0;
       right: 5px;
       z-index: -1;
+      content: '场上手牌';
+      text-align: center;
       font: 800 20px 'Arial Black';
       -webkit-text-fill-color: transparent;
       -webkit-text-stroke-width: 1px;
     }
-    .ding {
-      text-align: center;
-      width: 100%;
+    .ding,
+    .di,
+    .dingCards,
+    .diCards {
       position: relative;
-      height: auto;
       display: none;
+      width: 100%;
+      height: auto;
     }
-    .dingCards {
-      text-align: center;
-      width: 100%;
-      position: relative;
-      height: auto;
+    .dingCards,
+    .diCards {
       min-height: 60px;
-      display: none;
     }
     .dingCards:after {
       content: '第一张为牌堆顶';
@@ -195,20 +177,6 @@
       font: 800 20px 'Arial Black';
       -webkit-text-fill-color: transparent;
       -webkit-text-stroke-width: 1px;
-    }
-    .di {
-      text-align: center;
-      width: 100%;
-      position: relative;
-      height: auto;
-      display: none;
-    }
-    .diCards {
-      text-align: center;
-      position: relative;
-      height: auto;
-      min-height: 60px;
-      display: none;
     }
     .diCards:after {
       content: '第一张为牌堆底';
@@ -223,21 +191,20 @@
     .cardDetail {
       width: 100%;
       overflow: hidden;
-      display: inline-block;
+      /* display: inline-block; */
     }
     .type {
-      width: 100%;
       float: left;
+      width: 100%;
+      text-align: center;
     }
     .cardTypeContainer {
       width: 100%;
       overflow: hidden;
-      display: block;
     }
     .type-head {
       width: 10%;
       float: left;
-      text-align: center;
       color: #f2de9c;
       margin-left: 3px;
       display: block;
@@ -260,21 +227,14 @@
       width: 25%;
       height: 22px;
       float: left;
-      text-align: center;
       border: 1px;
       margin: 0px;
       background: rgb(200, 200, 166);
       box-shadow: inset 1px 1px 3px #000;
     }
-    .detail {
-      width: 100%;
-      float: left;
-      /*overflow: hidden;*/
-    }
     .detail-head {
       width: 10%;
       float: left;
-      text-align: center;
       color: #f2de9c;
       margin-left: 3px;
       display: block;
@@ -295,29 +255,22 @@
       color: red;
     }
     .suitRec {
-      width: 100%;
       float: left;
+      width: 100%;
       font-size: 15px;
     }
-    .suit {
-      width: 50%;
-      float: left;
-    }
-    #shandian {
-      width: 100%;
-      float: left;
-    }
+    .suit,
     .function {
+      float: left;
       width: 50%;
-      float: left;
     }
-    .jizhan {
-      width: 100%;
+    .yanjiao,
+    .jizhan,
+    #shandian,
+    .res,
+    .detail {
       float: left;
-    }
-    .yanjiao {
       width: 100%;
-      float: left;
     }
     .calRes {
       width: 100%;
@@ -368,25 +321,13 @@
       background: rgb(55, 40, 32);
       border: 1px solid #f2de9c;
     }
-    #mySeatID1 {
-      width: 50px;
-      display: none;
-      float: left;
-    }
+    #mySeatID1,
     #mySeatID2 {
-      width: 50px;
       display: none;
       float: left;
+      width: 50px;
     }
-    .res {
-      width: 100%;
-      float: left;
-    }
-    .tooltip {
-      position: relative;
-      display: inline-block;
-      text-align: center;
-    }
+    .tooltip,
     .tooltiptext {
       position: relative;
       display: inline-block;
@@ -394,8 +335,9 @@
     }
     #donate {
       position: relative;
-      color: #f2de9c;
       display: inline-block;
+      width: 100%;
+      color: #f2de9c;
       text-align: center;
     }
     .tooltip .tooltiptext {
@@ -446,7 +388,14 @@
         <div class="orderContainer">
           <div class="order-head or3" id="or3">三</div>
           <div class="order-body" No3 id="3">
-            <button class="shoupai">♦6 <br />test</button>
+            <button class="shoupai">
+              <span>♦6</span>
+              中文
+            </button>
+            <button class="shoupai">
+              <span>♦6</span>
+              test
+            </button>
           </div>
         </div>
         <div class="orderContainer">
@@ -473,61 +422,61 @@
           <div class="order-head knownCardsInHand" id="knownCardsInHand">场上手牌</div>
           <div class="order-body knownCards" id="knownCards"></div>
         </div>
-      </div>
-      <div class="orderContainer">
-        <div class="order-head ding" id="ding"></div>
-        <div class="order-body dingCards" id="dingCards"> </div>
-      </div>
-      <div class="orderContainer">
-        <div class="order-head di" id="di"></div>
-        <div class="order-body diCards" id="diCards"> </div>
+        <div class="orderContainer">
+          <div class="order-head ding" id="ding"></div>
+          <div class="order-body dingCards" id="dingCards"> </div>
+        </div>
+        <div class="orderContainer">
+          <div class="order-head di" id="di"></div>
+          <div class="order-body diCards" id="diCards"> </div>
+        </div>
       </div>
     </div>
+    <div class="cardDetail" id="cardDetail">
+      <div class="space"></div>
+      <div class="detail">
+        <div class="detail-head" id="detail">
+          <b>功能区</b>
+        </div>
+        <div class="detail-body">
+          <div class="suit r" id="heart">♥红桃 ×</div>
+          <div class="suit" id="spade">♠黑桃 ×</div>
+          <div class="suit" id="club">♣梅花 ×</div>
+          <div class="suit r" id="diamond">♦方片 ×</div>
+          <div class="suit r" id="hongsha">红杀 ×</div>
+          <div class="suit" id="heisha" n>黑杀 ×</div>
+          <div class="suitRec" id="suit">乱击/化木/权变花色</div>
+          <div class="function jizhan" id="jizhan">吉占点数</div>
+          <!-- <div class='function paiduiSize' id='paiduiSize'>牌堆张数</div> -->
+          <div class="function yanjiao" id="yanjiao">严教小抄</div>
+          <button class="function mizhuBTN" id="mizhu">糜竺小抄</button>
+          <button class="function mizhu mySeatID" id="mySeatID1">座位：1</button>
+          <button class="function mizhu mySeatID" id="mySeatID2">座位：2</button>
+          <div class="function res" id="res">结果样式：1+1+1+1 = 4</div>
+        </div>
+      </div>
+      <div class="width"></div>
+      <div class="type">
+        <div class="cardTypeContainer">
+          <div class="type-head" id="jiben"><b>基本</b></div>
+          <div class="type-body type1" id="type1">
+            <button class="cardType">12寒冰</button>
+          </div>
+        </div>
+        <div class="cardTypeContainer">
+          <div class="type-head" id="jinnang"><b>锦囊</b></div>
+          <div class="type-body type2" id="type2">
+            <button class="cardType">12寒冰</button>
+          </div>
+        </div>
+        <div class="cardTypeContainer">
+          <div class="type-head" id="zhuangbei"><b>装备</b></div>
+          <div class="type-body type3" id="type3">
+            <button class="cardType">12寒冰</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="https://afdian.net/@yimadaO_o" id="donate" target="_blank">请我喝肥宅快乐水</a>
   </div>
-  <div class="cardDetail" id="cardDetail">
-    <div class="space"></div>
-    <div class="detail">
-      <div class="detail-head" id="detail">
-        <b>功能区</b>
-      </div>
-      <div class="detail-body">
-        <div class="suit r" id="heart">♥红桃 ×</div>
-        <div class="suit" id="spade">♠黑桃 ×</div>
-        <div class="suit" id="club">♣梅花 ×</div>
-        <div class="suit r" id="diamond">♦方片 ×</div>
-        <div class="suit r" id="hongsha">红杀 ×</div>
-        <div class="suit" id="heisha" n>黑杀 ×</div>
-        <div class="suitRec" id="suit">乱击/化木/权变花色</div>
-        <div class="function jizhan" id="jizhan">吉占点数</div>
-        <!-- <div class='function paiduiSize' id='paiduiSize'>牌堆张数</div> -->
-        <div class="function yanjiao" id="yanjiao">严教小抄</div>
-        <button class="function mizhuBTN" id="mizhu">糜竺小抄</button>
-        <button class="function mizhu mySeatID" id="mySeatID1">座位：1</button>
-        <button class="function mizhu mySeatID" id="mySeatID2">座位：2</button>
-        <div class="function res" id="res">结果样式：1+1+1+1 = 4</div>
-      </div>
-    </div>
-    <div class="width"></div>
-    <div class="type">
-      <div class="cardTypeContainer">
-        <div class="type-head" id="jiben"><b>基本</b></div>
-        <div class="type-body type1" id="type1">
-          <button class="cardType">12寒冰</button>
-        </div>
-      </div>
-      <div class="cardTypeContainer">
-        <div class="type-head" id="jinnang"><b>锦囊</b></div>
-        <div class="type-body type2" id="type2">
-          <button class="cardType">12寒冰</button>
-        </div>
-      </div>
-      <div class="cardTypeContainer">
-        <div class="type-head" id="zhuangbei"><b>装备</b></div>
-        <div class="type-body type3" id="type3">
-          <button class="cardType">12寒冰</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <a href="https://afdian.net/@yimadaO_o" id="donate" target="_blank">请我喝肥宅快乐水</a>
 </body>
