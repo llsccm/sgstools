@@ -1,6 +1,6 @@
 //UserScript
 ;(async function () {
-  'use strict'
+  ;('use strict')
   // window.WDVerSion = '1.0.0'
   // ;(function () {
   //   let iframe = document.createElement('iframe')
@@ -78,6 +78,7 @@
   var isGuoZhanBiaoZhun = false
   var isGuoZhanYingBian = false
   var isDouDiZhu = false
+  var isShenWu = false
 
   var isZhuGongSha = false
   var isZhuGongShaShanShan = false
@@ -104,7 +105,8 @@
   var isDiMeng = false //缔盟，清忠，等手牌全给情况
   var b = String.fromCharCode('22068') + String.fromCharCode('27424') + String.fromCharCode('32773') + String.fromCharCode('24517') + String.fromCharCode('35803')
   var isB = false
-  var mySeatID = new Set()
+  var mySeatID = new Set() // 用于糜竺，可能包括不仅仅两个人的
+  // var myID = -1 //仅仅用于自己
   var boTu = new Set()
   var enableBoTu = false
   var luanJi = new Set()
@@ -115,25 +117,22 @@
   var huaMu = new Set()
   var unknownCard = []
   var knownShouPai = new Set()
-  var emojiFontSize = '17px' // 可变的字体大小，可以根据需要进行调整
+  var emojiFontSize = '15px' // 可变的字体大小，可以根据需要进行调整
   var cardList
   var isAutoCloseEnabled = true
 
   function gameStart() {
     //全部区域清空,牌堆回复张
     paidui = new Set()
+    for (const cid of cardList) {
+      paidui.add(cid)
+    }
 
     if (isJunZhengBiaoZhun) {
-      for (const cid of cardList) {
-        paidui.add(cid)
-      }
       ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：军争</b>'
     }
     if (isJunZhengBiaoZhunShanShan) {
-      for (const cid of cardList) {
-        paidui.add(cid)
-      }
       ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：军争</b>'
       for (const cid of cardList) {
@@ -147,58 +146,30 @@
       ;(diamond = 26), (spade = 27), (heart = 28), (club = 28), (spade2_9 = 17), (hongsha = 8), (heisha = 21)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：国战应变</b>'
     } else if (isDouDiZhu) {
-      for (const cid of cardList) {
-        paidui.add(cid)
-      }
       ;(diamond = 43), (spade = 40), (heart = 43), (club = 40), (spade2_9 = 25), (hongsha = 18), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：斗地主</b>'
     } else if (isZhuGongSha) {
-      for (const cid of cardList) {
-        paidui.add(cid)
-      }
       ;(diamond = 40), (spade = 39), (heart = 38), (club = 39), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：主公杀</b>'
     } else if (isZhuGongShaShanShan) {
-      paidui = new Set()
-      for (const cid of cardList) {
-        paidui.add(cid)
-      }
       ;(diamond = 40), (spade = 39), (heart = 38), (club = 39), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：主公杀</b>'
     } else if (isHuanLeBiaoZhun) {
-      for (const cid of cardList) {
-        paidui.add(cid)
-      }
       ;(diamond = 40), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：欢乐成双</b>'
     } else if (isHuanLeBiaoZhunShanShan) {
-      for (const cid of cardList) {
-        paidui.add(cid)
-      }
       ;(diamond = 40), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：欢乐成双</b>'
     } else if (isJunZhengYingBian) {
-      for (const cid of cardList) {
-        paidui.add(cid)
-      }
       ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：军争应变</b>'
     } else if (isJunZhengYingBianShanShan) {
-      for (const cid of cardList) {
-        paidui.add(cid)
-      }
       ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：军争应变</b>'
     } else if (isShenZhiShiLian) {
-      for (const cid of cardList) {
-        paidui.add(cid)
-      }
       ;(diamond = 41), (spade = 41), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：神之试炼</b>'
-    } else {
-      for (const cid of cardList) {
-        paidui.add(cid)
-      }
+    } else if (isUnknown) {
       ;(diamond = 41), (spade = 41), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前牌堆：未知牌堆</b>'
     }
@@ -262,7 +233,7 @@
   function drawRemShouPai(remShouPai) {
     var knownCardsDiv = document.getElementById('iframe-source').contentWindow.document.getElementById('knownCards')
     var knownCardsInHandDiv = document.getElementById('iframe-source').contentWindow.document.getElementById('knownCardsInHand')
-    knownCardsDiv.innerText = ''
+    //knownCardsDiv.innerText = ''
     const shoupaiDIV = document.createElement('div')
     for (const c of remShouPai) {
       var button = document.createElement('button')
@@ -1154,20 +1125,6 @@
     }
   }
 
-  function getSeatOrder(ToID, ToZone, CardIDs, className, seatID) {
-    if (!isSeatOrder && idOrder[ToID] == -1 && ToZone == 5) {
-      if (typeof CardIDs[0] != 'undefined' && CardIDs[0] != 0) {
-        mainID = ToID
-        mySeatID.add(mainID)
-      }
-    }
-    if (className == 'GsCFirstPhaseRole' && typeof seatID != 'undefined') {
-      firstSeatID = seatID
-      seat = 0
-      console.warn('card first seat ID' + seatID)
-    }
-  }
-
   function allCardToCurrentMode(cardList) {
     currentMode = {}
     currentMode['0'] = { ...allCard['0'] }
@@ -1240,11 +1197,6 @@
     if (className == 'GsCModifyUserseatNtf') {
       size = Infos['length']
       console.warn('card renshu' + size)
-      // for(let info of Infos){
-      //     if(info["ClientID"]<4200000000){
-      //         firstSeatID = info["SeatID"];
-      //     }
-      // }
     }
     if (className == 'MsgReconnectGame') {
       isDuanXian = true
@@ -1262,6 +1214,8 @@
       isZhuGongSha = false
       isZhuGongShaShanShan = false
       isDouDiZhu = false
+      isShenWu = false
+      isUnknown = false
       if (cardCount == 161 && cardList[160] == 12142) {
         isJunZhengBiaoZhunShanShan = true
       }
@@ -1292,22 +1246,23 @@
       }
       currentMode = allCardToCurrentMode(cardList)
       currentCardType = currentModeCardType(currentMode)
-      if (isUnknown || isShenZhiShiLian || isJunZhengBiaoZhun || isGuoZhanBiaoZhun || isHuanLeBiaoZhun || isJunZhengYingBian || isGuoZhanYingBian || isTongShuai || isZhuGongSha || isZhuGongShaShanShan || isJunZhengBiaoZhunShanShan || isJunZhengYingBianShanShan || isHuanLeBiaoZhunShanShan || isDouDiZhu) {
-        if (!isFrameAdd) {
-          addFrame()
-        }
-        gameStart()
-        // resetOrderContainer();
-        // hideOrderContainer(size);
-        for (let i = 1; i <= 3; i++) {
-          clearButton('type' + i)
-        }
-
-        addCardTypeButton(currentCardType)
-        // var elmnt = document.getElementById('createIframe')
-        // buttonClick()
-        // initDragElement()
+      if (!isFrameAdd) {
+        addFrame()
       }
+      gameStart()
+      // resetOrderContainer();
+      // hideOrderContainer(size);
+      for (let i = 1; i <= 3; i++) {
+        clearButton('type' + i)
+      }
+
+      addCardTypeButton(currentCardType)
+      // var elmnt = document.getElementById('createIframe')
+      // buttonClick()
+      // initDragElement()
+    }
+    if (className == 'SmsgGameStateData') {
+      gameStart()
     }
     //严教
     if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && Param == 0 && card.SpellID == 945) {
@@ -1319,10 +1274,42 @@
     }
 
     //let cardNumAndSuit
-    if ((isUnknown || isShenZhiShiLian || isJunZhengBiaoZhun || isGuoZhanBiaoZhun || isHuanLeBiaoZhun || isJunZhengYingBian || isGuoZhanYingBian || isTongShuai || isZhuGongSha || isZhuGongShaShanShan || isJunZhengBiaoZhunShanShan || isJunZhengYingBianShanShan || isHuanLeBiaoZhunShanShan || isDouDiZhu) && !isDuanXian && !isB) {
-      //座位表
-
-      getSeatOrder(card.ToID, card.ToZone, card.CardIDs, className, firstID)
+    if (!isDuanXian && !isB) {
+      //座位表 start
+      if (className == 'GsCGamephaseNtf' && typeof Round != 'undefined' && typeof SeatID != 'undefined') {
+        //先根据movecard发牌得到 idOrderPre 然后根据第一个阶段将座位重新排列
+        if (!isSeatOrder && Round == 0 && (SeatID == firstSeatID || isDouDiZhu || isShenWu)) {
+          if (isDouDiZhu) {
+            firstSeatID = idOrderPre[0]
+          }
+          if (isShenWu) {
+            firstSeatID = idOrderPre[4]
+          }
+          let ind = idOrderPre.indexOf(firstSeatID)
+          for (let i = 0; i < idOrderPre.length; i++) {
+            newIdOrder[idOrderPre[ind % idOrderPre.length]] = seat
+            newShouPai[seat] = shoupai[idOrderPre[ind % idOrderPre.length]]
+            seat++
+            ind++
+          }
+          idOrder = newIdOrder
+          shoupai = newShouPai
+          isSeatOrder = true
+          console.warn('card reOrder shoupai: ' + JSON.stringify(shoupai))
+          console.warn('card reOrder seat info: ' + JSON.stringify(idOrder))
+        }
+      }
+      if (className == 'GsCFirstPhaseRole' && (typeof seatID != 'undefined' || typeof SeatID != 'undefined')) {
+        if (typeof seatID !== 'undefined') {
+          firstSeatID = seatID
+          console.warn('card first seat ID' + seatID)
+        } else {
+          firstSeatID = SeatID
+          console.warn('card first seat ID' + SeatID)
+        }
+        seat = 0
+      }
+      //座位表 end
 
       //spell 记录目标角色 987 988 黄承彦，神甘921 伏间851
       if (className == 'PubGsCUseSpell' && typeof DestSeatIDs != 'undefined' && DestSeatIDs.length > 0 && (card.SpellID == 987 || card.SpellID == 988 || card.SpellID == 921 || card.SpellID == 851)) {
@@ -1483,12 +1470,16 @@
         //第一次发牌+手气卡拿牌 对自己手牌和cardType 和paidui 产生影响
         else if (card.ToZone == 5 && card.FromID == 255 && card.FromZone == 1 && !isGameStart) {
           //重复用手气卡不会添加 但是手牌会更新
+          console.warn('游戏开始,系统发牌/使用手气卡')
+          console.warn('card shouqika/fapai shoupai[id]' + JSON.stringify(shoupai))
           remCardCount -= card.CardCount
           if (!idOrderPreSet.has(card.ToID)) {
             idOrderPreSet.add(card.ToID)
             idOrderPre.push(card.ToID)
             console.warn('card idOrderPre ' + JSON.stringify(idOrderPre))
           }
+          console.warn('card idOrderPre ' + JSON.stringify(idOrderPre))
+          //用于22 的糜竺计算
           if (typeof card.CardIDs[0] != 'undefined' && card.CardIDs[0] != 0) {
             mainID = card.ToID
             mySeatID.add(mainID)
@@ -1496,15 +1487,15 @@
           for (let i = 0; i < card.CardCount; i++) {
             if (card.CardIDs.length != 0) {
               cardID = card.CardIDs[i]
-              shoupai[card.ToID].add(cardID)
+              const targetID = isSeatOrder ? idOrder[card.ToID] : card.ToID
+              shoupai[targetID].add(cardID)
               removeCardType(cardID)
               paidui.delete(cardID)
-              console.warn('card shouqika/fapai shoupai[id]' + paidui.size + shoupai)
             }
           }
         }
         //手气卡丢牌
-        else if (card.FromZone == 5 && card.FromID == mainID && card.ToZone == 1 && card.ToID == 0 && !isGameStart) {
+        else if (card.FromZone == 5 && card.ToZone == 1 && card.ToID == 0 && !isGameStart) {
           remCardCount += card.CardCount
           shoupai[card.FromID] = new Set()
           for (let i = 0; i < card.CardCount; i++) {
@@ -1516,44 +1507,53 @@
           }
           console.warn('card 手气卡丢牌 ' + JSON.stringify(shoupai))
         }
+        //神武先丢一张装备牌
+        else if (card.FromID == 255 && card.FromZone == 1 && card.ToZone == 12 && card.ToID == 255 && !isGameStart) {
+          removeCardType(cardID)
+        }
+        //然后换一个装备置入牌堆
+        else if (card.FromID == 255 && card.FromZone == 0 && card.ToZone == 1 && card.ToID == 255 && !isGameStart) {
+          addCardType(cardID)
+        } else if (card.FromID == 255 && card.FromZone == 1 && card.ToZone == 6 && !isGameStart) {
+        }
         // 或者有其他操作,则说明游戏开始
         //不点手气卡,摸牌,也会进入这里
         else {
           isGameStart = true
-          if (!isSeatOrder) {
-            if (isDouDiZhu) {
-              firstSeatID = idOrderPre[0]
-            }
-            let ind = idOrderPre.indexOf(firstSeatID)
-            for (let i = 0; i < idOrderPre.length; i++) {
-              newIdOrder[idOrderPre[ind % idOrderPre.length]] = seat
-              newShouPai[seat] = shoupai[idOrderPre[ind % idOrderPre.length]]
-              seat++
-              ind++
-            }
-            idOrder = newIdOrder
-            shoupai = newShouPai
-            isSeatOrder = true
-            console.warn('card reOrder shoupai: ' + JSON.stringify(shoupai))
-            console.warn('card reOrder seat info: ' + JSON.stringify(idOrder))
-          }
+          // if (!isSeatOrder) {
+          //   if (isDouDiZhu) {
+          //     firstSeatID = idOrderPre[0]
+          //   }
+          //   let ind = idOrderPre.indexOf(firstSeatID)
+          //   for (let i = 0; i < idOrderPre.length; i++) {
+          //     newIdOrder[idOrderPre[ind % idOrderPre.length]] = seat
+          //     newShouPai[seat] = shoupai[idOrderPre[ind % idOrderPre.length]]
+          //     seat++
+          //     ind++
+          //   }
+          //   idOrder = newIdOrder
+          //   shoupai = newShouPai
+          //   isSeatOrder = true
+          //   console.warn('card reOrder shoupai: ' + JSON.stringify(shoupai))
+          //   console.warn('card reOrder seat info: ' + JSON.stringify(idOrder))
+          // }
         }
         //游戏开始
         if (isGameStart) {
           //单独适配,别人暗的已知手牌全部给一个人的情况，例如自己不是刘备，刘备有已知手牌，但是全部给一个人，三国杀代码是暗牌0
           //如果刘备有两张牌，一张明牌，一张给a，一张给b，都给到手牌，之后出现再删掉
-          if (card.FromZone == 5 && card.ToZone == 5 && card.FromID != card.ToID && card.CardCount >= shoupai[idOrder[card.FromID]].size && card.DataCount == 0) {
-            temShouPai = new Set()
-            if (shoupai[idOrder[card.FromID]].size != 0) {
-              temShouPai = shoupai[idOrder[card.FromID]]
-            }
-            if (temShouPai.size != 0) {
-              for (const c of temShouPai) {
-                shoupai[idOrder[card.ToID]].add(c)
-              }
-              shoupai[idOrder[card.FromID]] = new Set()
-            }
-          }
+          // if (card.FromZone == 5 && card.ToZone == 5 && card.FromID != card.ToID && card.CardCount >= shoupai[idOrder[card.FromID]].size && card.DataCount == 0) {
+          //   temShouPai = new Set()
+          //   if (shoupai[idOrder[card.FromID]].size != 0) {
+          //     temShouPai = shoupai[idOrder[card.FromID]]
+          //   }
+          //   if (temShouPai.size != 0) {
+          //     for (const c of temShouPai) {
+          //       shoupai[idOrder[card.ToID]].add(c)
+          //     }
+          //     shoupai[idOrder[card.FromID]] = new Set()
+          //   }
+          // }
           //单独适配,鲁芝清忠，暗的已知手牌全部给一个人的情况，例如鲁芝有已知手牌，但是全部给一个人，三国杀代码是暗牌0
           // 缔盟 清忠
           if (card.FromZone == 10 && card.FromID != card.ToID && card.ToPosition == 65280 && card.FromPosition == 65282 && card.ToZone == 5 && (card.SpellID == 3036 || card.SpellID == 121)) {
@@ -1566,9 +1566,9 @@
             }
           }
           //尝试解决最后的手牌
-          if (card.FromZone == 5 && card.FromID != card.ToID && card.CardCount >= shoupai[idOrder[card.FromID]].size && card.DataCount == 0) {
-            shoupai[idOrder[card.FromID]] = new Set()
-          }
+          // if (card.FromZone == 5 && card.FromID != card.ToID && card.CardCount >= shoupai[idOrder[card.FromID]].size && card.DataCount == 0) {
+          //   shoupai[idOrder[card.FromID]] = new Set()
+          // }
 
           for (let i = 0; i < card.CardCount; i++) {
             if (card.CardIDs.length != 0) {
