@@ -1,6 +1,6 @@
 //UserScript
 ;(async function () {
-  ;('use strict')
+  'use strict'
   // window.WDVerSion = '1.0.0'
   // ;(function () {
   //   let iframe = document.createElement('iframe')
@@ -135,14 +135,10 @@
     if (isJunZhengBiaoZhunShanShan) {
       ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：军争</b>'
-      for (const cid of cardList) {
-        paidui.add(cid)
-      }
+    } else if (isGuoZhanBiaoZhun) {
       ;(diamond = 27), (spade = 27), (heart = 27), (club = 28), (spade2_9 = 17), (hongsha = 8), (heisha = 21)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：国战</b>'
-      for (const cid of cardList) {
-        paidui.add(cid)
-      }
+    } else if (isGuoZhanYingBian) {
       ;(diamond = 26), (spade = 27), (heart = 28), (club = 28), (spade2_9 = 17), (hongsha = 8), (heisha = 21)
       document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>当前模式：国战应变</b>'
     } else if (isDouDiZhu) {
