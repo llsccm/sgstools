@@ -1063,13 +1063,13 @@
           diamond = 0
         }
 
-        document.getElementById('iframe-source').contentWindow.document.getElementById('heart').innerText = '♥红桃 × ' + heart
-        document.getElementById('iframe-source').contentWindow.document.getElementById('club').innerText = '♣梅花 × ' + club
-        document.getElementById('iframe-source').contentWindow.document.getElementById('spade').innerText = '♠黑桃 × ' + spade
-        document.getElementById('iframe-source').contentWindow.document.getElementById('diamond').innerText = '♦方片 × ' + diamond
+        content.document.getElementById('heart').innerText = '♥红桃 × ' + heart
+        content.document.getElementById('club').innerText = '♣梅花 × ' + club
+        content.document.getElementById('spade').innerText = '♠黑桃 × ' + spade
+        content.document.getElementById('diamond').innerText = '♦方片 × ' + diamond
         // document.getElementById('iframe-source').contentWindow.document.getElementById("shandian").innerText ="♠黑桃2~9 概率:"+ Math.round((spade2_9 / paidui.size) * 100)+'%';
-        document.getElementById('iframe-source').contentWindow.document.getElementById('hongsha').innerText = '红杀 × ' + hongsha
-        document.getElementById('iframe-source').contentWindow.document.getElementById('heisha').innerText = '黑杀 × ' + heisha
+        content.document.getElementById('hongsha').innerText = '红杀 × ' + hongsha
+        content.document.getElementById('heisha').innerText = '黑杀 × ' + heisha
       }
     }
   }
