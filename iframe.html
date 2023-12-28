@@ -20,12 +20,15 @@
       padding: 0;
       font-size: 12px;
     }
+    :root {
+      --shoupai-width: 26px;
+    }
     body {
-      width: 205px;
-      background: rgb(40, 40, 40);
-      color: #f2de9c;
       display: flex;
       flex-direction: column;
+      width: 205px;
+      color: #f2de9c;
+      background: rgb(40, 40, 40);
       user-select: none;
     }
     .nav {
@@ -33,29 +36,29 @@
       background: rgb(40, 40, 40);
     }
     .nav1 {
-      height: 20px;
-      width: 100%;
-      text-align: center;
-      color: #f2de9c;
-      background: rgb(40, 40, 40);
-      margin-right: 15px;
       display: block;
+      width: 100%;
+      height: 20px;
+      margin-right: 15px;
+      color: #f2de9c;
+      text-align: center;
+      background: rgb(40, 40, 40);
     }
     .nav2 {
-      height: 20px;
-      width: 49%;
-      float: right;
-      text-align: center;
-      color: #f2de9c;
-      background: rgb(40, 40, 40);
-      margin-left: 3px;
-      border: 1px solid #f2de9c;
       display: block;
+      float: right;
+      width: 49%;
+      height: 20px;
+      margin-left: 3px;
+      color: #f2de9c;
+      text-align: center;
+      background: rgb(40, 40, 40);
+      border: 1px solid #f2de9c;
       border-radius: 5px;
     }
     .nav2:hover {
       color: #f2de9c;
-      background: rgb(55, 40, 32);
+      background: rgb(55, 0, 32);
       border: 1px solid #f2de9c;
     }
     .nav2:focus {
@@ -85,39 +88,38 @@
       color: #f2de9c;
     }
     .order-body {
-      float: right;
       display: block;
-      height: auto;
+      float: right;
       max-width: 82%;
-      padding: 5px;
+      height: auto;
       margin: 1px;
+      padding: 5px;
       overflow: hidden;
-      box-shadow: 1px 1px 3px;
       column-width: 300px;
       border-radius: 5px;
+      box-shadow: 1px 1px 3px;
     }
     .order-body:empty {
       height: 35px;
     }
     .shoupai {
-      --shoupaiR-width: 26px;
       float: left;
       box-sizing: content-box;
-      width: var(--shoupaiR-width);
+      width: var(--shoupai-width);
       height: 35px;
-      margin-right: calc(24px - var(--shoupaiR-width));
+      margin-right: calc(24px - var(--shoupai-width));
       overflow: hidden;
-      border: 1px solid black;
-      font-weight: bolder;
       color: black;
+      font-weight: bolder;
       background: rgb(200, 200, 166);
+      border: 1px solid black;
       box-shadow: inset 1px 1px 3px #111;
     }
     .shoupai.red {
       color: red;
     }
     .shoupai span {
-      font-family: 'MI Lan Pro VF Default',sans-serif;
+      font-family: 'MI Lan Pro VF Default', sans-serif;
     }
     .knownShouPai {
       border: 1px rgb(40, 40, 40) solid;
@@ -144,14 +146,14 @@
         border-color: #f2de9c;
       }
     }
-    .knownCards:after {
+    .knownCards::after {
       position: absolute;
-      bottom: 0;
       right: 5px;
+      bottom: 0;
       z-index: -1;
-      content: '场上手牌';
+      font: 800 20px 'Arial Black', sans-serif;
       text-align: center;
-      font: 800 20px 'Arial Black';
+      content: '场上手牌';
       -webkit-text-fill-color: transparent;
       -webkit-text-stroke-width: 1px;
     }
@@ -168,30 +170,29 @@
     .diCards {
       min-height: 60px;
     }
-    .dingCards:after {
-      content: '第一张为牌堆顶';
+    .dingCards::after {
       position: absolute;
-      bottom: 0;
       right: 5px;
+      bottom: 0;
       z-index: -1;
-      font: 800 20px 'Arial Black';
+      font: 800 20px 'Arial Black', sans-serif;
+      content: '第一张为牌堆顶';
       -webkit-text-fill-color: transparent;
       -webkit-text-stroke-width: 1px;
     }
-    .diCards:after {
-      content: '第一张为牌堆底';
+    .diCards::after {
       position: absolute;
-      bottom: 0;
       right: 5px;
+      bottom: 0;
       z-index: -1;
-      font: 800 20px 'Arial Black';
+      font: 800 20px 'Arial Black', sans-serif;
+      content: '第一张为牌堆底';
       -webkit-text-fill-color: transparent;
       -webkit-text-stroke-width: 1px;
     }
     .cardDetail {
       width: 100%;
       overflow: hidden;
-      /* display: inline-block; */
     }
     .type {
       float: left;
@@ -203,53 +204,53 @@
       overflow: hidden;
     }
     .type-head {
-      width: 10%;
-      float: left;
-      color: #f2de9c;
-      margin-left: 3px;
       display: block;
+      float: left;
+      width: 10%;
+      margin-left: 3px;
       overflow: hidden;
+      color: #f2de9c;
       cursor: pointer;
     }
     .type-body {
-      padding: 5px;
-      width: 82%;
-      float: right;
       display: block;
-      box-shadow: 1px 1px 3px;
+      float: right;
+      width: 82%;
       margin: 1px;
+      padding: 5px;
       overflow: hidden;
       column-width: 300px;
       border-radius: 5px;
+      box-shadow: 1px 1px 3px;
     }
     .cardType {
-      font-size: 11px;
+      float: left;
       width: 25%;
       height: 22px;
-      float: left;
-      border: 1px;
-      margin: 0px;
+      margin: 0;
+      font-size: 11px;
       background: rgb(200, 200, 166);
+      border: 1px;
       box-shadow: inset 1px 1px 3px #000;
     }
     .detail-head {
-      width: 10%;
-      float: left;
-      color: #f2de9c;
-      margin-left: 3px;
       display: block;
+      float: left;
+      width: 10%;
+      margin-left: 3px;
       overflow: hidden;
+      color: #f2de9c;
       cursor: pointer;
     }
     .detail-body {
-      padding: 5px;
-      width: 82%;
-      float: left;
       display: block;
-      box-shadow: 1px 1px 3px;
+      float: left;
+      width: 82%;
       margin: 1px;
-      border-radius: 5px;
+      padding: 5px;
       overflow: hidden;
+      border-radius: 5px;
+      box-shadow: 1px 1px 3px;
     }
     .r {
       color: red;
@@ -273,14 +274,14 @@
       width: 100%;
     }
     .calRes {
+      display: block;
+      float: left;
       width: 100%;
       height: 20px;
-      float: left;
-      text-align: center;
       color: #f2de9c;
+      text-align: center;
       background: rgb(40, 40, 40);
       border: 1px solid #f2de9c;
-      display: block;
       border-radius: 5px;
     }
     .calRes:hover {
@@ -289,14 +290,14 @@
       border: 1px solid #f2de9c;
     }
     .mizhuBtn {
+      display: block;
+      float: left;
       width: 55px;
       height: 20px;
-      float: left;
-      text-align: center;
       color: #f2de9c;
+      text-align: center;
       background: rgb(40, 40, 40);
       border: 1px solid #f2de9c;
-      display: block;
       border-radius: 5px;
     }
     .mizhuBtn:hover {
@@ -305,15 +306,15 @@
       border: 1px solid #f2de9c;
     }
     .mizhu {
+      display: block;
+      float: left;
       width: 100%;
       height: 20px;
-      float: left;
-      text-align: center;
-      color: #f2de9c;
-      background: rgb(40, 40, 40);
       margin-left: 3px;
+      color: #f2de9c;
+      text-align: center;
+      background: rgb(40, 40, 40);
       border: 1px solid #f2de9c;
-      display: block;
       border-radius: 5px;
     }
     .mizhu:hover {
@@ -341,18 +342,18 @@
       text-align: center;
     }
     .tooltip .tooltiptext {
-      width: 100%;
-      visibility: hidden;
-      background-color: black;
+      position: absolute;
       top: -80%;
       left: 50%;
+      z-index: 1;
+      width: 100%;
       margin-left: -103px;
+      padding: 5px 0;
       color: #f2de9c;
       text-align: left;
-      padding: 5px 0;
+      background-color: black;
       border-radius: 6px;
-      position: absolute;
-      z-index: 1;
+      visibility: hidden;
     }
     .tooltip:hover .tooltiptext {
       visibility: visible;
