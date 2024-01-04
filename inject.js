@@ -117,7 +117,7 @@
   var huaMu = new Set()
   var unknownCard = []
   var knownShouPai = new Set()
-  var emojiFontSize = '15px' // 可变的字体大小，可以根据需要进行调整
+  var emojiFontSize = '14px' // 可变的字体大小，可以根据需要进行调整
   var cardList
   var isAutoCloseEnabled = true
 
