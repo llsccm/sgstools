@@ -248,7 +248,7 @@
 
       emojiWrapper.appendChild(emoji)
       button.appendChild(emojiWrapper)
-      button.innerHTML += currentMode[c]['name']
+      button.innerHTML += `<span>${currentMode[c]['name']}</span>`
       shoupaiDIV.append(button)
     }
 
@@ -283,10 +283,9 @@
       let emoji = document.createElement('span')
       emoji.style.fontSize = emojiFontSize // 应用可变的字体大小
       emoji.innerText = getCardNumAndSuit(c)['cardNumAndSuit']
-
       emojiWrapper.appendChild(emoji)
       button.appendChild(emojiWrapper)
-      button.innerHTML += allCard[c] ? allCard[c]['name'] : '?'
+      button.innerHTML += allCard[c] ? `<span>${allCard[c]['name']}</span>` : '?'
       DingCardsDiv.append(button)
     }
     var diReverse = di.slice().reverse()
@@ -307,7 +306,7 @@
 
       emojiWrapper.appendChild(emoji)
       button.appendChild(emojiWrapper)
-      button.innerHTML += allCard[c] ? allCard[c]['name'] : '?'
+      button.innerHTML += allCard[c] ? `<span>${allCard[c]['name']}</span>` : '?'
       DiCardsDiv.append(button)
     }
     DingCardsDiv.innerHTML = DingCardsDiv.innerHTML
@@ -1773,7 +1772,7 @@
 
         emojiWrapper.appendChild(emoji)
         button.appendChild(emojiWrapper)
-        button.innerHTML += allCard[s] ? allCard[s]['name'] : '?'
+        button.innerHTML += allCard[s] ? `<span>${allCard[s]['name']}</span>` : '?'
         shoupaiDIV.append(button)
       }
 
