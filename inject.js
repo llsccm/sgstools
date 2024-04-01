@@ -33,6 +33,7 @@
   let oldGeneralID = 999 ////只有不同GeneralID才会更新skinFrame
   let GeneralID = 999
   let isFirstTime = true //第一次不会弹出skin窗口，只有oldGeneralID != GeneralID 时（新一局游戏）， 才会 isFirstTime = true；新一局游戏开始重置
+  let gameStatusMap = {}
   let remCardCount = 0
   let currentMode = {}
   let paidui = new Set() //, 别人摸未知牌不会改变,自己mainID摸牌会减少的牌,场上有明牌都会被移出,此牌堆包括别人手牌
@@ -56,41 +57,25 @@
 
   //let cardTypeGuoZhanYingBian, cardTypeJunZhengBiaoZhun, cardTypeGuoZhanBiaoZhun, cardTypeHuanLeBiaoZhun, cardTypeJunZhengYingBian, cardTypeZhuGongSha, cardTypeShenZhiShiLian, cardTypeDouDiZhu
   let currentCardType
-  let cardTypeButton = ''
-
   //cardType 基本1锦囊2装备3其他4
   var isSeatOrder = false //座位是否安排好了
   var isFrameAdd = false
-  var isShouQiKa = 0
-  var ShouQiKa = {}
   var mainID
-  var diamond, spade, heart, club, spade2_9, hongsha, heisha
+  let suits = {
+    diamond: 0,
+    spade: 0,
+    club: 0,
+    hongsha: 0,
+    heisha: 0,
+    spade2_9: 0
+  }
   var arr = []
   var combos = []
   var closeIframe = true
-  var isJunZhengBiaoZhun = false
-  var isJunZhengBiaoZhunShanShan = false
-  var isJunZhengYingBian = false
-  var isJunZhengYingBianShanShan = false
-
-  var isShenZhiShiLian = false
-
-  var isGuoZhanBiaoZhun = false
-  var isGuoZhanYingBian = false
-  var isDouDiZhu = false
-  var isShenWu = false
-
-  var isZhuGongSha = false
-  var isZhuGongShaShanShan = false
-
-  var isTongShuai = false
-  var isUnknown = false
-
-  var isHuanLeBiaoZhun = false
-  var isHuanLeBiaoZhunShanShan = false
-  var size
+  // let gameModeMap = {}
+  var size = 8
   var firstSeatID = 0
-  let idOrderNew = []
+  // let idOrderNew = []
   let idOrder = {} //key为玩家id，value为实际座位顺序
   let idOrderPre = [] //按顺序存储idOrder
   let idOrderPreSet = new Set() //按顺序存储idOrder
@@ -128,47 +113,34 @@
       paidui.add(cid)
     }
     const content = document.getElementById('iframe-source').contentWindow
-    if (isJunZhengBiaoZhun) {
-      ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      content.document.getElementById('nav1').innerHTML = '<b>当前模式：军争</b>'
+    const deckConfig = {
+      isJunZhengBiaoZhun: { label: '军争', diamond: 41, spade: 40, heart: 40, club: 40, spade2_9: 25, hongsha: 14, heisha: 30 },
+      isJunZhengBiaoZhunShanShan: { label: '军争', diamond: 41, spade: 40, heart: 40, club: 40, spade2_9: 25, hongsha: 14, heisha: 30 },
+      isGuoZhanBiaoZhun: { label: '国战', diamond: 27, spade: 27, heart: 27, club: 28, spade2_9: 17, hongsha: 8, heisha: 21 },
+      isGuoZhanYingBian: { label: '国战应变', diamond: 26, spade: 27, heart: 28, club: 28, spade2_9: 17, hongsha: 8, heisha: 21 },
+      isDouDiZhu: { label: '斗地主', diamond: 43, spade: 40, heart: 43, club: 40, spade2_9: 25, hongsha: 18, heisha: 30 },
+      isShenWu: { label: '神武', diamond: 43, spade: 40, heart: 43, club: 40, spade2_9: 25, hongsha: 18, heisha: 30 },
+      isZhuGongSha: { label: '主公杀', diamond: 40, spade: 39, heart: 38, club: 39, spade2_9: 25, hongsha: 14, heisha: 30 },
+      isZhuGongShaShanShan: { label: '主公杀', diamond: 40, spade: 39, heart: 38, club: 39, spade2_9: 25, hongsha: 14, heisha: 30 },
+      isHuanLeBiaoZhun: { label: '军争无木马', diamond: 40, spade: 40, heart: 40, club: 40, spade2_9: 25, hongsha: 14, heisha: 30 },
+      isHuanLeBiaoZhunShanShan: { label: '军争无木马', diamond: 40, spade: 40, heart: 40, club: 40, spade2_9: 25, hongsha: 14, heisha: 30 },
+      isJunZhengYingBian: { label: '军争应变', diamond: 41, spade: 40, heart: 40, club: 40, spade2_9: 25, hongsha: 14, heisha: 30 },
+      isJunZhengYingBianShanShan: { label: '军争应变', diamond: 41, spade: 40, heart: 40, club: 40, spade2_9: 25, hongsha: 14, heisha: 30 },
+      isShenZhiShiLian: { label: '神之试炼', diamond: 41, spade: 41, heart: 40, club: 40, spade2_9: 25, hongsha: 14, heisha: 30 },
+      isUnknown: { label: '未知牌堆', diamond: 41, spade: 41, heart: 40, club: 40, spade2_9: 25, hongsha: 14, heisha: 30 }
     }
-    if (isJunZhengBiaoZhunShanShan) {
-      ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      content.document.getElementById('nav1').innerHTML = '<b>当前模式：军争</b>'
-    } else if (isGuoZhanBiaoZhun) {
-      ;(diamond = 27), (spade = 27), (heart = 27), (club = 28), (spade2_9 = 17), (hongsha = 8), (heisha = 21)
-      content.document.getElementById('nav1').innerHTML = '<b>当前模式：国战</b>'
-    } else if (isGuoZhanYingBian) {
-      ;(diamond = 26), (spade = 27), (heart = 28), (club = 28), (spade2_9 = 17), (hongsha = 8), (heisha = 21)
-      content.document.getElementById('nav1').innerHTML = '<b>当前模式：国战应变</b>'
-    } else if (isDouDiZhu) {
-      ;(diamond = 43), (spade = 40), (heart = 43), (club = 40), (spade2_9 = 25), (hongsha = 18), (heisha = 30)
-      content.document.getElementById('nav1').innerHTML = '<b>当前模式：斗地主</b>'
-    } else if (isZhuGongSha) {
-      ;(diamond = 40), (spade = 39), (heart = 38), (club = 39), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      content.document.getElementById('nav1').innerHTML = '<b>当前模式：主公杀</b>'
-    } else if (isZhuGongShaShanShan) {
-      ;(diamond = 40), (spade = 39), (heart = 38), (club = 39), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      content.document.getElementById('nav1').innerHTML = '<b>当前模式：主公杀</b>'
-    } else if (isHuanLeBiaoZhun) {
-      ;(diamond = 40), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      content.document.getElementById('nav1').innerHTML = '<b>当前模式：欢乐成双</b>'
-    } else if (isHuanLeBiaoZhunShanShan) {
-      ;(diamond = 40), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      content.document.getElementById('nav1').innerHTML = '<b>当前模式：欢乐成双</b>'
-    } else if (isJunZhengYingBian) {
-      ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      content.document.getElementById('nav1').innerHTML = '<b>当前模式：军争应变</b>'
-    } else if (isJunZhengYingBianShanShan) {
-      ;(diamond = 41), (spade = 40), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      content.document.getElementById('nav1').innerHTML = '<b>当前模式：军争应变</b>'
-    } else if (isShenZhiShiLian) {
-      ;(diamond = 41), (spade = 41), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      content.document.getElementById('nav1').innerHTML = '<b>当前模式：神之试炼</b>'
-    } else if (isUnknown) {
-      ;(diamond = 41), (spade = 41), (heart = 40), (club = 40), (spade2_9 = 25), (hongsha = 14), (heisha = 30)
-      content.document.getElementById('nav1').innerHTML = '<b>当前牌堆：未知牌堆</b>'
+    let currentDeckConfig
+
+    for (let key in deckConfig) {
+      if (gameStatusMap[key]) {
+        currentDeckConfig = deckConfig[key]
+        //TODO
+        suits = currentDeckConfig
+        break
+      }
     }
+    content.document.getElementById('nav1').innerHTML = '<b>当前牌堆：' + currentDeckConfig.label + '</b>'
+
     qipai = new Set() //zone2 弃牌
     chuli = new Set() //zone3 处理区
     biaoji = { 0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: [] } //key为玩家id，value为zone4 标记区
@@ -185,13 +157,13 @@
     //div = window.div
 
     //resetCardType()
-    cardTypeButton = ''
+    // cardTypeButton = ''
 
     //cardType 基本1锦囊2装备3其他4
     isSeatOrder = false //座位是否安排好了
     isFrameAdd = false
-    isShouQiKa = 0
-    ShouQiKa = {}
+    // isShouQiKa = 0
+    // ShouQiKa = {}
     arr = []
     combos = []
     newIdOrder = {}
@@ -208,11 +180,8 @@
     isDiMeng = false //缔盟
     mySeatID = new Set() //用于计算糜竺13点，自己的位置
     isFirstTime = true
-    idOrderNew = []
+    // idOrderNew = []
     GuoZhanGeneral = []
-    oldGeneralID = 999
-    GeneralID = 999
-    mySkin = 0
     boTu = new Set()
     enableBoTu = false
     luanJi = new Set()
@@ -427,6 +396,25 @@
     }
   }
 
+  function addQuanBian(cardID) {
+    let quanBianText = document.getElementById('iframe-source').contentWindow.document.getElementById('suit')
+    if (enableQuanBian) {
+      if (getCardNumAndSuit(cardID)['cardSuit'] == '♦' && !quanBian.has('♦')) {
+        quanBianText.innerText += '♦️'
+        quanBian.add('♦')
+      } else if (getCardNumAndSuit(cardID)['cardSuit'] == '♥' && !quanBian.has('♥')) {
+        quanBianText.innerText += '♥️'
+        quanBian.add('♥')
+      } else if (getCardNumAndSuit(cardID)['cardSuit'] == '♠' && !quanBian.has('♠')) {
+        quanBianText.innerText += '♠️'
+        quanBian.add('♠')
+      } else if (getCardNumAndSuit(cardID)['cardSuit'] == '♣' && !quanBian.has('♣')) {
+        quanBianText.innerText += '♣️'
+        quanBian.add('♣')
+      }
+    }
+  }
+
   function addSuit(cardID) {
     var toBeAdd = document.getElementById('iframe-source').contentWindow.document.getElementById('suit')
     if (enableBoTu) {
@@ -513,7 +501,7 @@
   }
 
   function findCombos(arr) {
-    for (var i = arr.length - 1; i > 0; i--) {
+    for (let i = arr.length - 1; i > 0; i--) {
       printCombination(arr, arr.length, i)
     }
     findPairs()
@@ -541,7 +529,7 @@
     if (index === r) {
       //make combo array local and insert sum
       var insertable = []
-      for (var i = 0; i < data.length; i++) {
+      for (let i = 0; i < data.length; i++) {
         insertable.push(data[i])
       }
       combos.push(insertable)
@@ -562,8 +550,8 @@
 
   function findPairs() {
     var pairs = []
-    for (var i = 0; i < combos.length; i++) {
-      for (var j = i + 1; j < combos.length; j++) {
+    for (let i = 0; i < combos.length; i++) {
+      for (let j = i + 1; j < combos.length; j++) {
         if (sum(combos[i]) === sum(combos[j])) {
           var pair1 = combos[i]
           var pair2 = combos[j]
@@ -655,7 +643,7 @@
   }
 
   function containsStr(arr, str) {
-    for (var i = 0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i] === str) {
         return true
       }
@@ -678,7 +666,7 @@
 
   function toLetter(combo) {
     var toLetter = []
-    for (var i = 0; i < combo.length; i++) {
+    for (let i = 0; i < combo.length; i++) {
       toLetter.push(transformLetter(combo[i]))
     }
     return toLetter
@@ -686,7 +674,7 @@
 
   function sum(arr) {
     var sum = 0
-    for (var i = 0; i < arr.length; i++) {
+    for (let i = 0; i < arr.length; i++) {
       sum += arr[i]
     }
     return sum
@@ -709,39 +697,6 @@
       }
     } else {
       cardSuit = ''
-    }
-
-    if (cardNum == 12) {
-      cardNumAJQK = 'Q'
-    } else if (cardNum == 13) {
-      cardNumAJQK = 'K'
-    } else if (cardNum == 11) {
-      cardNumAJQK = 'J'
-    } else if (cardNum == 1) {
-      cardNumAJQK = 'A'
-    } else {
-      cardNumAJQK = cardNum
-    }
-    cardNumAndSuit = cardSuit + cardNumAJQK
-
-    let res = { cardNumAndSuit: cardNumAndSuit, cardNum: cardNum, cardSuit: cardSuit }
-    return res
-  }
-
-  function getCardNumAndSuitFromAllCard(cardID) {
-    let cardNum = allCard[cardID]['number']
-    let cardSuit = ''
-    let cardNumAndSuit = ''
-    let cardNumAJQK = ''
-
-    if (allCard[cardID]['color'] == 1) {
-      cardSuit = '♥'
-    } else if (allCard[cardID]['color'] == 2) {
-      cardSuit = '♦'
-    } else if (allCard[cardID]['color'] == 3) {
-      cardSuit = '♠'
-    } else if (allCard[cardID]['color'] == 4) {
-      cardSuit = '♣'
     }
 
     if (cardNum == 12) {
@@ -1031,44 +986,44 @@
           }
         }
         if (getCardNumAndSuit(cardID)['cardSuit'] == '♦') {
-          diamond--
+          suits.diamond--
         } else if (getCardNumAndSuit(cardID)['cardSuit'] == '♣') {
-          club--
+          suits.club--
         } else if (getCardNumAndSuit(cardID)['cardSuit'] == '♠') {
-          spade--
+          suits.spade--
         } else if (getCardNumAndSuit(cardID)['cardSuit'] == '♥') {
-          heart--
+          suits.heart--
         }
         if ((getCardNumAndSuit(cardID)['cardSuit'] == '♥' || getCardNumAndSuit(cardID)['cardSuit'] == '♦') && (currentMode[cardID]['name'] == '火杀' || currentMode[cardID]['name'] == '雷杀' || currentMode[cardID]['name'] == '杀')) {
-          hongsha--
+          suits.hongsha--
         } else if ((getCardNumAndSuit(cardID)['cardSuit'] == '♣' || getCardNumAndSuit(cardID)['cardSuit'] == '♠') && (currentMode[cardID]['name'] == '火杀' || currentMode[cardID]['name'] == '雷杀' || currentMode[cardID]['name'] == '杀')) {
-          heisha--
+          suits.heisha--
         }
-        if (diamond < 0) {
-          diamond = 0
-        } else if (heart < 0) {
-          heart = 0
-        } else if (club < 0) {
-          club = 0
-        } else if (diamond < 0) {
-          diamond = 0
-        } else if (spade < 0) {
-          spade = 0
-        } else if (hongsha < 0) {
-          hongsha = 0
-        } else if (heisha < 0) {
-          heisha = 0
-        } else if (diamond < 0) {
-          diamond = 0
+        if (suits.diamond < 0) {
+          suits.diamond = 0
+        } else if (suits.heart < 0) {
+          suits.heart = 0
+        } else if (suits.club < 0) {
+          suits.club = 0
+        } else if (suits.diamond < 0) {
+          suits.diamond = 0
+        } else if (suits.spade < 0) {
+          suits.spade = 0
+        } else if (suits.hongsha < 0) {
+          suits.hongsha = 0
+        } else if (suits.heisha < 0) {
+          suits.heisha = 0
+        } else if (suits.diamond < 0) {
+          suits.diamond = 0
         }
 
-        content.document.getElementById('heart').innerText = '♥红桃 × ' + heart
-        content.document.getElementById('club').innerText = '♣梅花 × ' + club
-        content.document.getElementById('spade').innerText = '♠黑桃 × ' + spade
-        content.document.getElementById('diamond').innerText = '♦方片 × ' + diamond
+        content.document.getElementById('heart').innerText = '♥红桃 × ' + suits.heart
+        content.document.getElementById('club').innerText = '♣梅花 × ' + suits.club
+        content.document.getElementById('spade').innerText = '♠黑桃 × ' + suits.spade
+        content.document.getElementById('diamond').innerText = '♦方片 × ' + suits.diamond
         // document.getElementById('iframe-source').contentWindow.document.getElementById("shandian").innerText ="♠黑桃2~9 概率:"+ Math.round((spade2_9 / paidui.size) * 100)+'%';
-        content.document.getElementById('hongsha').innerText = '红杀 × ' + hongsha
-        content.document.getElementById('heisha').innerText = '黑杀 × ' + heisha
+        content.document.getElementById('hongsha').innerText = '红杀 × ' + suits.hongsha
+        content.document.getElementById('heisha').innerText = '黑杀 × ' + suits.heisha
       }
     }
   }
@@ -1094,30 +1049,30 @@
           }
         }
         if (getCardNumAndSuit(cardID)['cardSuit'] == '♦') {
-          diamond++
+          suits.diamond++
         } else if (getCardNumAndSuit(cardID)['cardSuit'] == '♣') {
-          club++
+          suits.club++
         } else if (getCardNumAndSuit(cardID)['cardSuit'] == '♠') {
-          spade++
+          suits.spade++
         } else if (getCardNumAndSuit(cardID)['cardSuit'] == '♥') {
-          heart++
+          suits.heart++
         }
         if ((getCardNumAndSuit(cardID)['cardSuit'] == '♥' || getCardNumAndSuit(cardID)['cardSuit'] == '♦') && (currentMode[cardID]['name'] == '火杀' || currentMode[cardID]['name'] == '雷杀' || currentMode[cardID]['name'] == '杀')) {
-          hongsha++
+          suits.hongsha++
         } else if ((getCardNumAndSuit(cardID)['cardSuit'] == '♣' || getCardNumAndSuit(cardID)['cardSuit'] == '♠') && (currentMode[cardID]['name'] == '火杀' || currentMode[cardID]['name'] == '雷杀' || currentMode[cardID]['name'] == '杀')) {
-          heisha++
+          suits.heisha++
         }
         if (getCardNumAndSuit(cardID)['cardSuit'] == '♠' && getCardNumAndSuit(cardID)['cardNum'] >= 2 && getCardNumAndSuit(cardID)['cardNum'] <= 9) {
           spade2_9++
         }
-        content.document.getElementById('heart').innerText = '♥红桃 × ' + heart
-        content.document.getElementById('club').innerText = '♣梅花 × ' + club
-        content.document.getElementById('spade').innerText = '♠黑桃 × ' + spade
-        content.document.getElementById('diamond').innerText = '♦方片 × ' + diamond
+        content.document.getElementById('heart').innerText = '♥红桃 × ' + suits.heart
+        content.document.getElementById('club').innerText = '♣梅花 × ' + suits.club
+        content.document.getElementById('spade').innerText = '♠黑桃 × ' + suits.spade
+        content.document.getElementById('diamond').innerText = '♦方片 × ' + suits.diamond
         // document.getElementById('iframe-source').contentWindow.document.getElementById("shandian").innerText ="♠黑桃2~9 概率:"+ (spade2_9/paidui.size).toFixed(2);
         //document.getElementById('iframe-source').contentWindow.document.getElementById("paiduiSize").innerText ="牌堆张数: "+ paidui.size;
-        content.document.getElementById('hongsha').innerText = '红杀 × ' + hongsha
-        content.document.getElementById('heisha').innerText = '黑杀 × ' + heisha
+        content.document.getElementById('hongsha').innerText = '红杀 × ' + suits.hongsha
+        content.document.getElementById('heisha').innerText = '黑杀 × ' + suits.heisha
       }
     }
   }
@@ -1183,7 +1138,7 @@
     var Round = args['Round']
     var curUserID = args['curUserID']
     var userID = args['userID']
-
+    let { Datas } = args
     //博图，用于检测什么适合清空博图花色
     if (className == 'GsCGamephaseNtf' && Round == 0 && (enableBoTu || enableLuanJi || enableQuanBian)) {
       clearSuit()
@@ -1197,47 +1152,51 @@
       isDuanXian = true
     }
     if (className == 'MsgGamePlayCardNtf') {
-      isJunZhengBiaoZhun = false
-      isJunZhengYingBian = false
-      isHuanLeBiaoZhun = false
-      isJunZhengBiaoZhunShanShan = false
-      isJunZhengYingBianShanShan = false
-      isHuanLeBiaoZhunShanShan = false
-      isShenZhiShiLian = false
-      isGuoZhanBiaoZhun = false
-      isGuoZhanYingBian = false
-      isZhuGongSha = false
-      isZhuGongShaShanShan = false
-      isDouDiZhu = false
-      isShenWu = false
-      isUnknown = false
-      if (cardCount == 161 && cardList[160] == 12142) {
-        isJunZhengBiaoZhunShanShan = true
+      gameStatusMap = {
+        isJunZhengBiaoZhun: false,
+        isJunZhengBiaoZhunShanShan: false,
+        isJunZhengYingBian: false,
+        isJunZhengYingBianShanShan: false,
+        isShenZhiShiLian: false,
+        isGuoZhanBiaoZhun: false,
+        isGuoZhanYingBian: false,
+        isDouDiZhu: false,
+        isShenWu: false,
+        isZhuGongSha: false,
+        isZhuGongShaShanShan: false,
+        isTongShuai: false,
+        isUnknown: false,
+        isHuanLeBiaoZhun: false,
+        isHuanLeBiaoZhunShanShan: false
       }
-      if (cardCount == 161 && cardList[160] == 161) {
-        isJunZhengBiaoZhun = true
-      } else if (cardCount == 160 && cardList[159] == 160) {
-        isHuanLeBiaoZhun = true
-      } else if (cardCount == 160 && cardList[159] == 12142) {
-        isHuanLeBiaoZhunShanShan = true
-      } else if (cardCount == 166 && cardList[165] == 13005) {
-        isDouDiZhu = true
-      } else if (cardCount == 110 && cardList[107] == 1108) {
-        isGuoZhanBiaoZhun = true
+      if (cardCount === 161 && cardList[160] === 12142) {
+        gameStatusMap.isJunZhengBiaoZhunShanShan = true
+      } else if (cardCount === 161 && cardList[160] === 161) {
+        gameStatusMap.isJunZhengBiaoZhun = true
+      } else if (cardCount === 160 && cardList[159] === 160) {
+        gameStatusMap.isHuanLeBiaoZhun = true
+      } else if (cardCount === 160 && cardList[159] === 12142) {
+        gameStatusMap.isHuanLeBiaoZhunShanShan = true
+      } else if (cardCount === 166 && cardList[165] === 13005) {
+        gameStatusMap.isDouDiZhu = true
+      } else if (cardCount === 155 && cardList[154] === 326) {
+        gameStatusMap.isShenWu = true
+      } else if (cardCount === 110 && cardList[107] === 1108) {
+        gameStatusMap.isGuoZhanBiaoZhun = true
       } else if (cardCount == 161 && cardList[160] == 7160) {
-        isJunZhengYingBian = true
+        gameStatusMap.isJunZhengYingBian = true
       } else if (cardCount == 164 && cardList[160] == 7160) {
-        isJunZhengYingBian = true
+        gameStatusMap.isJunZhengYingBian = true
       } else if (cardCount == 162 && cardList[1] == 201) {
-        isShenZhiShiLian = true
+        gameStatusMap.isShenZhiShiLian = true
       } else if (cardCount == 111 && cardList[110] == 20330) {
-        isGuoZhanYingBian = true
+        gameStatusMap.isGuoZhanYingBian = true
       } else if (cardCount == 157 && cardList[156] == 13005) {
-        isZhuGongSha = true
+        gameStatusMap.isGuoZhanYingBian = true
       } else if (cardCount == 158 && cardList[157] == 13005) {
-        isZhuGongShaShanShan = true
+        gameStatusMap.isZhuGongShaShanShan = true
       } else {
-        isUnknown = true
+        gameStatusMap.isUnknown = true
       }
       currentMode = allCardToCurrentMode(cardList)
       currentCardType = currentModeCardType(currentMode)
@@ -1251,13 +1210,8 @@
         clearButton('type' + i)
       }
       addCardTypeButton(currentCardType)
-      // var elmnt = document.getElementById('createIframe')
-      // buttonClick()
-      // initDragElement()
     }
-    if (className == 'SmsgGameStateData') {
-      gameStart()
-    }
+
     //严教
     if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && Param == 0 && card.SpellID == 945) {
       arr = []
@@ -1272,11 +1226,11 @@
       //座位表 start
       if (className == 'GsCGamephaseNtf' && typeof Round != 'undefined' && typeof SeatID != 'undefined') {
         //先根据movecard发牌得到 idOrderPre 然后根据第一个阶段将座位重新排列
-        if (!isSeatOrder && Round == 0 && (SeatID == firstSeatID || isDouDiZhu || isShenWu)) {
-          if (isDouDiZhu) {
+        if (!isSeatOrder && Round == 0 && (SeatID == firstSeatID || gameStatusMap.isDouDiZhu || gameStatusMap.isShenWu)) {
+          if (gameStatusMap.isDouDiZhu) {
             firstSeatID = idOrderPre[0]
           }
-          if (isShenWu) {
+          if (gameStatusMap.isShenWu) {
             firstSeatID = idOrderPre[4]
           }
           let ind = idOrderPre.indexOf(firstSeatID)
@@ -1293,10 +1247,10 @@
           console.warn('card reOrder seat info: ' + JSON.stringify(idOrder))
         }
       }
-      if (className == 'GsCFirstPhaseRole' && (typeof seatID != 'undefined' || typeof SeatID != 'undefined')) {
-        if (typeof seatID !== 'undefined') {
-          firstSeatID = seatID
-          console.warn('card first seat ID' + seatID)
+      if (className == 'GsCFirstPhaseRole' && (typeof seatId != 'undefined' || typeof SeatID != 'undefined')) {
+        if (typeof seatId !== 'undefined') {
+          firstSeatID = seatId
+          console.warn('card first seat ID' + seatId)
         } else {
           firstSeatID = SeatID
           console.warn('card first seat ID' + SeatID)
@@ -1315,6 +1269,16 @@
         }
         drawShouPai(shoupai)
       }
+      // 彭羕 新的class控制牌堆顶
+      else if (className == 'CGsRoleSpellOptRep' && typeof SeatID != 'undefined' && card.SpellID == 3336) {
+        for (let i = Datas.length - 1; i >= 0; i--) {
+          const c = Datas[i]
+          if (di.indexOf(c) != -1) {
+            di.splice(di.indexOf(c), 1)
+          }
+          di.push(c)
+        }
+      }
       //徐氏洗牌
       else if (className == 'PubGsCUseSpell' && card.SpellID == 781) {
         paidui.forEach((element) => {
@@ -1326,7 +1290,7 @@
       }
       //记录国战大嘴乱击花色
       else if (className == 'PubGsCUseCard' && mainID == SeatID && enableQuanBian) {
-        addSuit(card.CardID)
+        addQuanBian(card.CardID)
       } else if (className == 'PubGsCUseSpell' && card.SpellID == 2143) {
         enableLuanJi = true
         for (const c of card.CardIDs) {
@@ -1434,16 +1398,16 @@
           for (const cid of cardList) {
             removeCardType(cid)
           }
-          hongsha = 0
-          heisha = 0
-          diamond = 0
-          heart = 0
-          club = 0
-          diamond = 0
-          spade = 0
-          hongsha = 0
-          heisha = 0
-          diamond = 0
+          suits.hongsha = 0
+          suits.heisha = 0
+          suits.diamond = 0
+          suits.heart = 0
+          suits.club = 0
+          suits.diamond = 0
+          suits.spade = 0
+          suits.hongsha = 0
+          suits.heisha = 0
+          suits.diamond = 0
           paidui.forEach((element) => {
             addCardType(element)
           })
@@ -1452,13 +1416,10 @@
         else if (card.FromZone == 2 && card.ToZone == 9 && card.FromID == 0 && card.ToID == 0 && !isGameStart) {
           remCardCount = card.CardCount
           resetOrderContainer()
-          if (isZhuGongSha) {
-            hideOrderContainer(5)
-          } else if (isZhuGongShaShanShan) {
-            hideOrderContainer(5)
-          } else {
-            hideOrderContainer(size)
-          }
+          hideOrderContainer(size)
+          // if (gameStatusMap.isZhuGongSha || gameStatusMap.isZhuGongShaShanShan) {
+          //   hideOrderContainer(5)
+          // }
           console.warn('游戏开始,发牌')
         }
         //第一次发牌+手气卡拿牌 对自己手牌和cardType 和paidui 产生影响
@@ -1514,23 +1475,6 @@
         //不点手气卡,摸牌,也会进入这里
         else {
           isGameStart = true
-          // if (!isSeatOrder) {
-          //   if (isDouDiZhu) {
-          //     firstSeatID = idOrderPre[0]
-          //   }
-          //   let ind = idOrderPre.indexOf(firstSeatID)
-          //   for (let i = 0; i < idOrderPre.length; i++) {
-          //     newIdOrder[idOrderPre[ind % idOrderPre.length]] = seat
-          //     newShouPai[seat] = shoupai[idOrderPre[ind % idOrderPre.length]]
-          //     seat++
-          //     ind++
-          //   }
-          //   idOrder = newIdOrder
-          //   shoupai = newShouPai
-          //   isSeatOrder = true
-          //   console.warn('card reOrder shoupai: ' + JSON.stringify(shoupai))
-          //   console.warn('card reOrder seat info: ' + JSON.stringify(idOrder))
-          // }
         }
         //游戏开始
         if (isGameStart) {
@@ -1643,14 +1587,13 @@
   }
 
   function main() {
-    console.info('inject file start!')
-    let log = console.log
+    if (!console._log) console._log = console.log
     if (!isFrameAdd) {
       addFrame()
     }
     console.log = function () {
       let args = Array.prototype.slice.call(arguments)
-      log.apply(this, args)
+      console._log.apply(this, args)
 
       var mainInfo = {}
       var GeneralSkinList = args[0]['GeneralSkinList']
@@ -1837,55 +1780,7 @@
         btn.style.backgroundColor = 'rgb(107, 30, 30)'
       })
 
-      var toTab = document.createElement('button')
-      toTab.innerText = '【】'
-      toTab.id = 'toTab'
-      toTab.style =
-        'text-align: center;' +
-        'color: #f2de9c;' +
-        'background: rgb(40, 40, 40);' +
-        'border-radius: 5px;' +
-        'width: 25px;' +
-        'height: 25px;' +
-        'border: 1px solid rgb(212, 212, 162);' +
-        'cursor: pointer;' +
-        'user-select: none;' +
-        'background: rgb(107, 30, 30);' +
-        'display: flex;' + // 使用 flex 布局
-        'align-items: center;' + // 垂直居中
-        'justify-content: center;' + // 水平居中
-        'margin: 0;' // 设置外边距为零
-
-      toTab.addEventListener('mouseover', function () {
-        toTab.style.backgroundColor = 'rgb(130, 30, 30)'
-      })
-      toTab.addEventListener('mouseout', function () {
-        toTab.style.backgroundColor = 'rgb(107, 30, 30)'
-      })
-
-      toTab.addEventListener('click', function () {
-        var newWindow = window.open('', '三国杀打小抄', 'width=210,height=950,resizable=no,scrollbars=no,status=no,toolbar=no,menubar=no,location=no')
-        //if(newWindow){
-        newWindow.document.open()
-        newWindow.document.write(iframe.contentDocument.documentElement.innerHTML)
-        newWindow.document.close()
-
-        // 添加 MutationObserver 监听新窗口
-        var observer = new MutationObserver(function (mutationsList, observer) {
-          if (newWindow && !newWindow.closed) {
-            newWindow.document.open()
-            newWindow.document.write(iframe.contentDocument.documentElement.innerHTML)
-            newWindow.document.close()
-          }
-        })
-
-        // 设置 childList 为 true
-        observer.observe(iframe.contentDocument, { childList: true, subtree: true })
-        //}
-      })
-
       header.appendChild(btn)
-      //header.appendChild(toTab);
       // 将按钮添加到 header 的右侧
 
       document.body.appendChild(div)
