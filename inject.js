@@ -1263,6 +1263,7 @@
       if (className == 'PubGsCUseSpell' && typeof DestSeatIDs != 'undefined' && DestSeatIDs.length > 0 && (card.SpellID == 987 || card.SpellID == 988 || card.SpellID == 921 || card.SpellID == 851)) {
         DestSeatID = DestSeatIDs[0]
       }
+
       if (className == 'PubGsCUseSpell' && card.SpellID == 3157 && card.CardIDs.length != 0) {
         for (const c of card.CardIDs) {
           shoupai[idOrder[firstID]].add(c)
@@ -1291,7 +1292,8 @@
       //记录国战大嘴乱击花色
       else if (className == 'PubGsCUseCard' && mainID == SeatID && enableQuanBian) {
         addQuanBian(card.CardID)
-      } else if (className == 'PubGsCUseSpell' && card.SpellID == 2143) {
+      }
+      else if (className == 'PubGsCUseSpell' && card.SpellID == 2143) {
         enableLuanJi = true
         for (const c of card.CardIDs) {
           addSuit(c)
@@ -1317,21 +1319,23 @@
         }
         drawShouPai(shoupai)
       }
+
       //族钟琰
       else if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && targetSeatID == 255 && Param == 0 && card.SpellID == 3266) {
-        Params = Params.slice()
-          .reverse()
-          .filter((_, index) => (index + 1) % 3 === 0)
+        Params = Params.slice(1) // 从第二个元素开始
+        .filter((_, index) => (index) % 3 === 0)//每隔两个元素
+        .reverse()
         for (const p of Params) {
           paidui.add(p)
           addCardType(p)
           ding.push(p)
           console.warn('card ding target ' + ding)
         }
-      } else if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && targetSeatID != 255 && Param == 0 && card.SpellID == 3266) {
-        Params = Params.slice()
-          .reverse()
-          .filter((_, index) => (index + 1) % 3 === 0)
+      }
+      else if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && targetSeatID != 255 && Param == 0 && card.SpellID == 3266) {
+        Params = Params.slice(1) // 从第二个元素开始
+        .filter((_, index) => (index) % 3 === 0)//每隔两个元素
+        .reverse()
         if (typeof targetSeatID != 'undefined') {
           for (const p of Params) {
             shoupai[idOrder[targetSeatID]].add(p)
@@ -1341,6 +1345,7 @@
 
         drawShouPai(shoupai)
       }
+
       //溃围
       else if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && card.SpellID == 372) {
         // Params: (9) [5, 2, 63, 138, 60, 118, 153, 28, 20]
@@ -1385,7 +1390,9 @@
           }
         }
         drawShouPai(shoupai)
-      } else if (className == 'PubGsCMoveCard' && typeof card.CardCount != 'undefined' && card.CardCount > 0) {
+      }
+
+      else if (className == 'PubGsCMoveCard' && typeof card.CardCount != 'undefined' && card.CardCount > 0) {
         //游戏开始后 洗牌，会从弃牌堆2丢到洗牌堆
         if (card.FromZone == 2 && card.ToZone == 9 && card.FromID == 0 && card.ToID == 0 && isGameStart) {
           ding = []
