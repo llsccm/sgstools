@@ -1419,18 +1419,17 @@
             addCardType(element)
           })
         }
+
         //游戏开始 弃牌堆2丢到洗牌堆
         else if (card.FromZone == 2 && card.ToZone == 9 && card.FromID == 0 && card.ToID == 0 && !isGameStart) {
           remCardCount = card.CardCount
           resetOrderContainer()
           hideOrderContainer(size)
-          // if (gameStatusMap.isZhuGongSha || gameStatusMap.isZhuGongShaShanShan) {
-          //   hideOrderContainer(5)
-          // }
           console.warn('游戏开始,发牌')
         }
+
         //第一次发牌+手气卡拿牌 对自己手牌和cardType 和paidui 产生影响
-        else if (card.ToZone == 5 && card.FromID == 255 && card.FromZone == 1 && !isGameStart) {
+        else if (card.ToZone == 5 && (card.FromID == 255 || card.FromID == 0) && card.FromZone == 1 && !isGameStart) {
           //重复用手气卡不会添加 但是手牌会更新
           console.warn('游戏开始,系统发牌/使用手气卡')
           console.warn('card shouqika/fapai shoupai[id]' + JSON.stringify(shoupai))
