@@ -1063,7 +1063,7 @@
           suits.heisha++
         }
         if (getCardNumAndSuit(cardID)['cardSuit'] == '♠' && getCardNumAndSuit(cardID)['cardNum'] >= 2 && getCardNumAndSuit(cardID)['cardNum'] <= 9) {
-          spade2_9++
+          suits.spade2_9++
         }
         content.document.getElementById('heart').innerText = '♥红桃 × ' + suits.heart
         content.document.getElementById('club').innerText = '♣梅花 × ' + suits.club
