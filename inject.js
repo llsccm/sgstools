@@ -720,31 +720,49 @@
   function addCard(id, cardID, zone, ToPosition, SpellID) {
     //观星询询翻回牌堆,牌堆增加,cardType增加
     //65280 丢到牌堆顶
-    if (zone == 1 && id == 255 && ToPosition == 65280 && cardID != 4400 && cardID != 4401 && SpellID != 3208 && SpellID != 3266) {
+    if (zone == 1 && id == 255 && ToPosition == 65280 && cardID != 4400 && cardID != 4401 && SpellID == 3305) {
       paidui.add(cardID)
       addCardType(cardID)
-      ding.push(cardID)
-      console.warn('card ding ' + ding)
+      ding.unshift(cardID)
+      //console.warn('card 诸葛恪 ding ' + ding)
     }
+
+    if (zone == 1 && id == 255 && ToPosition == 65280 && cardID != 4400 && cardID != 4401 && SpellID != 3208 && SpellID != 3266 && SpellID != 3305) {
+      paidui.add(cardID)
+      addCardType(cardID)
+
+      //蔡瑁 把牌跟牌堆互换，不是置顶
+      if (SpellID != 3488) {
+        ding.push(cardID)
+        console.warn('card ding ' + ding)
+      }
+    }
+
     //0 丢到牌堆底
-    else if (zone == 1 && id == 255 && ToPosition == 0 && SpellID != 3218) {
+    // 二成加个条件 && SpellID != 3270  单独适配
+    //陆郁生 已经用zone8记录了 不需要再塞底牌了
+    else if (zone == 1 && id == 255 && ToPosition == 0 && SpellID != 3314) {
       paidui.add(cardID)
       addCardType(cardID)
       di.push(cardID)
       console.warn('card di ' + di)
     }
-    //黄承彦技能，伏间
+
+    //黄承彦技能
     else if (zone == 1 && id == 255 && SpellID == 987) {
       paidui.add(cardID)
       addCardType(cardID)
       ding.splice(insertInd, 0, cardID)
       // ding.reverse();
-      console.warn('card ding 黄承彦 ' + ding + ' ' + insertInd)
+      //console.warn("card ding 黄承彦 "+ding + " "+insertInd);
     }
+
     //用手气卡把手牌丢回给牌堆
     else if (zone == 1 && id == 0) {
       addCardType(cardID)
-    } else if (zone == 2) {
+    }
+    
+    else if (zone == 2) {
       qipai.add(cardID)
       if (paidui.delete(cardID)) {
         removeCardType(cardID)
@@ -755,21 +773,27 @@
       if (enableBoTu) {
         addSuit(cardID)
       }
-    } else if (zone == 3) {
+    }
+
+    else if (zone == 3) {
       chuli.add(cardID)
       if (paidui.delete(cardID)) {
         removeCardType(cardID)
       }
       remShouPai.delete(cardID)
-    } else if (zone == 4) {
+    }
+    
+    else if (zone == 4) {
       biaoji[id].push(cardID)
       if (paidui.delete(cardID)) {
         removeCardType(cardID)
       }
       remShouPai.delete(cardID)
-    } else if (zone == 5) {
+    }
+
+    else if (zone == 5 && SpellID != 3036 && SpellID != 121) {
       //周妃/徐盛
-      if (SpellID == 414 || SpellID == 3178) {
+      if (SpellID == 414 || SpellID == 3178 || SpellID == 3389) {
         cardID = unknownCard.splice(-1, 1)[0]
       }
       if (typeof cardID != 'undefined' && typeof shoupai[idOrder[id]] != 'undefined') {
@@ -780,29 +804,44 @@
         }
       } else {
         isDuanXian = true
+        console.warn('duanxian' + zone + cardID)
       }
       remShouPai.delete(cardID)
-    } else if (zone == 6) {
+    }
+    
+    else if (zone == 6) {
       zhuangbei[id].push(cardID)
       if (paidui.delete(cardID)) {
         removeCardType(cardID)
       }
       remShouPai.delete(cardID)
-    } else if (zone == 7) {
+    }
+    
+    else if (zone == 7) {
       panding[id].push(cardID)
       if (paidui.delete(cardID)) {
         removeCardType(cardID)
       }
       remShouPai.delete(cardID)
-    } else if (zone == 8) {
+    }
+    
+    else if (zone == 8) {
+      //  陆郁生 放牌堆底
+      if (SpellID == 3314) {
+        di.push(cardID)
+      }
       jineng.add(cardID)
       if (paidui.delete(cardID)) {
         removeCardType(cardID)
       }
       remShouPai.delete(cardID)
-    } else if (zone == 9) {
+    }
+    
+    else if (zone == 9) {
       return '洗牌'
-    } else if (zone == 10) {
+    }
+    
+    else if (zone == 10) {
       zone10.add(cardID)
       if (paidui.delete(cardID)) {
         removeCardType(cardID)
@@ -811,8 +850,9 @@
     } else {
       console.warn('card.ToZone: ' + zone + ' id: ' + id + 'cardID' + cardID)
     }
+
     //出现在别的区域，清除此牌
-    if (zone != 5) {
+    if (zone != 5 && SpellID != 3036 && SpellID != 121) {
       for (let i = 0; i < idOrderPre.length; i++) {
         shoupai[i].delete(cardID)
       }
@@ -820,7 +860,7 @@
   }
 
   //FromZone
-  function removeCard(id, cardID, zone, FromPosition) {
+  function removeCard(id, cardID, zone, FromPosition, SpellID) {
     //id = 0,zone 1 游戏开始发牌
     if (zone == 1 && id == 0) {
       return '游戏开始发牌'
@@ -900,7 +940,9 @@
       } else {
         isDuanXian = true
       }
-    } else if (zone == 5) {
+    }
+    //缔盟 先从手牌区把这些牌换到zone10
+    else if (zone == 5 && SpellID != 3036 && SpellID != 121) {
       if (typeof shoupai[idOrder[id]] != 'undefined') {
         isDuanXian = false
 
@@ -912,6 +954,7 @@
         }
       } else {
         isDuanXian = true
+        console.warn('duanxian' + zone + cardID)
       }
     }
     //装备区丢牌
@@ -1292,15 +1335,14 @@
       //记录国战大嘴乱击花色
       else if (className == 'PubGsCUseCard' && mainID == SeatID && enableQuanBian) {
         addQuanBian(card.CardID)
-      }
-      else if (className == 'PubGsCUseSpell' && card.SpellID == 2143) {
+      } else if (className == 'PubGsCUseSpell' && card.SpellID == 2143) {
         enableLuanJi = true
         for (const c of card.CardIDs) {
           addSuit(c)
         }
       }
       //什么傻叉昭然，用的欢乐成双的class不用欢乐成双的ui和代码逻辑
-      else if (className == 'ClientHappyGetFriendHandcardRep') {
+      else if (className == 'ClientHappyGetFriendHandcardRep' && typeof shoupai[idOrder[seatId]] != 'undefined') {
         for (const c of Cards) {
           if (typeof idOrder[seatId] != 'undefined') {
             shoupai[idOrder[seatId]].add(c)
@@ -1323,19 +1365,18 @@
       //族钟琰
       else if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && targetSeatID == 255 && Param == 0 && card.SpellID == 3266) {
         Params = Params.slice(1) // 从第二个元素开始
-        .filter((_, index) => (index) % 3 === 0)//每隔两个元素
-        .reverse()
+          .filter((_, index) => index % 3 === 0) //每隔两个元素
+          .reverse()
         for (const p of Params) {
           paidui.add(p)
           addCardType(p)
           ding.push(p)
           console.warn('card ding target ' + ding)
         }
-      }
-      else if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && targetSeatID != 255 && Param == 0 && card.SpellID == 3266) {
+      } else if (className == 'GsCRoleOptTargetNtf' && typeof Params != 'undefined' && targetSeatID != 255 && Param == 0 && card.SpellID == 3266) {
         Params = Params.slice(1) // 从第二个元素开始
-        .filter((_, index) => (index) % 3 === 0)//每隔两个元素
-        .reverse()
+          .filter((_, index) => index % 3 === 0) //每隔两个元素
+          .reverse()
         if (typeof targetSeatID != 'undefined') {
           for (const p of Params) {
             shoupai[idOrder[targetSeatID]].add(p)
@@ -1390,9 +1431,7 @@
           }
         }
         drawShouPai(shoupai)
-      }
-
-      else if (className == 'PubGsCMoveCard' && typeof card.CardCount != 'undefined' && card.CardCount > 0) {
+      } else if (className == 'PubGsCMoveCard' && typeof card.CardCount != 'undefined' && card.CardCount > 0) {
         //游戏开始后 洗牌，会从弃牌堆2丢到洗牌堆
         if (card.FromZone == 2 && card.ToZone == 9 && card.FromID == 0 && card.ToID == 0 && isGameStart) {
           ding = []
@@ -1503,6 +1542,12 @@
           if (card.FromZone == 10 && card.FromID != card.ToID && card.ToPosition == 65280 && card.FromPosition == 65282 && card.ToZone == 5 && (card.SpellID == 3036 || card.SpellID == 121)) {
             //只需要换一次，清忠缔盟会有两次，第一次赋值之后就不需要再换了
             isDiMeng = !isDiMeng
+            //如果有一个空手牌，清忠缔盟会有1次
+
+            if (shoupai[idOrder[card.FromID]].size == 0 || shoupai[idOrder[card.ToID]].size == 0) {
+              isDiMeng = true
+            }
+
             if (isDiMeng) {
               temShouPai = shoupai[idOrder[card.ToID]]
               shoupai[idOrder[card.ToID]] = shoupai[idOrder[card.FromID]]
@@ -1549,7 +1594,7 @@
               cardID = di.pop()
               console.warn('card 底 pop ' + cardID)
             }
-            removeCard(FromID, cardID, FromZone, FromPosition)
+            removeCard(FromID, cardID, FromZone, FromPosition, card.SpellID)
             addCard(ToID, cardID, ToZone, ToPosition, card.SpellID)
           }
         }
@@ -1560,7 +1605,7 @@
         //行殇
         if (typeof card.SpellID != 'undefined' && card.SpellID == 105) {
           for (const c of shoupai[idOrder[card.FromID]]) {
-            removeCard(card.FromID, c, card.FromZone, card.FromPosition)
+            removeCard(card.FromID, c, card.FromZone, card.FromPosition, card.SpellID)
             addCard(card.ToID, c, card.ToZone, card.SpellID)
           }
         }
