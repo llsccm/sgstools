@@ -741,10 +741,19 @@
     //0 丢到牌堆底
     // 二成加个条件 && SpellID != 3270  单独适配
     //陆郁生 已经用zone8记录了 不需要再塞底牌了
-    else if (zone == 1 && id == 255 && ToPosition == 0 && SpellID != 3314) {
+    else if (zone == 1 && id == 255 && ToPosition == 0) {
+      if ((SpellID = 3314 && cardID == 0)) {
+        cardID = jineng.values().next().value
+        console.warn('first ele in jineng 8 ', cardID)
+        if (cardID !== undefined) {
+          jineng.delete(cardID)
+        }
+      }
       paidui.add(cardID)
       addCardType(cardID)
-      di.push(cardID)
+      if (!di.includes(cardID)) {
+        di.push(cardID)
+      }
       console.warn('card di ' + di)
     }
 
@@ -760,9 +769,7 @@
     //用手气卡把手牌丢回给牌堆
     else if (zone == 1 && id == 0) {
       addCardType(cardID)
-    }
-    
-    else if (zone == 2) {
+    } else if (zone == 2) {
       qipai.add(cardID)
       if (paidui.delete(cardID)) {
         removeCardType(cardID)
@@ -773,25 +780,19 @@
       if (enableBoTu) {
         addSuit(cardID)
       }
-    }
-
-    else if (zone == 3) {
+    } else if (zone == 3) {
       chuli.add(cardID)
       if (paidui.delete(cardID)) {
         removeCardType(cardID)
       }
       remShouPai.delete(cardID)
-    }
-    
-    else if (zone == 4) {
+    } else if (zone == 4) {
       biaoji[id].push(cardID)
       if (paidui.delete(cardID)) {
         removeCardType(cardID)
       }
       remShouPai.delete(cardID)
-    }
-
-    else if (zone == 5 && SpellID != 3036 && SpellID != 121) {
+    } else if (zone == 5 && SpellID != 3036 && SpellID != 121) {
       //周妃/徐盛
       if (SpellID == 414 || SpellID == 3178 || SpellID == 3389) {
         cardID = unknownCard.splice(-1, 1)[0]
@@ -807,41 +808,29 @@
         console.warn('duanxian' + zone + cardID)
       }
       remShouPai.delete(cardID)
-    }
-    
-    else if (zone == 6) {
+    } else if (zone == 6) {
       zhuangbei[id].push(cardID)
       if (paidui.delete(cardID)) {
         removeCardType(cardID)
       }
       remShouPai.delete(cardID)
-    }
-    
-    else if (zone == 7) {
+    } else if (zone == 7) {
       panding[id].push(cardID)
       if (paidui.delete(cardID)) {
         removeCardType(cardID)
       }
       remShouPai.delete(cardID)
-    }
-    
-    else if (zone == 8) {
+    } else if (zone == 8) {
       //  陆郁生 放牌堆底
-      if (SpellID == 3314) {
-        di.push(cardID)
-      }
+      //if(SpellID == 3314 && !deckState.di.includes(cardID)){deckState.di.push(cardID)}
       jineng.add(cardID)
       if (paidui.delete(cardID)) {
         removeCardType(cardID)
       }
       remShouPai.delete(cardID)
-    }
-    
-    else if (zone == 9) {
+    } else if (zone == 9) {
       return '洗牌'
-    }
-    
-    else if (zone == 10) {
+    } else if (zone == 10) {
       zone10.add(cardID)
       if (paidui.delete(cardID)) {
         removeCardType(cardID)
