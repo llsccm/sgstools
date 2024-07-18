@@ -98,3 +98,4 @@ function main(...args) {
 }
 
 SGSMODULE.push(main)
+addStyle()
