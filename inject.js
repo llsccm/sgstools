@@ -1627,71 +1627,82 @@
   }
 
   function main() {
-    if (!console._log) console._log = console.log
     if (!isFrameAdd) {
       addFrame()
     }
-    console.log = function () {
-      let args = Array.prototype.slice.call(arguments)
-      console._log.apply(this, args)
 
-      var mainInfo = {}
-      var GeneralSkinList = args[0]['GeneralSkinList']
-      let className = args[0] && args[0]['className']
-      let curUserID = args[0] && args[0]['ClientID']
+    let args = Array.prototype.slice.call(arguments)
 
-      if (className == 'ClientLoginIpRep') {
-        userID = args[0]['uid']
-        //addSkinFrame() //预先注入
-        console.warn('userID' + userID)
-      }
+    var mainInfo = {}
+    var GeneralSkinList = args[0]['GeneralSkinList']
+    let className = args[0] && args[0]['className']
+    let curUserID = args[0] && args[0]['ClientID']
 
-      if (className == 'SsCChatmsgNtf' || className == 'GsCModifyUserseatNtf' || className == 'MsgReconnectGame' || className == 'MsgGamePlayCardNtf' || className == 'PubGsCUseSpell' || className == 'ClientHappyGetFriendHandcardRep' || className == 'GsCRoleOptTargetNtf' || className == 'PubGsCMoveCard' || className == 'GsCFirstPhaseRole' || className == 'GsCModifyUserseatNtf' || className == 'GsCGamephaseNtf' || className == 'PubGsCUseCard') {
-        mainInfo['className'] = args[0]['className']
-        mainInfo['CardIDs'] = args[0]['CardIDs']
-        mainInfo['CardID'] = args[0]['CardID']
-        mainInfo['FromID'] = args[0]['FromID']
-        mainInfo['FromZone'] = args[0]['FromZone']
-        mainInfo['ToID'] = args[0]['ToID']
-        mainInfo['ToZone'] = args[0]['ToZone']
-        mainInfo['CardCount'] = args[0]['CardCount']
-        mainInfo['DataCount'] = args[0]['DataCount']
-        mainInfo['SpellID'] = args[0]['SpellID'] //使用的技能
-        mainInfo['FromPosition'] = args[0]['FromPosition']
-        mainInfo['ToPosition'] = args[0]['ToPosition']
-        mainInfo['cardCount'] = args[0]['cardCount']
-        mainInfo['CardList'] = args[0]['CardList']
-        mainInfo['SeatID'] = args[0]['SeatID']
-        mainInfo['Param'] = args[0]['Param']
-        mainInfo['Params'] = args[0]['Params']
-        mainInfo['DestSeatIDs'] = args[0]['DestSeatIDs']
-        //var GeneralSkinList =args[0]["GeneralSkinList"];
-        mainInfo['Infos'] = args[0]['Infos']
-        mainInfo['Cards'] = args[0]['Cards']
-        //var targetSeatID = args[0]["targetSeatID"];
-        mainInfo['targetSeatID'] = args[0]['targetSeatID']
-        //var seatId = args[0]["seatId"];
-        mainInfo['seatId'] = args[0]['seatId']
-        mainInfo['SeatID'] = args[0]['SeatID']
-        mainInfo['Round'] = args[0]['Round']
-        mainInfo['curUserID'] = curUserID
-        mainInfo['userID'] = userID
-      }
+    if (className == 'ClientLoginIpRep') {
+      userID = args[0]['uid']
+      //addSkinFrame() //预先注入
+      console.warn('userID' + userID)
+    }
 
-      let mainInfoToMainLogic = JSON.parse(JSON.stringify(mainInfo))
+    if (
+      className == 'SsCChatmsgNtf' ||
+      className == 'GsCModifyUserseatNtf' ||
+      className == 'MsgReconnectGame' ||
+      className == 'MsgGamePlayCardNtf' ||
+      className == 'PubGsCUseSpell' ||
+      className == 'ClientHappyGetFriendHandcardRep' ||
+      className == 'GsCRoleOptTargetNtf' ||
+      className == 'PubGsCMoveCard' ||
+      className == 'GsCFirstPhaseRole' ||
+      className == 'GsCModifyUserseatNtf' ||
+      className == 'GsCGamephaseNtf' ||
+      className == 'PubGsCUseCard'
+    ) {
+      mainInfo['className'] = args[0]['className']
+      mainInfo['CardIDs'] = args[0]['CardIDs']
+      mainInfo['CardID'] = args[0]['CardID']
+      mainInfo['FromID'] = args[0]['FromID']
+      mainInfo['FromZone'] = args[0]['FromZone']
+      mainInfo['ToID'] = args[0]['ToID']
+      mainInfo['ToZone'] = args[0]['ToZone']
+      mainInfo['CardCount'] = args[0]['CardCount']
+      mainInfo['DataCount'] = args[0]['DataCount']
+      mainInfo['SpellID'] = args[0]['SpellID'] //使用的技能
+      mainInfo['FromPosition'] = args[0]['FromPosition']
+      mainInfo['ToPosition'] = args[0]['ToPosition']
+      mainInfo['cardCount'] = args[0]['cardCount']
+      mainInfo['CardList'] = args[0]['CardList']
+      mainInfo['SeatID'] = args[0]['SeatID']
+      mainInfo['Param'] = args[0]['Param']
+      mainInfo['Params'] = args[0]['Params']
+      mainInfo['DestSeatIDs'] = args[0]['DestSeatIDs']
+      //var GeneralSkinList =args[0]["GeneralSkinList"];
+      mainInfo['Infos'] = args[0]['Infos']
+      mainInfo['Cards'] = args[0]['Cards']
+      //var targetSeatID = args[0]["targetSeatID"];
+      mainInfo['targetSeatID'] = args[0]['targetSeatID']
+      //var seatId = args[0]["seatId"];
+      mainInfo['seatId'] = args[0]['seatId']
+      mainInfo['SeatID'] = args[0]['SeatID']
+      mainInfo['Round'] = args[0]['Round']
+      mainInfo['curUserID'] = curUserID
+      mainInfo['userID'] = userID
+    }
 
-      try {
-        mainLogic(mainInfoToMainLogic)
-      } catch (e) {
-        console.error(e.message)
-        console.error(e.stack)
-        const [, lineno, colno] = e.stack.match(/(\d+):(\d+)/)
-        console.error('Line:', lineno)
-        console.error('Column:', colno)
-        document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>小抄GG了，联系作者解决</b>'
-      }
+    let mainInfoToMainLogic = JSON.parse(JSON.stringify(mainInfo))
+
+    try {
+      mainLogic(mainInfoToMainLogic)
+    } catch (e) {
+      console.error(e.message)
+      console.error(e.stack)
+      const [, lineno, colno] = e.stack.match(/(\d+):(\d+)/)
+      console.error('Line:', lineno)
+      console.error('Column:', colno)
+      document.getElementById('iframe-source').contentWindow.document.getElementById('nav1').innerHTML = '<b>小抄GG了，联系作者解决</b>'
     }
   }
+
   // ----------------------user interface------------------------------------------
   var iframe
   function clearButton(type) {
@@ -1961,5 +1972,32 @@
     }
   }
 
-  main()
+  // main()
+
+  if (!Array.isArray(window.SGSMODULE)) {
+    window.SGSMODULE = []
+
+    if (!console._log) {
+      console._log = console.log
+      console._log('%cBASE', 'font-weight: bold; color: white; background-color: #525288; padding: 1px 4px; border-radius: 4px;')
+    }
+
+    const _log = (...args) => {
+      if (typeof args[0] === 'object' && 'className' in args[0] && !filterClassList.includes(args[0].className)) {
+        window._debug && console._log(...args)
+        SGSMODULE.forEach((fn) => fn(...args))
+      }
+    }
+
+    Object.defineProperty(console, 'log', {
+      get() {
+        return _log
+      },
+      set() {
+        return
+      }
+    })
+  }
+
+  SGSMODULE.push(main)
 })()
