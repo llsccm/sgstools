@@ -1627,10 +1627,6 @@
   }
 
   function main() {
-    if (!isFrameAdd) {
-      addFrame()
-    }
-
     let args = Array.prototype.slice.call(arguments)
 
     var mainInfo = {}
@@ -1983,7 +1979,7 @@
     }
 
     const _log = (...args) => {
-      if (typeof args[0] === 'object' && 'className' in args[0] && !filterClassList.includes(args[0].className)) {
+      if (typeof args[0] === 'object' && 'className' in args[0]) {
         window._debug && console._log(...args)
         SGSMODULE.forEach((fn) => fn(...args))
       }
@@ -2000,4 +1996,7 @@
   }
 
   SGSMODULE.push(main)
+  if (!isFrameAdd) {
+    addFrame()
+  }
 })()
