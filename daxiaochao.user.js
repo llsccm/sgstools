@@ -4653,55 +4653,92 @@
       localStorage.getItem("SEAT_UI_SWITCH") == "true" ? seatUISwitch.checked = true : seatUISwitch.checked = false;
     }
   }
+  const filteredClassList = [
+    "SsCChatmsgNtf",
+    "GsCModifyUserseatNtf",
+    "MsgReconnectGame",
+    "MsgGamePlayCardNtf",
+    "PubGsCUseSpell",
+    "ClientHappyGetFriendHandcardRep",
+    "GsCRoleOptTargetNtf",
+    "PubGsCMoveCard",
+    "GsCFirstPhaseRole",
+    "GsCGamephaseNtf",
+    "PubGsCUseCard",
+    "ClientGeneralSkinRep",
+    "ClientLoginRep",
+    "MsgReconnectGame",
+    "ClientRoleGeneralStarRep",
+    "SmsgGameStateData",
+    "CGsRoleSpellOptRep",
+    "ClientUserbaseinfoRep",
+    "GsClientSyncTablePersonalityCardSetRsp",
+    "MsgGameDealCharacter",
+    "ClientOfficerInfoRep",
+    "MsgNtfUseCardType",
+    "ClientRoleGeneralStarRep",
+    "GsCUpdateRoleDataExNtf",
+    "decodeRogueLikeDataSync",
+    "DbsCcUserGoodshintNtf",
+    "decodeClientSecretInfoRep",
+    "ClientLeavetableRep",
+    "ClientRecommendShopItemRep",
+    "MsgGameOver",
+    "decodeRougeBaseInfoRep",
+    "decodeClientTavernInfoRep",
+    "ClientActivitysetDataRep"
+  ];
   function main() {
     let args = Array.prototype.slice.call(arguments);
-    let mainInfo = {};
-    skinLogic(args);
-    mainInfo["className"] = args[0]["className"];
-    mainInfo["CardIDs"] = args[0]["CardIDs"];
-    mainInfo["CardID"] = args[0]["CardID"];
-    mainInfo["FromID"] = args[0]["FromID"];
-    mainInfo["FromZone"] = args[0]["FromZone"];
-    mainInfo["ToID"] = args[0]["ToID"];
-    mainInfo["ToZone"] = args[0]["ToZone"];
-    mainInfo["CardCount"] = args[0]["CardCount"];
-    mainInfo["DataCount"] = args[0]["DataCount"];
-    mainInfo["SpellID"] = args[0]["SpellID"];
-    mainInfo["spellId"] = args[0]["spellId"];
-    mainInfo["FromPosition"] = args[0]["FromPosition"];
-    mainInfo["ToPosition"] = args[0]["ToPosition"];
-    mainInfo["cardCount"] = args[0]["cardCount"];
-    mainInfo["CardList"] = args[0]["CardList"];
-    mainInfo["SeatID"] = args[0]["SeatID"];
-    mainInfo["Param"] = args[0]["Param"];
-    mainInfo["Params"] = args[0]["Params"];
-    mainInfo["DestSeatIDs"] = args[0]["DestSeatIDs"];
-    mainInfo["GeneralSkinList"] = args[0]["GeneralSkinList"];
-    mainInfo["Infos"] = args[0]["Infos"];
-    mainInfo["Cards"] = args[0]["Cards"];
-    mainInfo["targetSeatID"] = args[0]["targetSeatID"];
-    mainInfo["seatId"] = args[0]["seatId"];
-    mainInfo["SeatID"] = args[0]["SeatID"];
-    mainInfo["Round"] = args[0]["Round"];
-    mainInfo["uid"] = args[0]["uid"];
-    mainInfo["UserID"] = args["UserID"];
-    mainInfo["Datas"] = args[0]["Datas"];
-    mainInfo["datas"] = args[0]["datas"];
-    mainInfo["Allows"] = args[0]["Allows"];
-    mainInfo["Type"] = args[0]["Type"];
-    mainInfo["SrcSeatID"] = args[0]["SrcSeatID"];
-    mainInfo["DataID"] = args[0]["DataID"];
-    mainInfo["MoveType"] = args[0]["MoveType"];
-    let mainInfoToMainLogic = JSON.parse(JSON.stringify(mainInfo));
-    try {
-      mainLogic(mainInfoToMainLogic);
-    } catch (e) {
-      console.error(e.message);
-      console.error(e.stack);
-      const [, lineno, colno] = e.stack.match(/(\d+):(\d+)/);
-      console.error("Line:", lineno);
-      console.error("Column:", colno);
-      document.getElementById("iframe-source").contentWindow.document.getElementById("nav1").innerHTML = "<b>小抄GG了，联系作者解决</b>";
+    if (typeof args[0] === "object" && "className" in args[0] && filteredClassList.includes(args[0].className) || window.isLogAllClass || args == "资源组加载完毕：selectSkin" || args[0].className == "decodeSSCChatmsgNtf" && typeof args[0].ProtoObj.scene != "undefined" && args[0].ProtoObj.scene == 11) {
+      let mainInfo = {};
+      skinLogic(args);
+      mainInfo["className"] = args[0]["className"];
+      mainInfo["CardIDs"] = args[0]["CardIDs"];
+      mainInfo["CardID"] = args[0]["CardID"];
+      mainInfo["FromID"] = args[0]["FromID"];
+      mainInfo["FromZone"] = args[0]["FromZone"];
+      mainInfo["ToID"] = args[0]["ToID"];
+      mainInfo["ToZone"] = args[0]["ToZone"];
+      mainInfo["CardCount"] = args[0]["CardCount"];
+      mainInfo["DataCount"] = args[0]["DataCount"];
+      mainInfo["SpellID"] = args[0]["SpellID"];
+      mainInfo["spellId"] = args[0]["spellId"];
+      mainInfo["FromPosition"] = args[0]["FromPosition"];
+      mainInfo["ToPosition"] = args[0]["ToPosition"];
+      mainInfo["cardCount"] = args[0]["cardCount"];
+      mainInfo["CardList"] = args[0]["CardList"];
+      mainInfo["SeatID"] = args[0]["SeatID"];
+      mainInfo["Param"] = args[0]["Param"];
+      mainInfo["Params"] = args[0]["Params"];
+      mainInfo["DestSeatIDs"] = args[0]["DestSeatIDs"];
+      mainInfo["GeneralSkinList"] = args[0]["GeneralSkinList"];
+      mainInfo["Infos"] = args[0]["Infos"];
+      mainInfo["Cards"] = args[0]["Cards"];
+      mainInfo["targetSeatID"] = args[0]["targetSeatID"];
+      mainInfo["seatId"] = args[0]["seatId"];
+      mainInfo["SeatID"] = args[0]["SeatID"];
+      mainInfo["Round"] = args[0]["Round"];
+      mainInfo["uid"] = args[0]["uid"];
+      mainInfo["UserID"] = args["UserID"];
+      mainInfo["Datas"] = args[0]["Datas"];
+      mainInfo["datas"] = args[0]["datas"];
+      mainInfo["Allows"] = args[0]["Allows"];
+      mainInfo["Type"] = args[0]["Type"];
+      mainInfo["SrcSeatID"] = args[0]["SrcSeatID"];
+      mainInfo["DataID"] = args[0]["DataID"];
+      mainInfo["MoveType"] = args[0]["MoveType"];
+      let mainInfoToMainLogic = JSON.parse(JSON.stringify(mainInfo));
+      try {
+        mainLogic(mainInfoToMainLogic);
+      } catch (e) {
+        console.error(e.message);
+        console.error(e.stack);
+        const [, lineno, colno] = e.stack.match(/(\d+):(\d+)/);
+        console.error("Line:", lineno);
+        console.error("Column:", colno);
+        document.getElementById("iframe-source").contentWindow.document.getElementById("nav1").innerHTML = "<b>小抄GG了，联系作者解决</b>";
+      }
     }
   }
   if (!Array.isArray(window.SGSMODULE)) {
@@ -4709,7 +4746,7 @@
     if (!console._log)
       console._log = console.log;
     console._log("%cBASE", "font-weight: bold; color: white; background-color: #525288; padding: 1px 4px; border-radius: 4px;");
-    const filteredClassList = [
+    const filteredClassList2 = [
       "SsCChatmsgNtf",
       "GsCModifyUserseatNtf",
       "MsgReconnectGame",
@@ -4745,7 +4782,7 @@
       "ClientActivitysetDataRep"
     ];
     const _log = (...args) => {
-      if (typeof args[0] === "object" && "className" in args[0] && filteredClassList.includes(args[0].className) || window.isLogAllClass || args == "资源组加载完毕：selectSkin" || args[0].className == "decodeSSCChatmsgNtf" && typeof args[0].ProtoObj.scene != "undefined" && args[0].ProtoObj.scene == 11) {
+      if (typeof args[0] === "object" && "className" in args[0] && filteredClassList2.includes(args[0].className) || window.isLogAllClass || args == "资源组加载完毕：selectSkin" || args[0].className == "decodeSSCChatmsgNtf" && typeof args[0].ProtoObj.scene != "undefined" && args[0].ProtoObj.scene == 11) {
         window.isLogAllClass && console._log(...args);
         SGSMODULE.forEach((fn) => fn(...args));
       }
