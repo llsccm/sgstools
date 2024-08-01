@@ -4047,7 +4047,6 @@
     let curUserID = args[0] && args[0]["ClientID"];
     if (curUserID == b)
       isB = true;
-    initFrame();
     if (className == "ClientLeavetableRep" || className == "ClientRecommendShopItemRep" || className == "MsgGameOver") {
       seatUIs = [];
       UI.friendGeneral = 0;
@@ -4056,6 +4055,7 @@
     if (className == "ClientActivitysetDataRep" || className == "MsgGamePlayCardNtf") {
       cities = [];
       drawCities(cities);
+      initFrame(args[0]["userID"]);
       document.getElementById("centerUI").classList.remove("show");
       document.getElementById("centerUI").classList.add("hide");
     }
@@ -4182,7 +4182,7 @@
       gameState.userID = userID;
       UserID = args[0]["UserID"];
       gameState.Nickname = args[0]["Nickname"];
-      initFrame();
+      initFrame(userID);
     }
     if (className == "ClientOfficerInfoRep") {
       gameState.curOfficerLv = args[0]["curOfficerLv"];
@@ -4615,8 +4615,9 @@
       }, 1e3);
     }
   }
-  function initFrame() {
+  function initFrame(userID2) {
     if (!gameState.isFrameAdd) {
+      gameState.userID = userID2;
       initSGSConfigData();
       injectCSS();
       addDynamicBG();
