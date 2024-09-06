@@ -57,70 +57,34 @@ function removeTooltip(id) {
   }
 }
 
-// const filteredClassList = [
-//   'SsCChatmsgNtf',
-//   'GsCModifyUserseatNtf',
-//   'MsgReconnectGame',
-//   'MsgGamePlayCardNtf',
-//   'PubGsCUseSpell',
-//   'ClientHappyGetFriendHandcardRep',
-//   'GsCRoleOptTargetNtf',
-//   'PubGsCMoveCard',
-//   'GsCFirstPhaseRole',
-//   'GsCGamephaseNtf',
-//   'PubGsCUseCard',
-//   'ClientGeneralSkinRep',
-//   'ClientLoginRep',
-//   'MsgReconnectGame',
-//   'ClientRoleGeneralStarRep',
-//   'SmsgGameStateData',
-//   'CGsRoleSpellOptRep',
-//   'ClientUserbaseinfoRep',
-//   'GsClientSyncTablePersonalityCardSetRsp',
-//   'MsgGameDealCharacter',
-//   'ClientOfficerInfoRep',
-//   'MsgNtfUseCardType',
-//   'ClientRoleGeneralStarRep',
-//   'GsCUpdateRoleDataExNtf',
-//   'decodeRogueLikeDataSync',
-//   'DbsCcUserGoodshintNtf',
-//   'decodeClientSecretInfoRep',
-//   'ClientLeavetableRep',
-//   'ClientRecommendShopItemRep',
-//   'MsgGameOver',
-//   'decodeRougeBaseInfoRep',
-//   'decodeClientTavernInfoRep',
-//   'ClientActivitysetDataRep'
-// ]
-
 Array.isArray(window.SGSMODULE) || (window.SGSMODULE = [])
 
 if (!console._log) {
   console._log = console.log
   console._log('%cBASE', 'font-weight: bold; color: white; background-color: #525288; padding: 1px 4px; border-radius: 4px;')
-}
 
-const _log = (...args) => {
-  // 如果第一个参数是一个对象，并且它的 className 属性在 classList 中，那么执行 console._log 和 SGSMODULE 中的函数
-  if (
-    (typeof args[0] === 'object' && 'className' in args[0]) ||
-    window.isLogAllClass ||
-    args == '资源组加载完毕：selectSkin' ||
-    (args[0].className == 'decodeSSCChatmsgNtf' && typeof args[0].ProtoObj.scene != 'undefined' && args[0].ProtoObj.scene == 11)
-  ) {
-    window.isLogAllClass && console._log(...args)
-    SGSMODULE.forEach((fn) => fn(...args))
+  const _log = (...args) => {
+    // 如果第一个参数是一个对象，并且它的 className 属性在 classList 中，那么执行 console._log 和 SGSMODULE 中的函数
+    if (
+      (typeof args[0] === 'object' && 'className' in args[0]) ||
+      window.isLogAllClass ||
+      args == '资源组加载完毕：selectSkin' ||
+      (args[0].className == 'decodeSSCChatmsgNtf' && typeof args[0].ProtoObj.scene != 'undefined' && args[0].ProtoObj.scene == 11)
+    ) {
+      window.isLogAllClass && console._log(...args)
+      SGSMODULE.forEach((fn) => fn(...args))
+    }
   }
-}
 
-Object.defineProperty(console, 'log', {
-  get() {
-    return _log
-  },
-  set() {
-    return
-  }
-})
+  Object.defineProperty(console, 'log', {
+    get() {
+      return _log
+    },
+    set() {
+      return
+    }
+  })
+}
 
 function main(...args) {
   let className = args[0].className
