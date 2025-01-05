@@ -37,10 +37,10 @@ function removeVersion(url) {
   return url
 }
 
-async function loadImage2(url) {
-  myTrace('load:' + url)
+async function loadImage2(link) {
+  myTrace('load:' + link)
 
-  url = removeVersion(url)
+  const url = removeVersion(link)
 
   try {
     const cache = await caches.open(CACHE_NAME)
@@ -49,27 +49,27 @@ async function loadImage2(url) {
     if (response) {
       const arrayBuffer = await response.arrayBuffer()
       if (arrayBuffer) {
-        doCreateImageBitmap(arrayBuffer, url)
+        doCreateImageBitmap(arrayBuffer, link)
         return
       }
     }
 
-    fetchImage(url)
+    fetchImage(link)
   } catch {
-    fetchImage(url)
+    fetchImage(link)
   }
 }
 
-async function fetchImage(url) {
+async function fetchImage(link) {
   let failed = false
 
-  if (url.startsWith('data:image/')) {
-    createImageBitmapFromBase64(url)
+  if (link.startsWith('data:image/')) {
+    createImageBitmapFromBase64(link)
     return
   }
 
   try {
-    const response = await fetch(url)
+    const response = await fetch(link)
 
     if (!response.ok) {
       throw new Error('Network response was not ok')
@@ -77,23 +77,24 @@ async function fetchImage(url) {
 
     const responseClone = response.clone()
     const cache = await caches.open(CACHE_NAME)
+    const url = removeVersion(link)
     await cache.put(url, responseClone)
     const arrayBuffer = await response.arrayBuffer()
 
     if (!arrayBuffer || arrayBuffer.byteLength < 10) {
       if (!failed) {
         failed = true
-        pngFail(url, 'loadFail from onload')
+        pngFail(link, 'loadFail from onload')
       }
       return
     }
 
     let data = new Uint8Array(arrayBuffer)
-    doCreateImageBitmap(data, url)
+    doCreateImageBitmap(data, link)
   } catch (_error) {
     if (!failed) {
       failed = true
-      pngFail(url, 'loadFail')
+      pngFail(link, 'loadFail')
     }
   }
 }
