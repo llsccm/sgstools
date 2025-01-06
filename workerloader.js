@@ -55,7 +55,8 @@ async function loadImage2(link) {
     }
 
     fetchImage(link)
-  } catch {
+  } catch (e) {
+    console.log(e)
     fetchImage(link)
   }
 }
@@ -75,10 +76,14 @@ async function fetchImage(link) {
       throw new Error('Network response was not ok')
     }
 
-    const responseClone = response.clone()
-    const cache = await caches.open(CACHE_NAME)
-    const url = removeVersion(link)
-    await cache.put(url, responseClone)
+    // 不缓存广告
+    if (!link.includes('/activity/AdBig/')) {
+      const responseClone = response.clone()
+      const cache = await caches.open(CACHE_NAME)
+      const url = removeVersion(link)
+      await cache.put(url, responseClone)
+    }
+
     const arrayBuffer = await response.arrayBuffer()
 
     if (!arrayBuffer || arrayBuffer.byteLength < 10) {
@@ -91,7 +96,7 @@ async function fetchImage(link) {
 
     let data = new Uint8Array(arrayBuffer)
     doCreateImageBitmap(data, link)
-  } catch (_error) {
+  } catch {
     if (!failed) {
       failed = true
       pngFail(link, 'loadFail')
