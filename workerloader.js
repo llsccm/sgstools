@@ -29,18 +29,22 @@ function myTrace(msg) {
 }
 
 function removeVersion(url) {
+  return url.split('?')[0]
+}
+
+function isStatic(url) {
   for (const path of paths) {
     if (url.includes(path)) {
-      return url.split('?')[0]
+      return true
     }
   }
-  return url
+  return false
 }
 
 async function loadImage2(link) {
   myTrace('load:' + link)
 
-  const url = removeVersion(link)
+  const url = isStatic(link) ? removeVersion(link) : link
 
   try {
     const cache = await caches.open(CACHE_NAME)
@@ -50,6 +54,7 @@ async function loadImage2(link) {
       const arrayBuffer = await response.arrayBuffer()
       if (arrayBuffer) {
         doCreateImageBitmap(arrayBuffer, link)
+        // checkCache(link)
         return
       }
     }
@@ -58,6 +63,28 @@ async function loadImage2(link) {
   } catch (e) {
     console.log(e)
     fetchImage(link)
+  }
+}
+
+async function checkCache(link) {
+  // 不清理静态资源
+  if (isStatic(link)) return
+
+  try {
+    const cache = await caches.open(CACHE_NAME)
+    // 缓存太多 matchAll keys 都耗时严重
+    const cacheKeys = await cache.keys()
+    const cachedUrls = cacheKeys.filter((request) => request.url.split('?')[0] === url.split('?')[0])
+
+    if (cachedUrls.length > 1) {
+      console.log('清理缓存', link)
+      const length = resArr.length - 1
+      for (let i = 0; i < length; i++) {
+        await cache.delete(cachedUrls[i].url)
+      }
+    }
+  } catch (e) {
+    console.log(e)
   }
 }
 
@@ -78,9 +105,9 @@ async function fetchImage(link) {
 
     // 不缓存广告
     if (!link.includes('/activity/AdBig/')) {
-      const responseClone = response.clone()
       const cache = await caches.open(CACHE_NAME)
-      const url = removeVersion(link)
+      const url = isStatic(link) ? removeVersion(link) : link
+      const responseClone = response.clone()
       await cache.put(url, responseClone)
     }
 
@@ -94,7 +121,7 @@ async function fetchImage(link) {
       return
     }
 
-    let data = new Uint8Array(arrayBuffer)
+    const data = new Uint8Array(arrayBuffer)
     doCreateImageBitmap(data, link)
   } catch {
     if (!failed) {
