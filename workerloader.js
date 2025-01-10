@@ -1,6 +1,7 @@
 var createImageBitmapOK = self.createImageBitmap ? true : false
 var isSet = true
-const CACHE_NAME = 'caches-sgs'
+const CACHE_STATIC = 'caches-static'
+const CACHE_UI = 'caches-ui'
 const paths = ['/runtime/', '/bigPng/']
 
 onmessage = function (evt) {
@@ -47,7 +48,8 @@ async function loadImage2(link) {
   const url = isStatic(link) ? removeVersion(link) : link
 
   try {
-    const cache = await caches.open(CACHE_NAME)
+    const cacheName = isStatic(link) ? CACHE_STATIC : CACHE_UI
+    const cache = await caches.open(cacheName)
     const response = await cache.match(url)
 
     if (response) {
@@ -71,7 +73,7 @@ async function checkCache(link) {
   if (isStatic(link)) return
 
   try {
-    const cache = await caches.open(CACHE_NAME)
+    const cache = await caches.open(CACHE_UI)
     // 缓存太多 matchAll keys 都耗时严重
     const cacheKeys = await cache.keys()
     const cachedUrls = cacheKeys.filter((request) => request.url.split('?')[0] === url.split('?')[0])
@@ -105,7 +107,8 @@ async function fetchImage(link) {
 
     // 不缓存广告
     if (!link.includes('/activity/AdBig/')) {
-      const cache = await caches.open(CACHE_NAME)
+      const cacheName = isStatic(link) ? CACHE_STATIC : CACHE_UI
+      const cache = await caches.open(cacheName)
       const url = isStatic(link) ? removeVersion(link) : link
       const responseClone = response.clone()
       await cache.put(url, responseClone)
