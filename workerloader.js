@@ -1,5 +1,5 @@
 var createImageBitmapOK = self.createImageBitmap ? true : false
-var isSet = true
+// var isSet = true
 const CACHE_STATIC = 'caches-static'
 const CACHE_UI = 'caches-ui'
 const paths = ['/runtime/', '/bigPng/']
@@ -8,10 +8,10 @@ onmessage = function (evt) {
   var data = evt.data //通过evt.data获得发送来的数据
   loadImage2(data)
 
-  if (!isSet) {
-    isSet = true
-    setInterval(workerloop, 1000)
-  }
+  // if (!isSet) {
+  //   isSet = true
+  //   setInterval(workerloop, 1000)
+  // }
 }
 
 function workerloop() {
@@ -34,11 +34,14 @@ function removeVersion(url) {
 }
 
 function isStatic(url) {
+  if (!url.includes('?v=')) return true
+
   for (const path of paths) {
     if (url.includes(path)) {
       return true
     }
   }
+
   return false
 }
 
@@ -56,7 +59,6 @@ async function loadImage2(link) {
       const arrayBuffer = await response.arrayBuffer()
       if (arrayBuffer) {
         doCreateImageBitmap(arrayBuffer, link)
-        // checkCache(link)
         return
       }
     }
@@ -68,22 +70,23 @@ async function loadImage2(link) {
   }
 }
 
-async function checkCache(link) {
-  // 不清理静态资源
-  if (isStatic(link)) return
-
+async function checkCache() {
   try {
     const cache = await caches.open(CACHE_UI)
     // 缓存太多 matchAll keys 都耗时严重
     const cacheKeys = await cache.keys()
-    const cachedUrls = cacheKeys.filter((request) => request.url.split('?')[0] === url.split('?')[0])
+    const cacheSet = new Set()
 
-    if (cachedUrls.length > 1) {
-      console.log('清理缓存', link)
-      const length = resArr.length - 1
-      for (let i = 0; i < length; i++) {
-        await cache.delete(cachedUrls[i].url)
+    for (const key of cacheKeys) {
+      cacheSet.add(removeVersion(key.url))
+    }
+
+    if (cacheKeys.length > cacheSet.size * 1.6) {
+      for (const key of cacheKeys) {
+        cache.delete(key.url)
       }
+
+      console.log('worker:clearCache')
     }
   } catch (e) {
     console.log(e)
