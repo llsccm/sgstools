@@ -2,7 +2,11 @@ var createImageBitmapOK = self.createImageBitmap ? true : false
 // var isSet = true
 const CACHE_STATIC = 'caches-static'
 const CACHE_UI = 'caches-ui'
-const paths = ['/runtime/', '/bigPng/']
+const CACHE_SKIN = 'caches-skin'
+const CACHE_ANIMATE = 'caches-animate'
+const CACHE_WINDOW = 'caches-window'
+const CACHE_RUNTIME = 'caches-runtime'
+const paths = ['/runtime/', '/bigPng/', '/animate/', '/pc/general/', '/window/']
 
 onmessage = function (evt) {
   var data = evt.data //通过evt.data获得发送来的数据
@@ -33,6 +37,7 @@ function removeVersion(url) {
   return url.split('?')[0]
 }
 
+// 将部分图像视作静态
 function isStatic(url) {
   if (!url.includes('?v=')) return true
 
@@ -51,7 +56,7 @@ async function loadImage2(link) {
   const url = isStatic(link) ? removeVersion(link) : link
 
   try {
-    const cacheName = isStatic(link) ? CACHE_STATIC : CACHE_UI
+    const cacheName = getCacheName(link)
     const cache = await caches.open(cacheName)
     const response = await cache.match(url)
 
@@ -68,6 +73,18 @@ async function loadImage2(link) {
     console.log(e)
     fetchImage(link)
   }
+}
+
+function getCacheName(link) {
+  if (link.includes('/window/')) return CACHE_WINDOW
+  if (link.includes('/pc/general/')) return CACHE_SKIN
+  if (link.includes('/animate/')) return CACHE_ANIMATE
+  if (link.includes('/runtime/')) return CACHE_RUNTIME
+  if (link.includes('/bigPng/')) return CACHE_STATIC
+
+  if (link.includes('?v=')) return CACHE_UI
+
+  return CACHE_STATIC
 }
 
 async function checkCache() {
@@ -110,7 +127,7 @@ async function fetchImage(link) {
 
     // 不缓存广告
     if (!link.includes('/activity/AdBig/')) {
-      const cacheName = isStatic(link) ? CACHE_STATIC : CACHE_UI
+      const cacheName = getCacheName(link)
       const cache = await caches.open(cacheName)
       const url = isStatic(link) ? removeVersion(link) : link
       const responseClone = response.clone()
