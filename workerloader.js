@@ -3,6 +3,7 @@ var createImageBitmapOK = self.createImageBitmap ? true : false
 const CACHE_STATIC = 'caches-static'
 const CACHE_UI = 'caches-ui'
 const CACHE_SKIN = 'caches-skin'
+const CACHE_GAME = 'caches-game'
 const CACHE_ANIMATE = 'caches-animate'
 const CACHE_WINDOW = 'caches-window'
 const CACHE_RUNTIME = 'caches-runtime'
@@ -78,6 +79,7 @@ async function loadImage2(link) {
 function getCacheName(link) {
   if (link.includes('/window/')) return CACHE_WINDOW
   if (link.includes('/pc/general/')) return CACHE_SKIN
+  if (link.includes('/animate/game/') || link.includes('/skinEffectNew/')) return CACHE_GAME
   if (link.includes('/animate/')) return CACHE_ANIMATE
   if (link.includes('/runtime/')) return CACHE_RUNTIME
   if (link.includes('/bigPng/')) return CACHE_STATIC
