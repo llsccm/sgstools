@@ -6,6 +6,8 @@ const CACHE_SKIN = 'caches-skin'
 const CACHE_GAME = 'caches-game'
 const CACHE_ANIMATE = 'caches-animate'
 const CACHE_WINDOW = 'caches-window'
+const CACHE_SHOW = 'caches-show'
+const CACHE_FACE = 'caches-face'
 const CACHE_RUNTIME = 'caches-runtime'
 const paths = ['/runtime/', '/bigPng/', '/animate/', '/pc/general/', '/window/']
 
@@ -81,6 +83,8 @@ function getCacheName(link) {
   if (link.includes('/pc/general/')) return CACHE_SKIN
   if (link.includes('/animate/game/') || link.includes('/skinEffectNew/')) return CACHE_GAME
   if (link.includes('/animate/')) return CACHE_ANIMATE
+  if (link.includes('/AvatarShow/')) return CACHE_SHOW
+  if (link.includes('/Face/')) return CACHE_FACE
   if (link.includes('/runtime/')) return CACHE_RUNTIME
   if (link.includes('/bigPng/')) return CACHE_STATIC
 
