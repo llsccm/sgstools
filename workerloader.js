@@ -132,7 +132,7 @@ async function fetchImage(link) {
     }
 
     // 不缓存广告
-    if (!link.includes('/activity/AdBig/')) {
+    if (!link.includes('/Ad')) {
       const cacheName = getCacheName(link)
       const cache = await caches.open(cacheName)
       const url = isStatic(link) ? removeVersion(link) : link
