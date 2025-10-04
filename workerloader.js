@@ -9,6 +9,8 @@ const CACHE_WINDOW = 'caches-window'
 const CACHE_SHOW = 'caches-show'
 const CACHE_FACE = 'caches-face'
 const CACHE_RUNTIME = 'caches-runtime'
+const CACHE_ACT = 'caches-act'
+const CACHE_ROGUE = 'caches-rogue'
 const paths = ['/runtime/', '/bigPng/', '/animate/', '/pc/general/', '/window/']
 
 onmessage = function (evt) {
@@ -85,6 +87,8 @@ function getCacheName(link) {
   if (link.includes('/animate/')) return CACHE_ANIMATE
   if (link.includes('/AvatarShow/')) return CACHE_SHOW
   if (link.includes('/Face/')) return CACHE_FACE
+  if (link.includes('/pc/activity/')) return CACHE_ACT
+  if (link.includes('/roguelike/')) return CACHE_ROGUE
   if (link.includes('/runtime/')) return CACHE_RUNTIME
   if (link.includes('/bigPng/')) return CACHE_STATIC
 
