@@ -1581,7 +1581,7 @@ System.register("chunks:///_virtual/GameControl.ts", ["./rollupPluginModLoBabelH
                         for (var r in a)
                             if (s())
                                 break;
-                        this.checkGameLose()
+                        // this.checkGameLose()
                     }
                 }
                 ,
