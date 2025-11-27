@@ -11,7 +11,8 @@ const CACHE_FACE = 'caches-face'
 const CACHE_RUNTIME = 'caches-runtime'
 const CACHE_ACT = 'caches-act'
 const CACHE_ROGUE = 'caches-rogue'
-const paths = ['/runtime/', '/bigPng/', '/animate/', '/pc/general/', '/window/']
+const CACHE_SHOP = 'caches-shop'
+const paths = ['/runtime/', '/bigPng/', '/animate/', '/pc/general/', '/window/', '/roguelike/', '/chat/']
 
 onmessage = function (evt) {
   var data = evt.data //通过evt.data获得发送来的数据
@@ -58,6 +59,11 @@ function isStatic(url) {
 async function loadImage2(link) {
   myTrace('load:' + link)
 
+  if (link.includes('/Ad')) {
+    fetchImage(link)
+    return
+  }
+
   const url = isStatic(link) ? removeVersion(link) : link
 
   try {
@@ -83,6 +89,7 @@ async function loadImage2(link) {
 function getCacheName(link) {
   if (link.includes('/window/')) return CACHE_WINDOW
   if (link.includes('/pc/general/')) return CACHE_SKIN
+  if (link.includes('/pc/shop/')) return CACHE_SHOP
   if (link.includes('/animate/game/') || link.includes('/skinEffectNew/')) return CACHE_GAME
   if (link.includes('/animate/')) return CACHE_ANIMATE
   if (link.includes('/AvatarShow/')) return CACHE_SHOW
@@ -92,7 +99,7 @@ function getCacheName(link) {
   if (link.includes('/runtime/')) return CACHE_RUNTIME
   if (link.includes('/bigPng/')) return CACHE_STATIC
 
-  if (link.includes('?v=')) return CACHE_UI
+  // if (link.includes('?v=')) return CACHE_UI
 
   return CACHE_STATIC
 }
