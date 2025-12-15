@@ -86,18 +86,27 @@ async function loadImage2(link) {
   }
 }
 
+const CACHE_MAPPING = [
+  ['/window/', CACHE_WINDOW],
+  ['/pc/general/', CACHE_SKIN],
+  ['/pc/shop/', CACHE_SHOP],
+  ['/animate/game/', CACHE_GAME],
+  ['/skinEffectNew/', CACHE_GAME],
+  ['/animate/', CACHE_ANIMATE],
+  ['/AvatarShow/', CACHE_SHOW],
+  ['/Face/', CACHE_FACE],
+  ['/pc/activity/', CACHE_ACT],
+  ['/roguelike/', CACHE_ROGUE],
+  ['/runtime/', CACHE_RUNTIME],
+  ['/bigPng/', CACHE_STATIC]
+]
+
 function getCacheName(link) {
-  if (link.includes('/window/')) return CACHE_WINDOW
-  if (link.includes('/pc/general/')) return CACHE_SKIN
-  if (link.includes('/pc/shop/')) return CACHE_SHOP
-  if (link.includes('/animate/game/') || link.includes('/skinEffectNew/')) return CACHE_GAME
-  if (link.includes('/animate/')) return CACHE_ANIMATE
-  if (link.includes('/AvatarShow/')) return CACHE_SHOW
-  if (link.includes('/Face/')) return CACHE_FACE
-  if (link.includes('/pc/activity/')) return CACHE_ACT
-  if (link.includes('/roguelike/')) return CACHE_ROGUE
-  if (link.includes('/runtime/')) return CACHE_RUNTIME
-  if (link.includes('/bigPng/')) return CACHE_STATIC
+  for (const [path, cacheName] of CACHE_MAPPING) {
+    if (link.includes(path)) {
+      return cacheName
+    }
+  }
 
   // if (link.includes('?v=')) return CACHE_UI
 
