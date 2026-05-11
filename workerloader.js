@@ -1,5 +1,3 @@
-var createImageBitmapOK = self.createImageBitmap ? true : false
-// var isSet = true
 const CACHE_STATIC = 'caches-static'
 const CACHE_UI = 'caches-ui'
 const CACHE_SKIN = 'caches-skin'
@@ -12,16 +10,27 @@ const CACHE_RUNTIME = 'caches-runtime'
 const CACHE_ACT = 'caches-act'
 const CACHE_ROGUE = 'caches-rogue'
 const CACHE_SHOP = 'caches-shop'
-const paths = ['/runtime/', '/bigPng/', '/animate/', '/pc/general/', '/window/', '/roguelike/', '/chat/']
+const STATIC_URL_REGEXP = /^https:\/\/web\.sanguosha\.com\/220\/h5_2\/res\/(runtime|assets\/(animate|window|roguelike|chat|bigPng))\/.*/
+const CACHE_MAPPING = [
+  ['/window/', CACHE_WINDOW],
+  ['/pc/general/', CACHE_SKIN],
+  ['/pc/shop/', CACHE_SHOP],
+  ['/animate/game/', CACHE_GAME],
+  ['/skinEffectNew/', CACHE_GAME],
+  ['/animate/', CACHE_ANIMATE],
+  ['/AvatarShow/', CACHE_SHOW],
+  ['/Face/', CACHE_FACE],
+  ['/pc/activity/', CACHE_ACT],
+  ['/roguelike/', CACHE_ROGUE],
+  ['/runtime/', CACHE_RUNTIME],
+  ['/bigPng/', CACHE_STATIC]
+]
+const cacheInstances = {}
+const cacheEtagChecked = new Set()
 
 onmessage = function (evt) {
   var data = evt.data //通过evt.data获得发送来的数据
   loadImage2(data)
-
-  // if (!isSet) {
-  //   isSet = true
-  //   setInterval(workerloop, 1000)
-  // }
 }
 
 function workerloop() {
@@ -43,17 +52,36 @@ function removeVersion(url) {
   return url.split('?')[0]
 }
 
-// 将部分图像视作静态
-function isStatic(url) {
-  if (!url.includes('?v=')) return true
-
-  for (const path of paths) {
-    if (url.includes(path)) {
-      return true
+function getCacheInfo(link) {
+  for (const [path, cacheName] of CACHE_MAPPING) {
+    if (link.includes(path)) {
+      return {
+        cacheName,
+        isStatic: isStatic(link)
+      }
     }
   }
 
-  return false
+  return {
+    cacheName: CACHE_STATIC,
+    isStatic: isStatic(link)
+  }
+}
+
+// 将部分图像视作静态
+function isStatic(link) {
+  return !link.includes('?v=') || STATIC_URL_REGEXP.test(link)
+}
+
+function getCacheUrl(link) {
+  return isStatic(link) ? removeVersion(link) : link
+}
+
+async function getCache(name) {
+  if (!cacheInstances[name]) {
+    cacheInstances[name] = await caches.open(name)
+  }
+  return cacheInstances[name]
 }
 
 async function loadImage2(link) {
@@ -64,15 +92,17 @@ async function loadImage2(link) {
     return
   }
 
-  const url = isStatic(link) ? removeVersion(link) : link
+  const cacheInfo = getCacheInfo(link)
+  const url = getCacheUrl(link)
 
   try {
-    const cacheName = getCacheName(link)
-    const cache = await caches.open(cacheName)
+    const cacheName = cacheInfo.cacheName
+    const cache = await getCache(cacheName)
     const response = await cache.match(url)
 
     if (response) {
-      const arrayBuffer = await response.arrayBuffer()
+      const latestResponse = cacheName === CACHE_WINDOW ? await updateCacheByEtag(link, url, cache, response) : response
+      const arrayBuffer = await latestResponse.arrayBuffer()
       if (arrayBuffer) {
         doCreateImageBitmap(arrayBuffer, link)
         return
@@ -86,31 +116,45 @@ async function loadImage2(link) {
   }
 }
 
-const CACHE_MAPPING = [
-  ['/window/', CACHE_WINDOW],
-  ['/pc/general/', CACHE_SKIN],
-  ['/pc/shop/', CACHE_SHOP],
-  ['/animate/game/', CACHE_GAME],
-  ['/skinEffectNew/', CACHE_GAME],
-  ['/animate/', CACHE_ANIMATE],
-  ['/AvatarShow/', CACHE_SHOW],
-  ['/Face/', CACHE_FACE],
-  ['/pc/activity/', CACHE_ACT],
-  ['/roguelike/', CACHE_ROGUE],
-  ['/runtime/', CACHE_RUNTIME],
-  ['/bigPng/', CACHE_STATIC]
-]
-
-function getCacheName(link) {
-  for (const [path, cacheName] of CACHE_MAPPING) {
-    if (link.includes(path)) {
-      return cacheName
-    }
+async function updateCacheByEtag(link, url, cache, cachedResponse) {
+  if (cacheEtagChecked.has(url)) {
+    return cachedResponse
   }
 
-  // if (link.includes('?v=')) return CACHE_UI
+  const etag = cachedResponse.headers.get('etag')
 
-  return CACHE_STATIC
+  if (!etag) {
+    return cachedResponse
+  }
+
+  try {
+    const response = await fetch(link, {
+      headers: {
+        'If-None-Match': etag
+      }
+    })
+
+    if (response.status === 304) {
+      cacheEtagChecked.add(url)
+      return cachedResponse
+    }
+
+    if (!response.ok) {
+      return cachedResponse
+    }
+
+    const responseClone = response.clone()
+    await cache.put(url, responseClone)
+    cacheEtagChecked.add(url)
+    return response
+  } catch (e) {
+    console.log(e)
+    return cachedResponse
+  }
+}
+
+function getCacheName(link) {
+  return getCacheInfo(link).cacheName
 }
 
 async function checkCache() {
@@ -153,9 +197,9 @@ async function fetchImage(link) {
 
     // 不缓存广告
     if (!link.includes('/Ad')) {
-      const cacheName = getCacheName(link)
-      const cache = await caches.open(cacheName)
-      const url = isStatic(link) ? removeVersion(link) : link
+      const cacheInfo = getCacheInfo(link)
+      const cache = await getCache(cacheInfo.cacheName)
+      const url = getCacheUrl(link)
       const responseClone = response.clone()
       await cache.put(url, responseClone)
     }
@@ -186,7 +230,7 @@ function doCreateImageBitmap(response, url) {
     //showMsgToMain("doCreateImageBitmap:"+response);
     //var startTime=getTimeNow();
     //showMsgToMain("new self.Blob");
-    var startTime = getTimeNow()
+    const startTime = getTimeNow()
 
     response = new self.Blob([response], { type: 'image/png' })
 
@@ -194,7 +238,7 @@ function doCreateImageBitmap(response, url) {
       .createImageBitmap(response)
       .then(function (imageBitmap) {
         //showMsgToMain("imageBitmapCreated:");
-        var data = {}
+        const data = {}
         data.url = url
         data.imageBitmap = imageBitmap
         data.dataType = 'imageBitmap'
